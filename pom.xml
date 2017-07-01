@@ -38,7 +38,31 @@
 		<artifactId>spring-webmvc</artifactId>
 		<version>${spring.version}</version>
 	</dependency>
-	<!--  End of Spring dependencies -->    
+	<!--  End of Spring dependencies -->
+	
+	<!-- Start of JSTL  -->
+	<dependency>
+		<groupId>jstl</groupId>
+		<artifactId>jstl</artifactId>
+		<version>1.2</version>
+	</dependency>
+	<!-- End of JSTL -->
+	
+	<!--  Start of MySQL Connector Dependencies -->
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+	<dependency>
+    	<groupId>org.springframework</groupId>
+	    <artifactId>spring-jdbc</artifactId>
+	    <version>4.1.4.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.9</version>
+	</dependency>
+
+	<!--  Start of MySQL Connector Dependencies -->
   </dependencies>
   
   <build>

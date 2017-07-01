@@ -13,6 +13,7 @@ pageEncoding="ISO-8859-1"%>
 		<h2>Hello World</h2>
 		<h3>
 			<a href="hello?name=Eric">Click Here</a>
+			<a href="sample?id=123&title=jfkdls">Check this out</a>
 		</h3>
 	</center>
 </body>
