@@ -11,7 +11,7 @@ import manager.LiteratureManager;
 import manager.ReservationManager;
 
 @Controller
-public class ReservationController{
+public class LiteratureReservationController{
 String message = "Welcome to Spring MVC!";
 	
 	@RequestMapping("/reservation")

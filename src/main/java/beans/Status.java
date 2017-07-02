@@ -2,6 +2,8 @@ package beans;
 
 import java.util.Date;
 
+import util.DateUtil;
+
 public class Status {
 
 	//out of stock
@@ -15,6 +17,19 @@ public class Status {
 	private int availability;
 	private Date dateBorrowStart;
 	private Date dateBorrowEnd;
+	
+	public Status(){
+		availability = STATUS_AVAILABLE;
+		Date currDate = DateUtil.getCurrentDate();
+		dateBorrowStart = currDate;
+		dateBorrowEnd = currDate;
+	}
+	
+	public Status(int availability, Date dateBorrowStart, Date dateBorrowEnd){
+		this.availability = availability;
+		this.dateBorrowStart = dateBorrowStart;
+		this.dateBorrowEnd = dateBorrowEnd;
+	}
 	
 	public void setAvailability(int status){
 		this.availability = status;

@@ -1,10 +1,10 @@
-<%@page import="date.DateUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@ page import="beans.Status" %>
+<%@ page import="util.DateUtil" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,7 +27,7 @@
 		
 		<p>${literature.type}</p>
 		
-		<p><fmt:formatDate pattern = "yyyy, MMMM dd" value = "${literature.datePublished}" /></p>
+		<p><fmt:formatDate pattern = "${DateUtil.DATE_FORMAT }" value = "${literature.datePublished}" /></p>
 		
 		<!--  Hi dar, suggestion pala ni rofi na paran gagawin natin sa isang row nito, mayroon ding 
 		nasa dulo nya na color indication kung unavailable, reserved, or available. thanksies :3 -->

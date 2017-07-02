@@ -1,4 +1,4 @@
-package date;
+package util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -6,7 +6,8 @@ import java.util.Date;
 
 public class DateUtil {
 	
-	private static final String DATE_FORMAT = "yyyy, MMMM dd";
+	public static final String DATE_FORMAT = "yyyy, MMMM dd";
+	public static final String DATETIME_FORMAT = "MMMM dd, yyyy HH:mm";
 	
 	public static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final int MONTH = Calendar.MONTH;

@@ -4,11 +4,9 @@ import java.util.Date;
 
 import beans.LibraryObject;
 import beans.Status;
-import date.DateUtil;
+import util.DateUtil;
 
 public class ReservationManager {
-
-	
 	public static boolean reserve(LibraryObject libOject){
 		if(libOject.isBorrowable()){
 			Status newStatus = new Status();
