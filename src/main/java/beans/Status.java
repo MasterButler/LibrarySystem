@@ -24,6 +24,24 @@ public class Status {
 		//TODO process the status of the libraryobject
 		return this.availability;
 	}
+
+	public Date getDateBorrowStart() {
+		return dateBorrowStart;
+	}
+
+	public void setDateBorrowStart(Date dateBorrowStart) {
+		this.dateBorrowStart = dateBorrowStart;
+	}
+
+	public Date getDateBorrowEnd() {
+		return dateBorrowEnd;
+	}
+
+	public void setDateBorrowEnd(Date dateBorrowEnd) {
+		this.dateBorrowEnd = dateBorrowEnd;
+	}
+	
+	
 	
 	
 	

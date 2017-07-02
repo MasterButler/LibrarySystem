@@ -41,7 +41,7 @@
 	</table>
 	
 	<a href = "reservation?id=<c:out value="${literature.id}"/>">
-		<button class = "button_borrow_literature">Reserve</button>
+		<button class = "button_borrow_literature">PROCEED TO RESERVATION PAGE</button>
 	</a>
 	
 </body>

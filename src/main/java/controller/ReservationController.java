@@ -8,27 +8,34 @@ import org.springframework.web.servlet.ModelAndView;
 
 import beans.Literature;
 import manager.LiteratureManager;
+import manager.ReservationManager;
 
 @Controller
 public class ReservationController{
 String message = "Welcome to Spring MVC!";
 	
 	@RequestMapping("/reservation")
-	public ModelAndView showMessage(
+	public ModelAndView showReservationPage(
 			@RequestParam(value = "id", required = true) String id) {
 		System.out.println("in controller");
  
 		Literature toReserve = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
 		
-		ModelAndView mv = new ModelAndView("reservation");
+		ModelAndView mv = new ModelAndView("literature_reservation");
 		mv.addObject("literature", toReserve);
 		return mv;
 	}
 	
-	public String handlePost(@RequestParam String action, Model m){
-		if(action.equals("reserve")){
-			System.out.println("EYYY");
-		}
-		return action;
+	@RequestMapping("/reservation/confirmation")
+	public ModelAndView showReservationConfirmation(
+			@RequestParam(value = "id", required = true) String id) {
+		
+		Literature lit = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
+		boolean successful = ReservationManager.reserve(lit);
+		
+		ModelAndView mv = new ModelAndView("literature_reservation_result");
+		mv.addObject("literature", lit);
+		mv.addObject("literature_reservation_bool", successful);
+		return mv;
 	}
 }

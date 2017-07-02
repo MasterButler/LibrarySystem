@@ -1,14 +1,16 @@
 package date;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
 	
-	public static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static final String DATE_FORMAT = "yyyy, MMMM dd";
 	
+	public static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static final int MONTH = Calendar.MONTH;
+	public static final int DATE = Calendar.DATE;
 	
 	
 	public static Date readDateFromString(String date){
@@ -37,5 +39,12 @@ public class DateUtil {
 	public static String displayDate(Date date){
 		SimpleDateFormat dtf = new SimpleDateFormat(DATE_FORMAT);
 		return dtf.format(date);
+	}
+	
+	public static Date addToDate(Date date, int field, int num){
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(field, num);
+		return c.getTime();
 	}
 }

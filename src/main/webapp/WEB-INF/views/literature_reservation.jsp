@@ -42,8 +42,9 @@
   		</tr>
 	</table>
 	
-	
-	<input type="submit" name="action" value="reserve" />
+	<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>">
+		<button>Confirm Reservation</button>
+	</a>
 	
 </body>
 </html>
