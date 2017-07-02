@@ -7,6 +7,9 @@ import java.util.Date;
 public class DateUtil {
 	
 	public static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
+	private static final String DATE_FORMAT = "yyyy, MMMM dd";
+	
+	
 	
 	public static Date readDateFromString(String date){
 		SimpleDateFormat dtf = new SimpleDateFormat(FORMAT);
@@ -29,5 +32,10 @@ public class DateUtil {
 	
 	public static Date getCurrentDate(){
 		return new Date();
+	}
+	
+	public static String displayDate(Date date){
+		SimpleDateFormat dtf = new SimpleDateFormat(DATE_FORMAT);
+		return dtf.format(date);
 	}
 }

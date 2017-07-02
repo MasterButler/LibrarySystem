@@ -3,24 +3,32 @@ package beans;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Literature {
+import beans.list.NameList;
+
+public class Literature extends LibraryObject{
 	
 	private long id;
-	
-	private Date date;
 	private String dds;
 	
 	private String title;
 	private String type;
 	private String publisher;
-	private ArrayList<Name> authors;
-	
-	private int category;
+	private Date datePublished;
+	private NameList authors;
 	
 	public Literature(){
-		authors = new ArrayList<Name>();
+		super();
+		authors = new NameList();
 	}
 	
+	public Date getDatePublished() {
+		return datePublished;
+	}
+
+	public void setDatePublished(Date datePublished) {
+		this.datePublished = datePublished;
+	}
+
 	public boolean addAuthor(Name name){
 		if(this.authors.add(name)){
 			return true;
@@ -39,16 +47,15 @@ public class Literature {
 		return authors;
 	}
 
-	public void setAuthors(ArrayList<Name> author) {
-		this.authors = authors;
-	}
 
-	public int getCategory() {
-		return category != 0 ? category : LibraryObjectTypes.DEFAULT.getValue();
+	public void setAuthor(Name author) {
+		this.authors.clear();
+		this.authors.add(author);
 	}
-
-	public void setCategory(int category) {
-		this.category = category;
+	
+	public void setAuthors(NameList authorList) {
+		this.authors.clear();
+		this.authors.addAll(authorList);
 	}
 
 	public long getId() {
@@ -57,14 +64,6 @@ public class Literature {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getDds() {
@@ -98,6 +97,15 @@ public class Literature {
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	
+
+	@Override
+	public void setLibraryObjectType(int category) {
+		this.libraryObjectType = category;
+	}
+
+	@Override
+	public int getLibraryObjectType() {
+		return libraryObjectType != 0 ? libraryObjectType : LibraryObjectTypes.DEFAULT.getValue();
+	}
 	
 }
