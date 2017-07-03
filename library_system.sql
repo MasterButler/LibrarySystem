@@ -181,9 +181,11 @@ CREATE TABLE `library_system`.`admins` (
     FOREIGN KEY (`admin_type`)
     REFERENCES `library_system`.`admin_types` (`admin_types_id`)
     ON DELETE NO ACTION
+	ON UPDATE NO ACTION);
 
 DELIMITER $$
 USE `library_system`$$
+CREATE PROCEDURE `check_user_exists` (IN user VARCHAR(45), IN pass VARCHAR(45), OUT exist BOOLEAN)
 BEGIN
 	DECLARE existing_user INT;
 	SET existing_user =
