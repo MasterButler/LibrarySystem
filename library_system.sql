@@ -181,4 +181,20 @@ CREATE TABLE `library_system`.`admins` (
     FOREIGN KEY (`admin_type`)
     REFERENCES `library_system`.`admin_types` (`admin_types_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+
+DELIMITER $$
+USE `library_system`$$
+BEGIN
+	DECLARE existing_user INT;
+	SET existing_user =
+	(SELECT COUNT(users.`user_id`) 
+	FROM `borrowing_system`.`users` users
+	WHERE users.`user_username` = user AND  users.`user_password`);
+	IF existing_user > 0 THEN
+		SET exist = TRUE;
+	ELSE
+		SET exist = FALSE;
+	END IF;
+END$$
+
+DELIMITER ;
