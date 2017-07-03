@@ -2,9 +2,9 @@ package manager;
 
 import beans.LibraryObjectTypes;
 import beans.Literature;
-import beans.LiteratureList;
 import beans.Name;
 import beans.Status;
+import beans.list.LiteratureList;
 import beans.list.NameList;
 import util.DateUtil;
 

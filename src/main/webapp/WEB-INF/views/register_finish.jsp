@@ -11,27 +11,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Spring 4 MVC - HelloWorld Index Page</title>
+<title>Insert title here</title>
 </head>
 <body>
- 
-	<center>
-		<h2>Hello, 
-			<c:choose>
-				<c:when test="${empty user.name.firstName}">
-					Anonymous User
-				</c:when>
-				<c:when test="${not empty user.name.firstName}">
-					${user.name.firstName}
-				</c:when>	
-			</c:choose>
-		
-		</h2>
-		<h3>
-			<a href="register">Register</a>
-			<a href="hello?name=Eric">Click Here</a>
-			<a href="literatures">Check all literature available</a>
-		</h3>
-	</center>
+	Birthday: ${user.birthday} <br>
+	<table style="width:100%">
+  		<tr>
+    		<td>Name</td>
+    		<td>${user.name.firstName} ${user.name.middleName} ${user.name.lastName}</td>
+  		</tr>
+  		<tr>
+    		<td>Birthday</td>
+    		<td><fmt:formatDate pattern = "${DateUtil.PROPER_DATE_FORMAT}" value = "${user.birthday}" /></td>
+  		</tr>
+	</table>
+	${user.id}
+	<a href="index?id=<c:out value="${user.id}"/>">Return to Homepage</a>
 </body>
 </html>
