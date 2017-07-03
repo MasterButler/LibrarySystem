@@ -185,18 +185,11 @@ CREATE TABLE `library_system`.`admins` (
 
 DELIMITER $$
 USE `library_system`$$
-CREATE PROCEDURE `check_user_exists` (IN user VARCHAR(45), IN pass VARCHAR(45), OUT exist BOOLEAN)
+CREATE PROCEDURE `get_user_information` (IN user VARCHAR(45), IN pass VARCHAR(45))
 BEGIN
-	DECLARE existing_user INT;
-	SET existing_user =
-	(SELECT COUNT(users.`user_id`) 
+	SELECT *
 	FROM `borrowing_system`.`users` users
-	WHERE users.`user_username` = user AND  users.`user_password`);
-	IF existing_user > 0 THEN
-		SET exist = TRUE;
-	ELSE
-		SET exist = FALSE;
-	END IF;
+	WHERE users.`user_username` = user AND  users.`user_password`;
 END$$
 
 DELIMITER ;
