@@ -18,11 +18,11 @@
 	<center>
 		<h2>Hello, 
 			<c:choose>
-				<c:when test="${empty user.name.firstName}">
-					Anonymous User
+				<c:when test="${sessionScope.user != null}">
+					${sessionScope.user.name.firstName}
 				</c:when>
-				<c:when test="${not empty user.name.firstName}">
-					${user.name.firstName}
+				<c:when test="${sessionScope.user == null}">
+					Anonymous User
 				</c:when>	
 			</c:choose>
 		

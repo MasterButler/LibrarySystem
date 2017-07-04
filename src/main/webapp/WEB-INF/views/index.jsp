@@ -15,7 +15,8 @@
 </head>
 <body>
 	<center>
-		<h2>Hello, 
+		<h2>Hello,
+		<!--  
 			<c:choose>
 				<c:when test="${empty user.name.firstName}">
 					Anonymous User
@@ -24,7 +25,18 @@
 					${user.name.firstName}
 				</c:when>	
 			</c:choose>
+		-->
 		
+		
+			<c:choose>
+				<c:when test="${sessionScope.user != null}">
+					${sessionScope.user.name.firstName}
+				</c:when>
+				<c:when test="${sessionScope.user == null}">
+					Anonymous User
+				</c:when>	
+			</c:choose>
+			
 		</h2>
 		<h3>
 			<a href="register">Register</a>

@@ -3,7 +3,11 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,7 @@ import manager.UserManager;
 import util.DateUtil;
 
 @Controller
+@Scope("session")
 public class UserController {
 
 	@InitBinder
@@ -35,20 +40,27 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String addStudent(@ModelAttribute("SpringWeb")User user, 
+	public String addStudent(HttpServletRequest request, 
+			@ModelAttribute("SpringWeb")User user, 
 			BindingResult result, ModelMap model){
 		
-		model.addAttribute("user", user);
+		model.addAttribute("user", null);
 		
-		if(result.hasErrors()){
-			return "register";
-		}else{		
+//		if(result.hasErrors()){
+//			return "register";
+//		}else{		
 			boolean success = UserManager.getInstance().addUser(user);
 			if(success){
 				//model.addAttribute("user_bool", success);
+				System.out.println("A");
+				request.getSession().setAttribute("user", user);
+				System.out.println("B");
+				model.addAttribute("user", user);
+				System.out.println("C");
 				return "register_finish";		
 			}
-		}
+//		}
+		//request.getSession().setAttribute("user", user);
 		return "register";
 	}
 }
