@@ -26,6 +26,6 @@
   		</tr>
 	</table>
 	${user.id}
-	<a href="index">Return to Homepage</a>
+	<a href="./">Return to Homepage</a>
 </body>
 </html>

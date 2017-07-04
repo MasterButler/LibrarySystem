@@ -44,12 +44,13 @@ public class UserController {
 			@ModelAttribute("SpringWeb")User user, 
 			BindingResult result, ModelMap model){
 		
-		model.addAttribute("user", null);
+		model.addAttribute("user", new User());
 		
 //		if(result.hasErrors()){
 //			return "register";
 //		}else{		
 			boolean success = UserManager.getInstance().addUser(user);
+			System.out.println("SUCCESFUL AKO: " + success);
 			if(success){
 				//model.addAttribute("user_bool", success);
 				System.out.println("A");
