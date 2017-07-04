@@ -40,28 +40,27 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String addStudent(HttpServletRequest request, 
+	public String addStudent(HttpServletRequest request,
 			@ModelAttribute("SpringWeb")User user, 
 			BindingResult result, ModelMap model){
-		
-		model.addAttribute("user", new User());
 		
 //		if(result.hasErrors()){
 //			return "register";
 //		}else{		
-			boolean success = UserManager.getInstance().addUser(user);
-			System.out.println("SUCCESFUL AKO: " + success);
-			if(success){
-				//model.addAttribute("user_bool", success);
-				System.out.println("A");
-				request.getSession().setAttribute("user", user);
-				System.out.println("B");
-				model.addAttribute("user", user);
-				System.out.println("C");
-				return "register_finish";		
-			}
+		boolean success = UserManager.getInstance().addUser(user);
+		if(success){
+			//model.addAttribute("user_bool", success);
+			System.out.println("A");
+			request.getSession().setAttribute("user", user);
+			System.out.println("B");
+			model.addAttribute("user", user);
+			System.out.println("C");
+			return "register_finish";		
+		}
 //		}
 		//request.getSession().setAttribute("user", user);
+		model.addAttribute("user", new User());
+		model.addAttribute("errorMessage", "Username, ID Number, or Email has already been taken.");
 		return "register";
 	}
 }

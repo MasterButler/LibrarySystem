@@ -64,6 +64,12 @@
             <td><form:password path="credentials.password"/></td>
         </tr>
                 
+		<c:choose>
+			<c:when test="${not empty errorMessage}">
+				${errorMessage}
+			</c:when>
+		</c:choose>
+                
         <tr>
             <td><input type="submit" value="Submit"/></td>
         </tr>
