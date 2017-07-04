@@ -1,4 +1,8 @@
 package db;
+import beans.Name;
+import beans.user.User;
+import beans.user.UserCredentials;
+
 import java.sql.*;
 
 public class DBConnection {
@@ -26,4 +30,40 @@ public class DBConnection {
         return null;
     }
 
+    public User getCurrentUser(String username, String pass) throws SQLException {
+        ResultSet rs = null;
+        Connection con = connect();
+        CallableStatement stmt = con.prepareCall("{CALL get_user_information(?,?)}");
+        stmt.setString(username, pass);
+        boolean hasResults = stmt.execute();
+        while (hasResults) {
+            rs = stmt.getResultSet();
+            hasResults = stmt.getMoreResults();
+        }
+        if(rs == null)
+            return null;
+        else{
+            User user = new User();
+            user.setId(Integer.toString(rs.getInt(1)));
+            user.setCredentials(new UserCredentials(rs.getString(6),rs.getString(7),rs.getString(8)));
+            user.setName(new Name(rs.getString(3), rs.getString(5), rs.getString(4)));
+            user.setBirthday(rs.getDate(9));
+            return user;
+        }
+    }
+
+    public boolean userExist(String user,String pass){
+        ResultSet rs = null;
+        Connection con = connect();
+        CallableStatement stmt = null;
+        try {
+            stmt = con.prepareCall("{CALL check_user_exist(?,?)}");
+            stmt.setString(user, pass);
+            stmt.execute();
+            return stmt.getBoolean("exist");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

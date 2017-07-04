@@ -240,4 +240,4 @@ VALUES 	(1,'Student', 7),
 INSERT INTO `library_system`.`users` 	(`user_id`, `user_type_id`, `user_firstname`, `user_lastname`, 
 										`user_middlename`, `user_username`, `user_password`, `user_email`,
 										`user_birthday`, `user_date_created`, `user_activated`)
-VALUES(1,1,'testname', 'test', 'name', 'testing', '12', 'abcd@abc.com', '1998-10-10', '2017-10-11', TRUE);
+VALUES(1,1,'testname', 'test', 'name', 'testing', 'testingencryption', 'abcd@abc.com', '1998-10-10', '2017-10-11', TRUE);
