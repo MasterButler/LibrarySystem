@@ -2,7 +2,7 @@ DROP SCHEMA IF EXISTS `library_system`;
 CREATE SCHEMA `library_system`;
 
 CREATE TABLE `library_system`.`user_types` (
-  `user_type_id` INT NOT NULL,
+  `user_type_id` INT NOT NULL AUTO_INCREMENT,
   `user_type` VARCHAR(45) NOT NULL,
   `user_borrowing_time` INT NOT NULL,
   PRIMARY KEY (`user_type_id`));
@@ -13,7 +13,7 @@ CREATE TABLE `library_system`.`user_secret_questions` (
   PRIMARY KEY (`secret_questions_id`));
 
 CREATE TABLE `library_system`.`users` (
-  `user_id` INT NOT NULL,
+  `user_id` INT NOT NULL AUTO_INCREMENT,
   `user_type_id` INT NOT NULL,
   `user_firstname` VARCHAR(45) NOT NULL,
   `user_lastname` VARCHAR(45) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `library_system`.`users` (
     ON UPDATE NO ACTION);
 
 CREATE TABLE `library_system`.`user_secret_answers` (
-  `user_secret_answer_id` INT NOT NULL,
+  `user_secret_answer_id` INT NOT NULL AUTO_INCREMENT,
   `user_secret_question_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   `user_secret_answer` VARCHAR(45) NOT NULL,
@@ -189,7 +189,55 @@ CREATE PROCEDURE `get_user_information` (IN user VARCHAR(45), IN pass VARCHAR(45
 BEGIN
 	SELECT *
 	FROM `borrowing_system`.`users` users
-	WHERE users.`user_username` = user AND  users.`user_password`;
+	WHERE users.`user_username` = user AND  users.`user_password` = pass;
 END$$
 
+CREATE PROCEDURE `check_user_exists` (IN user VARCHAR(45), IN pass VARCHAR(45), OUT exist BOOLEAN)
+BEGIN
+	DECLARE existing_user INT;
+	SET existing_user =
+	(SELECT COUNT(users.`user_id`) 
+	FROM `borrowing_system`.`users` users
+	WHERE users.`user_username` = user AND  users.`user_password` = pass);
+	IF existing_user > 0 THEN
+		SET exist = TRUE;
+	ELSE
+		SET exist = FALSE;
+	END IF;
+END$$ 
 DELIMITER ;
+
+/*DELIMITER $$
+DROP TRIGGER IF EXISTS library_system.encrypt_data$$
+USE `library_system`$$
+CREATE TRIGGER `encrypt_data` 
+BEFORE INSERT ON `users` FOR EACH ROW
+	BEGIN
+		DECLARE x INT; 
+		DECLARE temp INT;
+		DECLARE cryptopass VARCHAR(45);
+		DECLARE pass VARCHAR(45);
+		DECLARE y CHAR;
+		SET x = 1;
+		SET cryptopass = '';
+		SET pass = NEW.user_password;
+		WHILE x <= CHAR_LENGTH(pass) DO
+			SET y = SUBSTRING(pass FROM x FOR 1);
+			SET temp = ASCII(y) + 10;
+			SET y = CHAR(temp);
+			SET cryptopass = CONCAT(cryptopass, y);
+			SET x = x + 1;
+		END WHILE;
+		SET NEW.user_password = cryptopass;
+	END
+$$ DELIMITER ;*/
+
+/*test data*/
+INSERT INTO `library_system`.`user_types` (`user_type_id`, `user_type`, `user_borrowing_time`)
+VALUES 	(1,'Student', 7),
+		(2,'Faculty', 14);
+
+INSERT INTO `library_system`.`users` 	(`user_id`, `user_type_id`, `user_firstname`, `user_lastname`, 
+										`user_middlename`, `user_username`, `user_password`, `user_email`,
+										`user_birthday`, `user_date_created`, `user_activated`)
+VALUES(1,1,'testname', 'test', 'name', 'testing', '12', 'abcd@abc.com', '1998-10-10', '2017-10-11', TRUE);
