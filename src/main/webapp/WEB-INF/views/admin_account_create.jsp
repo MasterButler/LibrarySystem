@@ -15,7 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form method="POST" action="register" modelAttribute="user">
+	<form:form method="POST" action="admin_account_create" modelAttribute="user">
 		<table>
         <tr>
             <td><form:label path="name.firstName">First Name</form:label></td>
@@ -37,11 +37,6 @@
             <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="dd/MM/yyyy"/>
 			<td><form:input type="text" path="birthday" name="user.birthday" value="${fmtDate}"/></td>
             	
-        </tr>
-         
-        <tr>
-        	<td><form:radiobutton path="userType" value="${UserTypes.STUDENT.value}" label="${UserTypes.STUDENT.name}"/></td>
-        	<td><form:radiobutton path="userType" value="${UserTypes.FACULTY.value}" label="${UserTypes.FACULTY.name}"/></td>
         </tr>
         
         <tr>
@@ -73,9 +68,9 @@
         </tr>
                 
         <tr>
-            <td><input type="submit" value="Save"/></td>
+            <td><input type="submit" value="Register as Staff" name="action"/></td>
+            <td><input type="submit" value="Register as Manager" name="action"/></td>
         </tr>
-        
     	</table>
     </form:form>
 </body>

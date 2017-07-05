@@ -25,13 +25,28 @@ public class User {
 	
 	private LiteratureList literatureList;
 	
+	private boolean hasTempPassword;
+	
 	public User(){
 		this.credentials = new LoginCredentials();
 		this.name = new Name();
 		this.birthday = new Date();
 		this.literatureList = new LiteratureList();
+		this.hasTempPassword = false;
 	}	
 	
+	public boolean getHasTempPassword() {
+		return hasTempPassword;
+	}
+
+	public void setHasTempPassword(boolean hasTempPassword) {
+		this.hasTempPassword = hasTempPassword;
+	}
+
+	public void setLiteratureList(LiteratureList literatureList) {
+		this.literatureList = literatureList;
+	}
+
 	public String getEmail() {
 		return email;
 	}

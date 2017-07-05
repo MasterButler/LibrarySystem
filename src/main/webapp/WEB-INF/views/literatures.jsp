@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@ page import="beans.user.UserTypes" %>
+<%@ page import="beans.LibraryObjectTypes" %>
 <%@ page import="util.DateUtil" %>    
 <%@ page import="beans.Literature" %>
 
@@ -15,7 +16,27 @@
 <title>Spring 4 MVC -HelloWorld</title>
 </head>
 <body>
+	Back to <a href="./">Homepage</a>
 	
+	<!-- 
+	
+	<a href="literatures_categories?All"><button>All</button></a>
+	<a href="literatures_categories?All"><button>All</button></a>
+	<a href="literatures_categories?All"><button>All</button></a>
+	<a href="literatures_categories?All"><button>All</button></a>
+	<a href="literatures_categories?All"><button>All</button></a>
+	<a href="literatures_categories?All"><button>All</button></a>
+	
+	 -->
+	
+	<form method="POST" action="literatures_categories">
+		<input type="submit" value="All" name="action">
+		<input type="submit" value="Books" name="action">
+		<input type="submit" value="Thesis" name="action">
+		<input type="submit" value="Magazine" name="action">
+		<input type="submit" value="Authors" name="action">
+		<input type="submit" value="Publisher" name="action">
+	</form>
 	<form method="POST" action="literatures">
 		<table>
 			<tr>
@@ -40,21 +61,40 @@
 	
 		<h2><a href = "literature_info?id=<c:out value="${id}"/>">${literature.title}</a></h2>
 		
+		<c:choose>
+				<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
+								sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
+					<a href="literature_delete?id=<c:out value="${id}"/>">Delete</a>
+				</c:when>
+			</c:choose>
+		
 		<br>
 		
 		<c:forEach items="${literature.authors}" var="author" varStatus="loop">
 			${author.firstName} ${author.middleName} ${author.lastName}<c:if test="${!loop.last}">, </c:if>
 	    </c:forEach>
+
+		<br>
 		
-		<p>${literature.type}</p>
+		<c:choose>
+			<c:when test = "${literature.libraryObjectType == LibraryObjectTypes.BOOK.value }">
+				${LibraryObjectTypes.BOOK.name}
+			</c:when>
+			<c:when test = "${literature.libraryObjectType == LibraryObjectTypes.THESIS.value }">
+				${LibraryObjectTypes.THESIS.name}
+			</c:when>
+			<c:when test = "${literature.libraryObjectType == LibraryObjectTypes.MAGAZINE.value }">
+				${LibraryObjectTypes.MAGAZINE.name}	
+			</c:when>
+		</c:choose>
+		
+	    <br>
 		
 		<p><fmt:formatDate pattern = "${DateUtil.DATE_FORMAT }" value = "${literature.datePublished}" /></p>
 		
-		UserType: ${user.userType}
-		UserType GRANT: GREATER THAN ${UserTypes.FACULTY.value} 
 		<c:choose>
 			<c:when test="${user.userType > UserTypes.FACULTY.value}">
-				<a href="edit?id=<c:out value="${id}"/>">Edit Book Information</a>
+				<a href="literature_edit?id=<c:out value="${id}"/>">Edit Book Information</a>
 				
 			</c:when>
 		</c:choose>

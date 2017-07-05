@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.Literature;
 import beans.user.LoginCredentials;
 import beans.user.User;
+import beans.user.UserTypes;
 import manager.LiteratureManager;
 import manager.ReservationManager;
 import manager.UserManager;
@@ -64,12 +65,38 @@ String message = "Welcome to Spring MVC!";
 		return mv;
 	}
 	
+	@RequestMapping("/reservation_override/confirmation")
+	public ModelAndView showReservationOverrideConfirmation(
+			HttpServletRequest request,
+			@RequestParam(value = "id", required = true) String id) {
+		
+		ModelAndView mv;
+		
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
+				Literature lit = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
+				boolean successful = LiteratureManager.getInstance().reserve(lit, user);
+				
+				request.getSession().setAttribute(AttributeDictionary.USER, user);
+				mv = new ModelAndView("literature_reservation_result");
+				mv.addObject("literature", lit);
+				mv.addObject("literature_reservation_bool", successful);
+				return mv;
+			}
+		}
+		mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
+		return mv;
+	}
+	
 	@RequestMapping("/my_literaturelist")
 	public ModelAndView showBorrowedLiteratureList(
 			HttpServletRequest request){
 		
 		ModelAndView mv;
-		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
+		if(user != null){
+			LiteratureManager.getInstance().validateUserList(user); //TODO delete once db implementation is implemented
 			mv = new ModelAndView("my_literaturelist");
 		}else{
 			mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
