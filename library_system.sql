@@ -17,7 +17,7 @@ CREATE TABLE `library_system`.`users` (
   `user_type_id` INT NOT NULL,
   `user_firstname` VARCHAR(45) NOT NULL,
   `user_lastname` VARCHAR(45) NOT NULL,
-  `user_middlename` VARCHAR(45) NOT NULL,
+  `user_middlename` VARCHAR(45) NOT NULL DEFAULT 'N/A',
   `user_username` VARCHAR(20) NOT NULL,
   `user_password` VARCHAR(45) NOT NULL,
   `user_email` VARCHAR(45) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `library_system`.`reservable_authors` (
   `author_id` INT NOT NULL AUTO_INCREMENT,
   `author_lastname` VARCHAR(45) NOT NULL,
   `author_firstname` VARCHAR(45) NOT NULL,
-  `author_middlename` VARCHAR(45) NOT NULL,
+  `author_middlename` VARCHAR(45) NOT NULL DEFAULT 'N/A',
   PRIMARY KEY (`author_id`));
 
 CREATE TABLE `library_system`.`reservable_types` (
@@ -68,8 +68,8 @@ CREATE TABLE `library_system`.`reservable_information` (
   `reservable_type_id` INT NOT NULL,
   `reservable_title` VARCHAR(200) NOT NULL,
   `reservable_date` DATE NOT NULL,
-  `reservation_publisher` VARCHAR(100) NOT NULL,
-  `reservation_dds` VARCHAR(3) NOT NULL,
+  `reservable_publisher` VARCHAR(100) NOT NULL,
+  `reservable_dds` VARCHAR(3) NOT NULL,
   PRIMARY KEY (`reservable_id`),
   INDEX `reservable_type_id_idx` (`reservable_type_id` ASC),
   CONSTRAINT `reservable_type_id`
@@ -172,7 +172,7 @@ CREATE TABLE `library_system`.`admins` (
   `admin_type` INT NOT NULL,
   `admin_firstname` VARCHAR(45) NOT NULL,
   `admin_lastname` VARCHAR(45) NOT NULL,
-  `admin_middlename` VARCHAR(45) NOT NULL,
+  `admin_middlename` VARCHAR(45) NOT NULL DEFAULT 'N/A',
   `admin_email` VARCHAR(45) NOT NULL,
   `admin_password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`admin_id`),
@@ -188,7 +188,7 @@ USE `library_system`$$
 CREATE PROCEDURE `get_user_information` (IN user VARCHAR(45), IN pass VARCHAR(45))
 BEGIN
 	SELECT *
-	FROM `borrowing_system`.`users` users
+	FROM `library_system`.`users` users
 	WHERE users.`user_username` = user AND  users.`user_password` = pass;
 END$$
 
@@ -197,7 +197,7 @@ BEGIN
 	DECLARE existing_user INT;
 	SET existing_user =
 	(SELECT COUNT(users.`user_id`) 
-	FROM `borrowing_system`.`users` users
+	FROM `library_system`.`users` users
 	WHERE users.`user_username` = user AND  users.`user_password` = pass);
 	IF existing_user > 0 THEN
 		SET exist = TRUE;
@@ -205,6 +205,79 @@ BEGIN
 		SET exist = FALSE;
 	END IF;
 END$$ 
+
+CREATE PROCEDURE `get_all_literature` ()
+BEGIN
+	SELECT *
+	FROM `library_system`.`reservable_information`;
+END$$ 
+
+CREATE PROCEDURE `get_all_literatures_by_title` (IN lit_name VARCHAR(200))
+BEGIN 
+	SELECT *
+	FROM `library_system`.`reservable_information` library
+	WHERE LOCATE(lit_name,library.`reservable_title`);
+END$$
+
+CREATE PROCEDURE `get_all_literatures_by_publisher` (IN lit_pub VARCHAR(100))
+BEGIN 
+	SELECT *
+	FROM `library_system`.`reservable_information` library
+	WHERE LOCATE(lit_pub,library.`reservable_publisher`);
+END$$
+
+CREATE PROCEDURE `get_all_literatures_by_date` (IN lit_date DATE)
+BEGIN 
+	SELECT *
+	FROM `library_system`.`reservable_information` library
+	WHERE library.`reservable_date` LIKE lit_date;
+END$$
+
+CREATE PROCEDURE `get_all_literatures_by_author` (IN author_last VARCHAR(45), IN author_first VARCHAR(45))
+BEGIN
+	SELECT *
+	FROM `library_system`.`reservable_information` library
+	WHERE library.`reservable_Id` IN(SELECT tags.`reservable_information_id`
+		   FROM `library_system`.`reservable_authors_tags` tags
+		   WHERE tags.`reservable_authors_id` IN (SELECT author.`author_id`
+				  FROM `library_system`.`reservable_authors` author
+				  WHERE author.`author_lastname` LIKE author_last OR 
+						author.`author_firstname` LIKE author_first) 
+				  );
+END$$
+
+
+CREATE PROCEDURE `get_all_authors` ()
+BEGIN 
+	SELECT *
+	FROM `library_system`.`reservable_authors`;
+END$$
+
+CREATE PROCEDURE `get_all_authors_by_name` (IN author_last VARCHAR(45), IN author_first VARCHAR(45))
+BEGIN 
+	SELECT *
+	FROM `library_system`.`reservable_authors` author
+	WHERE author.`author_lastname` LIKE author_last OR 
+		  author.`author_firstname` LIKE author_first;
+END$$
+
+CREATE PROCEDURE `get_all_authors_by_reservable` (IN indx INT)
+BEGIN 
+	SELECT *
+	FROM `library_system`.`reservable_authors` author
+	WHERE author.`author_id` IN (SELECT `reservable_authors_id`
+		   FROM `library_system`.`reservable_authors_tags` tags
+		   WHERE tags.`reservable_information_id` LIKE indx);
+END$$
+
+CREATE PROCEDURE `get_all_author_id_by_name` (IN author_last VARCHAR(45), IN author_first VARCHAR(45))
+BEGIN 
+	SELECT author.`author_id`
+	FROM `library_system`.`reservable_authors` author
+	WHERE author.`author_lastname` LIKE author_last OR 
+		  author.`author_firstname` LIKE author_first;
+END$$
+
 DELIMITER ;
 
 /*DELIMITER $$
@@ -237,7 +310,35 @@ INSERT INTO `library_system`.`user_types` (`user_type_id`, `user_type`, `user_bo
 VALUES 	(1,'Student', 7),
 		(2,'Faculty', 14);
 
-INSERT INTO `library_system`.`users` 	(`user_id`, `user_type_id`, `user_firstname`, `user_lastname`, 
-										`user_middlename`, `user_username`, `user_password`, `user_email`,
-										`user_birthday`, `user_date_created`, `user_activated`)
-VALUES(1,1,'testname', 'test', 'name', 'testing', 'testingencryption', 'abcd@abc.com', '1998-10-10', '2017-10-11', TRUE);
+INSERT INTO `library_system`.`reservable_types` (`reservation_type_id`, `reservation_type`)
+VALUES 	(1, 'Book'),
+		(2, 'Magazine'),
+		(3, 'Thesis');
+
+INSERT INTO `library_system`.`users` 	
+	(`user_id`, `user_type_id`, `user_firstname`, `user_lastname`, 
+	`user_middlename`, `user_username`, `user_password`, `user_email`,
+	`user_birthday`, `user_date_created`, `user_activated`)
+VALUES	(1,1,'testname', 'test', 'name', 'testing', 'testingencryption', 'abcd@abc.com', '1998-10-10', '2017-10-11', TRUE);
+
+INSERT INTO `library_system`.`reservable_information`
+	(`reservable_id`, `reservable_type_id`, `reservable_title`,
+	`reservable_date`, `reservable_publisher`, `reservable_dds`)
+VALUES	(1,1,'The Moby Dick', '1851-10-18', 'Herman Melville', '810'),
+		(2,1,'Don Quixote', '1615-01-01','Miguel Cervantes','863'),
+		(3,2,'Top Gear', '2013-04-30', 'Immediate Media Company', '642');
+
+INSERT INTO `library_system`.`reservable_authors` 
+	(`author_id`, `author_lastname`, `author_firstname`, `author_middlename`)
+VALUES 	(1, 'Melville', 'Herman', 'N/A'),
+		(2, 'Cervantes', 'Miguel', 'N/A'),
+		(3, 'Clarkson', 'Jeremy', 'N/A'),
+		(4, 'Hammond', 'Richmond', 'N/A');
+INSERT INTO `library_system`.`reservable_authors_tags`
+	(`reservable_authors_tag`,`reservable_information_id`,`reservable_authors_id`)
+VALUES 	(1,1,1),
+		(2,2,2),
+		(3,3,3),
+		(4,3,4);
+		
+			
