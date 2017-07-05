@@ -366,11 +366,14 @@ BEGIN
 	FROM `library_system`.`user_secret_questions`;
 END$$
 
-CREATE PROCEDURE `get_user_secret_answer` (IN indx INT)
+CREATE PROCEDURE `get_user_secret_answers` (IN user VARCHAR(45), IN pass VARCHAR(45))
 BEGIN
 	SELECT ans.`user_secret_answer`, quest.`user_secret_question`
 	FROM `library_system`.`user_secret_answers` ans, `library_system`.`user_secret_questions` quest
-	WHERE indx = ans.`user_id` AND
+	WHERE ans.`user_id` IN (SELECT *
+							FROM `library_system`.`users` users
+							WHERE users.`user_username` = user AND
+								  users.`user_password` = pass) AND
 		  ans.`user_secret_questions_id` = quest.`secret_questions_id`;
 END$$
 
@@ -393,6 +396,59 @@ BEGIN
 	ELSE
 		SET exist = FALSE;
 	END IF;
+END$$
+
+CREATE PROCEDURE `add_user` (IN utype INT, IN fname VARCHAR(45), IN lname VARCHAR(45), IN mname VARCHAR(45), 
+							 IN user VARCHAR(20), IN pass VARCHAR(45), IN email VARCHAR(45),
+							 IN bday DATE)
+BEGIN
+	INSERT INTO `library_system`.`users` 	
+		(`user_type_id`, `user_firstname`, `user_lastname`, 
+		`user_middlename`, `user_username`, `user_password`, `user_email`,
+		`user_birthday`, `user_date_created`, `user_activated`)
+	VALUES	(utype, fname, lname, mname, user, pass, email, 
+			bday, CURDATE(), FALSE);
+END$$
+
+CREATE PROCEDURE `add_user_with_id` (IN id INT, IN utype INT, IN fname VARCHAR(45), IN lname VARCHAR(45), IN mname VARCHAR(45), 
+							 IN user VARCHAR(20), IN pass VARCHAR(45), IN email VARCHAR(45),
+							 IN bday DATE)
+BEGIN
+	INSERT INTO `library_system`.`users` 	
+		(`user_id`, `user_type_id`, `user_firstname`, `user_lastname`, 
+		`user_middlename`, `user_username`, `user_password`, `user_email`,
+		`user_birthday`, `user_date_created`, `user_activated`)
+	VALUES	(id, utype, fname, lname, mname, user, pass, email, 
+			bday, CURDATE(), FALSE);
+END$$
+
+CREATE PROCEDURE `update_user` (IN past_user VARCHAR(20), IN past_pass VARCHAR(45),
+								 IN utype INT, IN fname VARCHAR(45), IN lname VARCHAR(45), 
+								 IN mname VARCHAR(45), IN user VARCHAR(20), IN pass VARCHAR(45), 
+								 IN email VARCHAR(45), IN bday DATE)
+BEGIN
+	UPDATE `library_system`.`users` users
+	SET users.`user_type_id` = utype,
+		users.`user_firstname` = fname,
+		users.`user_lastname` = lname,
+		users.`user_middlename` = mname,
+		users.`user_username` = user,
+		users.`user_password` = pass,
+		users.`user_email` = email,
+		users.`birthday` = bday
+	WHERE users.`user_id` IN (SELECT users2.`user_id`
+							FROM `library_system`.`users` users2
+							WHERE users2.`user_username` = past_user AND
+								  users2.`user_password` = past_pass);
+END$$
+
+CREATE PROCEDURE `delete_user` (IN user VARCHAR(20), IN pass VARCHAR(45))
+BEGIN
+	DELETE FROM `library_system`.`users`
+	WHERE user_id IN (SELECT users.`user_id`
+							FROM `library_system`.`users` users
+							WHERE users.`user_username` = user AND
+								  users.`user_password` = pass);
 END$$
 
 DELIMITER ;

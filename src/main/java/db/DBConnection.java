@@ -1,5 +1,6 @@
 package db;
 import java.sql.*;
+import java.util.ArrayList;
 
 import beans.Literature;
 import beans.Name;
@@ -87,6 +88,107 @@ public class DBConnection {
         }
     }
 
+    public ArrayList<String> userSecretAnswers(String user, String pass){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL get_user_secret_answers(?,?)}");
+            stmt.setString(1, user);
+            stmt.setString(2, pass);
+            rs = stmt.getResultSet();
+            if(rs == null) {
+                con.close();
+                return null;
+            }
+            else{
+                ArrayList<String> arr = new ArrayList<String>();
+                arr.add(rs.getString(1));
+                arr.add(rs.getString(2));
+                return arr;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void addUser(int type, String first, String last, String middle, String user, String pass, String email, String date){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_user(?,?,?,?,?,?,?,?)}");
+            stmt.setInt(1,type);
+            stmt.setString(2,first);
+            stmt.setString(3,last);
+            stmt.setString(4,middle);
+            stmt.setString(5,user);
+            stmt.setString(6,pass);
+            stmt.setString(7,email);
+            stmt.setString(8,date);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUserWithID(int id, int type, String first, String last, String middle, String user, String pass, String email, String date){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_user_with_id(?,?,?,?,?,?,?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setInt(2,type);
+            stmt.setString(3,first);
+            stmt.setString(4,last);
+            stmt.setString(5,middle);
+            stmt.setString(6,user);
+            stmt.setString(7,pass);
+            stmt.setString(8,email);
+            stmt.setString(9,date);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUser(String oldUser, String oldPass, int type, String first, String last, String middle, String user, String pass, String email, String date){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL update_user(?,?,?,?,?,?,?,?,?,?)}");
+            stmt.setString(1, oldUser);
+            stmt.setString(2, oldPass);
+            stmt.setInt(3,type);
+            stmt.setString(4,first);
+            stmt.setString(5,last);
+            stmt.setString(6,middle);
+            stmt.setString(7,user);
+            stmt.setString(8,pass);
+            stmt.setString(9,email);
+            stmt.setString(10,date);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(String user, String pass){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL delete_user(?,?,?,?,?,?,?,?,?,?)}");
+            stmt.setString(1, user);
+            stmt.setString(2, pass);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //L
     //I
@@ -166,7 +268,7 @@ public class DBConnection {
             stmt.setString(4,date);
             stmt.setString(5,publisher);
             stmt.setInt(6,dds);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,7 +286,7 @@ public class DBConnection {
             stmt.setString(4,date);
             stmt.setString(5,publisher);
             stmt.setInt(6,dds);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -201,7 +303,7 @@ public class DBConnection {
             stmt.setString(3,date);
             stmt.setString(4,publisher);
             stmt.setInt(5,dds);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -216,7 +318,7 @@ public class DBConnection {
         try {
             stmt = con.prepareCall("{CALL delete_literature(?)}");
             stmt.setInt(1,id);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -285,7 +387,7 @@ public class DBConnection {
             stmt.setString(1,last);
             stmt.setString(2,first);
             stmt.setString(3,middle);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -301,7 +403,7 @@ public class DBConnection {
             stmt.setString(2,last);
             stmt.setString(3,first);
             stmt.setString(4,middle);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -314,7 +416,7 @@ public class DBConnection {
         try {
             stmt = con.prepareCall("{CALL delete_author(?)}");
             stmt.setInt(1,id);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -330,7 +432,7 @@ public class DBConnection {
             stmt.setString(2,last);
             stmt.setString(3,first);
             stmt.setString(4,middle);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -349,7 +451,7 @@ public class DBConnection {
             stmt = con.prepareCall("{CALL add_tag(?,?)}");
             stmt.setInt(1,lit_id);
             stmt.setInt(2,auth_id);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -364,20 +466,20 @@ public class DBConnection {
             stmt.setInt(1,id);
             stmt.setInt(2,lit_id);
             stmt.setInt(3,auth_id);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteAuthor(int id){
+    public void deleteTag(int id){
         Connection con = connect();
         CallableStatement stmt;
         try {
             stmt = con.prepareCall("{CALL delete_tag(?)}");
             stmt.setInt(1,id);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -392,7 +494,7 @@ public class DBConnection {
             stmt.setInt(1,id);
             stmt.setInt(2,lit_id);
             stmt.setInt(3,auth_id);
-            stmt.execute();
+            stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
