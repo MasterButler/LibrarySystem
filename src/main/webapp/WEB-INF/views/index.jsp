@@ -29,7 +29,17 @@
 		
 		</h2>
 		<h3>
-			<a href="register">Register</a>
+			<c:choose>
+				<c:when test="${sessionScope.user != null}">
+					<a href="logout">Logout</a>
+					<a href="my_literaturelist">My Borrowed Readings</a>
+				</c:when>
+				<c:when test="${sessionScope.user == null}">
+					<a href="register">Register</a>
+					<a href="login">Login</a>
+				</c:when>	
+			</c:choose>
+			
 			<a href="hello?name=Eric">Click Here</a>
 			<a href="literatures">Check all literature available</a>
 		</h3>

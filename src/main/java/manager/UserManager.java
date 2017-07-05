@@ -1,6 +1,8 @@
 package manager;
 
+import beans.Name;
 import beans.list.UserList;
+import beans.user.LoginCredentials;
 import beans.user.User;
 
 public class UserManager {
@@ -17,6 +19,21 @@ public class UserManager {
 			instance = new UserManager();
 			
 			userList = new UserList();
+			
+			User userA = new User();
+			userA.setCredentials(new LoginCredentials("a@a.a","12345"));
+			userA.getCredentials().setUsername("myName");
+			userA.setName(new Name("Winfred", "D", "Villaluna"));
+			userA.setId("11427574");
+			
+			User userB = new User();
+			userB.setCredentials(new LoginCredentials("b@b.b","12345"));
+			userB.getCredentials().setUsername("myName");
+			userB.setName(new Name("Darlene", "G", "Marpa"));
+			userB.setId("11427019");
+		
+			userList.add(userA);
+			userList.add(userB);
 		}
 		return instance;
 	}
@@ -42,7 +59,18 @@ public class UserManager {
 	
 	public User searchUserByUsername(String username){
 		for(int i = 0; i < userList.size(); i++){
-			if(userList.get(i).getCredentials().getUsername().equals(username)){
+			if(userList.get(i).getCredentials().getUsername().equalsIgnoreCase(username)){
+				return userList.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public User searchUserByEmail(String email){
+		for(int i = 0; i < userList.size(); i++){
+			System.out.println("COMPARING " + email + " AND " + userList.get(i).getEmail());
+			if(userList.get(i).getEmail().equalsIgnoreCase(email)){
+				System.out.println("RETURNING USER WITH EMAIL " + email);
 				return userList.get(i);
 			}
 		}

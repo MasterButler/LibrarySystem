@@ -1,9 +1,13 @@
 package db;
-import beans.Name;
-import beans.user.User;
-import beans.user.UserCredentials;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import java.sql.*;
+import beans.Name;
+import beans.user.LoginCredentials;
+import beans.user.User;
 
 public class DBConnection {
     // JDBC driver name and database URL
@@ -45,7 +49,8 @@ public class DBConnection {
         else{
             User user = new User();
             user.setId(Integer.toString(rs.getInt(1)));
-            user.setCredentials(new UserCredentials(rs.getString(6),rs.getString(7),rs.getString(8)));
+            user.setEmail(rs.getString(8));
+            user.setCredentials(new LoginCredentials(rs.getString(6),rs.getString(7)));
             user.setName(new Name(rs.getString(3), rs.getString(5), rs.getString(4)));
             user.setBirthday(rs.getDate(9));
             return user;

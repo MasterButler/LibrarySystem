@@ -1,11 +1,13 @@
 package manager;
 
+import beans.LibraryObject;
 import beans.LibraryObjectTypes;
 import beans.Literature;
 import beans.Name;
 import beans.Status;
 import beans.list.LiteratureList;
 import beans.list.NameList;
+import beans.user.User;
 import util.DateUtil;
 
 public class LiteratureManager {
@@ -82,7 +84,15 @@ public class LiteratureManager {
 		return lit;
 	}
 	
-	public static LiteratureList getAllLiterature(){
+	public LiteratureList getAllLiterature(){
 		return literatureList;
+	}
+	
+	public boolean reserve(Literature literature, User user){
+		if(ReservationManager.reserve((LibraryObject)literature, user)){
+			user.addToLiteratureList(literature);
+			return true;
+		}
+		return false;
 	}
 }

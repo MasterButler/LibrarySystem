@@ -2,6 +2,7 @@ package beans;
 
 import java.util.Date;
 
+import beans.user.User;
 import util.DateUtil;
 
 public class Status {
@@ -13,7 +14,7 @@ public class Status {
 	//available in library
 	public final static int STATUS_AVAILABLE = 2;
 	
-	
+	private User currentHolder;
 	private int availability;
 	private Date dateBorrowStart;
 	private Date dateBorrowEnd;

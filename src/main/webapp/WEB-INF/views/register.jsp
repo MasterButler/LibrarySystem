@@ -50,8 +50,8 @@
         </tr>
         
 		<tr>
-            <td><form:label path="credentials.username">Username</form:label></td>
-            <td><form:input path="credentials.username"/></td>
+            <td><form:label path="username">Username</form:label></td>
+            <td><form:input path="username"/></td>
         </tr>        
         
         <tr>
@@ -64,11 +64,13 @@
             <td><form:password path="credentials.password"/></td>
         </tr>
                 
-		<c:choose>
-			<c:when test="${not empty errorMessage}">
-				${errorMessage}
-			</c:when>
-		</c:choose>
+        <tr>
+			<c:choose>
+				<c:when test="${not empty registerErrorMessage}">
+					${registerErrorMessage}
+				</c:when>
+			</c:choose>
+        </tr>
                 
         <tr>
             <td><input type="submit" value="Submit"/></td>

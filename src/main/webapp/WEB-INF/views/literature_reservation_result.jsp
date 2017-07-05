@@ -15,7 +15,7 @@
 
 	<c:choose>
 		<c:when test="${literature_reservation_bool}">
-			${literature.title} has been successfully reserved.
+			${literature.title} has been successfully reserved under the id number ${user.id}.
 			
 			Your reservation will last from
 			<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowStart}" />
