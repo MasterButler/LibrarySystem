@@ -18,8 +18,8 @@
 	<form:form method="POST" action="login" modelAttribute="credentials">
 		<table>
 		<tr>
-            <td><form:label path="email">Email</form:label></td>
-            <td><form:input type = "email" path="email"/></td>
+            <td><form:label path="username">Username</form:label></td>
+            <td><form:input path="username"/></td>
         </tr>
 
         <tr>

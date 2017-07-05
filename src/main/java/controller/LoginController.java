@@ -33,8 +33,8 @@ public class LoginController {
 		
 		if(LoginManager.getInstance().authenticate(credentials)){
 			System.out.println("A");
-			request.getSession().setAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByEmail(credentials.getUsername()));
-			model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByEmail(credentials.getUsername()));
+			request.getSession().setAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
+			model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername ()));
 			return "index";
 		}else{
 			System.out.println("B");

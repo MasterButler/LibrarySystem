@@ -16,9 +16,14 @@ public class ReservationManager {
 			Date dateEnd = DateUtil.addToDate(dateStart, DateUtil.DATE, 7);
 			
 			newStatus.setAvailability(Status.STATUS_RESERVED);
+			newStatus.setCurrentHolder(user);
 			newStatus.setDateBorrowStart(dateStart);
 			newStatus.setDateBorrowEnd(dateEnd);
+						
 			libObject.setStatus(newStatus);
+			
+			System.out.println("IN RESERVATIONMANAGER:");
+			System.out.println(libObject.getStatus().getCurrentHolder().getId());
 			
 			return true;
 		}

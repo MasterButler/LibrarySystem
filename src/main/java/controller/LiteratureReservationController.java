@@ -78,8 +78,22 @@ String message = "Welcome to Spring MVC!";
 	}
 	
 	@RequestMapping("/borrow_literature")
-	public String borrowBook(
-			HttpServletRequest request){
+	public String borrowLiterature(
+			HttpServletRequest request,
+			@RequestParam(value="id", required = true) String id){
+		Literature toBorrow = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
+		String currentHolderId = toBorrow.getStatus().getCurrentHolder().getId();
+		User loggedUser = (User) request.getSession().getAttribute(AttributeDictionary.USER);
+		String loggedUserId = loggedUser.getId();
+		
+		System.out.println("LITERARY ID          : " + toBorrow.getId());
+		System.out.println("CURRENT ID YOU HAVE  : " + currentHolderId);
+		System.out.println("LOGGED USER ID OF LIT: " + loggedUserId);
+		
+		if(currentHolderId.equalsIgnoreCase(loggedUserId)){
+			LiteratureManager.getInstance().borrow(toBorrow);
+			System.out.println("BORROWED");
+		}
 		//TODO fix variable currentHolder in Status.java and add cross checking if requesting user and reserved user is the same to finish the borrowing sequence
 		return "my_literaturelist";
 	}

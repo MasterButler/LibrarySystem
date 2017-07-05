@@ -19,7 +19,7 @@ public class LoginManager {
 	
 	public boolean authenticate(LoginCredentials credentials){
 		System.out.println("WILL FIND: " + credentials.getUsername());
-		User retrievedUser = UserManager.getInstance().searchUserByEmail(credentials.getUsername());
+		User retrievedUser = UserManager.getInstance().searchUserByUsername(credentials.getUsername());
 		System.out.println("FOUND USER: " + (retrievedUser != null));
 		if(retrievedUser != null){
 			if(retrievedUser.getCredentials().matches(credentials)){

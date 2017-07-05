@@ -34,7 +34,7 @@
 					
 						<c:when test="${literature.status.availability == Status.STATUS_RESERVED}">
 							<td>Reserved
-							<td><a href = "borrow_literature">Borrow Book</a>
+							<td><a href = "borrow_literature?id=<c:out value="${literature.id}"/>">Borrow Book</a>
 						</c:when>
 					</c:choose>
 				<td>

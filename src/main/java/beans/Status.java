@@ -24,12 +24,14 @@ public class Status {
 		Date currDate = DateUtil.getCurrentDate();
 		dateBorrowStart = currDate;
 		dateBorrowEnd = currDate;
+		currentHolder = null;
 	}
 	
-	public Status(int availability, Date dateBorrowStart, Date dateBorrowEnd){
+	public Status(int availability, Date dateBorrowStart, Date dateBorrowEnd, User currentHolder){
 		this.availability = availability;
 		this.dateBorrowStart = dateBorrowStart;
 		this.dateBorrowEnd = dateBorrowEnd;
+		this.currentHolder = null;
 	}
 	
 	public void setAvailability(int status){
@@ -37,7 +39,6 @@ public class Status {
 	}
 	
 	public int getAvailability(){
-		//TODO process the status of the libraryobject
 		return this.availability;
 	}
 
@@ -56,9 +57,12 @@ public class Status {
 	public void setDateBorrowEnd(Date dateBorrowEnd) {
 		this.dateBorrowEnd = dateBorrowEnd;
 	}
-	
-	
-	
-	
-	
+
+	public User getCurrentHolder() {
+		return currentHolder;
+	}
+
+	public void setCurrentHolder(User currentHolder) {
+		this.currentHolder = currentHolder;
+	}
 }

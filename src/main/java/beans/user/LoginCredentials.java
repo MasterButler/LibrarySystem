@@ -28,7 +28,7 @@ public class LoginCredentials {
 	}
 	
 	public boolean matches(LoginCredentials c){
-		if(this.email.equalsIgnoreCase(c.getEmail())){
+		if(this.username.equalsIgnoreCase(c.getUsername())){
 			if(this.password.equalsIgnoreCase(c.getPassword())){
 				return true;
 			}

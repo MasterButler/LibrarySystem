@@ -21,14 +21,14 @@ public class UserManager {
 			userList = new UserList();
 			
 			User userA = new User();
-			userA.setCredentials(new LoginCredentials("a@a.a","12345"));
+			userA.setCredentials(new LoginCredentials("a@a.a","1234"));
 			userA.getCredentials().setUsername("myName");
 			userA.setName(new Name("Winfred", "D", "Villaluna"));
 			userA.setId("11427574");
 			
 			User userB = new User();
-			userB.setCredentials(new LoginCredentials("b@b.b","12345"));
-			userB.getCredentials().setUsername("myName");
+			userB.setCredentials(new LoginCredentials("b@b.b","2345"));
+			userB.getCredentials().setUsername("myOtherName");
 			userB.setName(new Name("Darlene", "G", "Marpa"));
 			userB.setId("11427019");
 		

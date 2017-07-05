@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix ="form" uri="http://www.springframework.org/tags/form"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import="beans.Status" %>
-<%@ page import="util.DateUtil" %>
+<%@ page import="beans.user.UserTypes" %>
+<%@ page import="util.DateUtil" %>    
+<%@ page import="beans.Literature" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,6 +15,25 @@
 <title>Spring 4 MVC -HelloWorld</title>
 </head>
 <body>
+	
+	<form method="POST" action="literatures">
+		<table>
+			<tr>
+				<td><label for="searchString">Search</label></td>
+           		<td><input type= "text" name="searchString"/></td>
+           		<td><input type="submit" value="Submit"/></td>
+			</tr>
+			<tr>
+				<td><input type = "radio" name="field" value="${Literature.FIELD_ALL}" checked="checked" />All Fields</td>
+				<td><input type = "radio" name="field" value="${Literature.FIELD_TITLE}"/>Title</td>
+				<td><input type = "radio" name="field" value="${Literature.FIELD_AUTHOR}"/>Author</td>
+				<td><input type = "radio" name="field" value="${Literature.FIELD_PUBLISHER}"/>Publisher</td>
+			</tr>
+			
+		</table>
+	</form>
+
+
 	<c:forEach items="${literaturelist}" var="literature">  
 	
 		<c:set var="id" value="${literature.id}"/>

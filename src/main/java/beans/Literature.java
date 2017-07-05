@@ -7,6 +7,12 @@ import beans.list.NameList;
 
 public class Literature extends LibraryObject{
 	
+	public static final int FIELD_ALL = 0;
+	public static final int FIELD_TITLE = 1;
+	public static final int FIELD_AUTHOR = 2;
+	public static final int FIELD_PUBLISHER= 3;
+	
+	
 	private long id;
 	private String dds;
 	
@@ -43,7 +49,7 @@ public class Literature extends LibraryObject{
 		return false;
 	}
 	
-	public ArrayList<Name> getAuthors() {
+	public NameList getAuthors() {
 		return authors;
 	}
 

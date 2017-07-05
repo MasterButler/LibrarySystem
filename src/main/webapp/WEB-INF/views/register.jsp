@@ -50,13 +50,13 @@
         </tr>
         
 		<tr>
-            <td><form:label path="username">Username</form:label></td>
-            <td><form:input path="username"/></td>
+            <td><form:label path="credentials.username">Username</form:label></td>
+            <td><form:input path="credentials.username"/></td>
         </tr>        
         
         <tr>
-            <td><form:label path="credentials.email">Email</form:label></td>
-            <td><form:input type = "email" path="credentials.email"/></td>
+            <td><form:label path="email">Email</form:label></td>
+            <td><form:input type = "email" path="email"/></td>
         </tr>
 
         <tr>
