@@ -342,4 +342,61 @@ public class DBConnection {
     //G
     //S
 
+    public void addTag(int lit_id, int auth_id){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_tag(?,?)}");
+            stmt.setInt(1,lit_id);
+            stmt.setInt(2,auth_id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addTagWithID(int id, int lit_id, int auth_id){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_tag(?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setInt(2,lit_id);
+            stmt.setInt(3,auth_id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAuthor(int id){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL delete_tag(?)}");
+            stmt.setInt(1,id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTag(int id, int lit_id, int auth_id){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL update_tag(?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setInt(2,lit_id);
+            stmt.setInt(3,auth_id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

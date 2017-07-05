@@ -260,8 +260,6 @@ BEGIN
 	WHERE lib.`reservable_id` = id;
 END$$
 
-
-
 /*********/
 /*AUTHORS*/
 CREATE PROCEDURE `get_all_authors` ()
@@ -326,22 +324,32 @@ BEGIN
 	WHERE auth.`author_id` = id;
 END$$
 
+/******/
+/*TAGS*/
 CREATE PROCEDURE `delete_tag` (IN tag INT)
 BEGIN
 	DELETE FROM `library_system`.`reservable_authors_tags`
 	WHERE reservable_authors_tag = tag;
 END$$
 
-CREATE PROCEDURE `add_tag` (IN user_id INT, IN auth_id INT)
+CREATE PROCEDURE `add_tag` (IN lit_id INT, IN auth_id INT)
 BEGIN
 	INSERT INTO `library_system`.`reservable_authors_tags` (`reservable_information_id`,`reservable_authors_id`)
-	VALUES(user_id, auth_id);
+	VALUES(lit_id, auth_id);
 END$$
 
-CREATE PROCEDURE `add_tag_with_id` (IN id INT, IN user_id INT, IN auth_id INT)
+CREATE PROCEDURE `add_tag_with_id` (IN id INT, IN lit_id INT, IN auth_id INT)
 BEGIN
 	INSERT INTO `library_system`.`reservable_authors_tags` (`reservable_authors_tag`,`reservable_information_id`,`reservable_authors_id`)
-	VALUES(id, user_id, auth_id);
+	VALUES(id, lit_id, auth_id);
+END$$
+
+CREATE PROCEDURE `update_tag` (IN id INT, IN lit_id INT, IN auth_id INT)
+BEGIN
+	UPDATE `library_system`.`reservable_authors_tags` auth
+	SET auth.`reservable_information_id` = lit_id, 
+		auth.`reservable_authors_id` = auth_id
+	WHERE auth.`reservable_authors_tag` = id;
 END$$
 	
 /*******/
