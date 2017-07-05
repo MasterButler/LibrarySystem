@@ -22,6 +22,10 @@ public class DBConnection {
     static final String USER = "root";
     static final String PASS = "root";
 
+    public DBConnection(){
+
+    }
+
     public Connection connect() {
         Connection con;
         String driver = "com.mysql.jdbc.Driver";
@@ -47,10 +51,7 @@ public class DBConnection {
             stmt.setString(1, username);
             stmt.setString(2, pass);
             boolean hasResults = stmt.execute();
-            while (hasResults) {
-                rs = stmt.getResultSet();
-                hasResults = stmt.getMoreResults();
-            }
+            rs = stmt.getResultSet();
             if(rs == null)
                 return null;
             else{
@@ -69,9 +70,8 @@ public class DBConnection {
     }
 
     public boolean userExist(String user,String pass){
-        ResultSet rs = null;
         Connection con = connect();
-        CallableStatement stmt = null;
+        CallableStatement stmt;
         try {
             stmt = con.prepareCall("{CALL check_user_exist(?,?)}");
             stmt.setString(1, user);
@@ -88,20 +88,17 @@ public class DBConnection {
     public LiteratureList getAllLiterature(){
         ResultSet rs = null;
         Connection con = connect();
-        CallableStatement stmt = null;
+        CallableStatement stmt;
         LiteratureList list = null;
         try {
             stmt = con.prepareCall("{CALL get_all_literature()}");
             stmt.execute();
             boolean hasResults = stmt.execute();
-            while (hasResults) {
-                rs = stmt.getResultSet();
-                hasResults = stmt.getMoreResults();
-            }
+            rs = stmt.getResultSet();
             if(rs == null)
                 return null;
             else{
-                while(!rs.isAfterLast()){
+                while(rs.next()){
                     Literature lit = new Literature();
                     lit.setId(rs.getInt(1));
                     lit.setTitle(rs.getString(3));
