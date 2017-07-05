@@ -357,14 +357,14 @@ public class DBConnection {
                 lit.setDatePublished(rs.getDate(4));
                 lit.setPublisher(rs.getString(5));
                 lit.setDds(Integer.toString(rs.getInt(6)));
-                ResultSet rs2 = null;
+                ResultSet rs2;
                 stmt = con.prepareCall("{CALL get_all_authors_by_reservable(?)}");
                 stmt.setInt(1, (int) lit.getId());
                 rs2 = stmt.getResultSet();
                 if(rs2 == null)
                     lit.addAuthor(new Name("N/A", "N/A", "N/A"));
                 else{
-                    while(!rs2.isAfterLast())
+                    while(rs2.next())
                         lit.addAuthor(new Name(rs2.getString(1), rs2.getString(3), rs2.getString(2)));
                 }
                 list.add(lit);
