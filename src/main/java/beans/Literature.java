@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import beans.list.NameList;
+import beans.list.ReviewList;
 
 public class Literature extends LibraryObject{
 	
@@ -21,6 +22,8 @@ public class Literature extends LibraryObject{
 	private String publisher;
 	private Date datePublished;
 	private NameList authors;
+	
+	private ReviewList reviews;
 	
 	public Literature(){
 		super();

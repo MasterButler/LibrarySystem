@@ -46,7 +46,7 @@ public class UserController {
 			@ModelAttribute("SpringWeb")User user, 
 			BindingResult result, 
 			ModelMap model){
-		
+		System.out.println("USER EXISTING: " + (user != null));
 		boolean success = UserManager.getInstance().addUser(user);
 		if(success){
 			//model.addAttribute("user_bool", success);

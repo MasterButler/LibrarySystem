@@ -50,36 +50,36 @@
 		
 		<p><fmt:formatDate pattern = "${DateUtil.DATE_FORMAT }" value = "${literature.datePublished}" /></p>
 		
+		UserType: ${user.userType}
+		UserType GRANT: GREATER THAN ${UserTypes.FACULTY.value} 
+		<c:choose>
+			<c:when test="${user.userType > UserTypes.FACULTY.value}">
+				<a href="edit?id=<c:out value="${id}"/>">Edit Book Information</a>
+				
+			</c:when>
+		</c:choose>
+		
 		<!--  Hi dar, suggestion pala ni rofi na paran gagawin natin sa isang row nito, mayroon ding 
 		nasa dulo nya na color indication kung unavailable, reserved, or available. thanksies :3 -->
+
+<!-- 
 		<c:choose>
 		
 			<c:when test="${literature.status.availability == Status.STATUS_OUT}">
-				<!-- 
-				<button class = "button_borrow_literature">UNAVAILABLE</button>				
-				-->
 				UNAVAILABLE
 			</c:when>
 			
 			<c:when test="${literature.status.availability == Status.STATUS_RESERVED}">
-				<!-- 
-				<button class = "button_borrow_literature">RESERVED</button>
-				-->
 				RESERVED
 			</c:when>
 			
 			<c:when test="${literature.status.availability == Status.STATUS_AVAILABLE}">
-				<!--
-				<a href="reservation?id=<c:out value="${id}"/>">
-					<button class = "button_borrow_literature">AVAILABLE</button>	
-				</a>			
-				-->
 				AVAILABLE
 			</c:when>
 			
 		</c:choose>
+ -->
 		
-		<p> Status: ${literature.status.availability}
 	</c:forEach>
 		
 </body>

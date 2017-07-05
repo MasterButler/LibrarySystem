@@ -1,10 +1,12 @@
 package manager;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import beans.LibraryObject;
 import beans.Status;
 import beans.user.User;
+import beans.user.UserTypes;
 import util.DateUtil;
 
 public class ReservationManager {
@@ -13,7 +15,15 @@ public class ReservationManager {
 			Status newStatus = new Status();
 			Date dateStart = DateUtil.getCurrentDate();
 			//TODO modify this so change will be easeir to do based on user type
-			Date dateEnd = DateUtil.addToDate(dateStart, DateUtil.DATE, 7);
+			
+			System.out.println("USER TYPE: " + user.getUserType());
+			System.out.println(UserTypes.values()[user.getUserType()].getNumValues());
+			System.out.println(UserTypes.values()[user.getUserType()].getFieldTypes());
+			System.out.println(Calendar.MONTH);
+			Date dateEnd = DateUtil.addToDate(
+					dateStart, 
+					UserTypes.values()[user.getUserType()].getFieldTypes(),
+					UserTypes.values()[user.getUserType()].getNumValues());
 			
 			newStatus.setAvailability(Status.STATUS_RESERVED);
 			newStatus.setCurrentHolder(user);
