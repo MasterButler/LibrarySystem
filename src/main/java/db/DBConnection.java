@@ -52,8 +52,10 @@ public class DBConnection {
             stmt.setString(2, pass);
             boolean hasResults = stmt.execute();
             rs = stmt.getResultSet();
-            if(rs == null)
+            if(rs == null) {
+                con.close();
                 return null;
+            }
             else{
                 User user = new User();
                 user.setId(Integer.toString(rs.getInt(1)));
@@ -61,6 +63,7 @@ public class DBConnection {
                 user.setCredentials(new LoginCredentials(rs.getString(6),rs.getString(7)));
                 user.setName(new Name(rs.getString(3), rs.getString(5), rs.getString(4)));
                 user.setBirthday(rs.getDate(9));
+                con.close();
                 return user;
             }
         } catch (SQLException e) {
@@ -77,6 +80,7 @@ public class DBConnection {
             stmt.setString(1, user);
             stmt.setString(2, pass);
             stmt.execute();
+            con.close();
             return stmt.getBoolean("exist");
 
         } catch (SQLException e) {
@@ -122,6 +126,7 @@ public class DBConnection {
                     list.add(lit);
                 }
             }
+            con.close();
             return list;
         } catch (SQLException e) {
             e.printStackTrace();
