@@ -235,10 +235,18 @@ BEGIN
 
 END$$
 
+CREATE PROCEDURE `add_literature_with_id`(IN id INT, IN utype INT, IN title VARCHAR(200), IN udate DATE, IN pub VARCHAR(100), IN dds INT)
+BEGIN
+	INSERT INTO `library_system`.`reservable_information`
+	(`reservable_id`, `reservable_type_id`, `reservable_title`, `reservable_date`, `reservable_publisher`, `reservable_dds`)
+	VALUES(id, utype, title, udate, pub, dds);
+
+END$$
+
 CREATE PROCEDURE `delete_literature`(IN id INT)
 BEGIN
 	DELETE FROM `library_system`.`reservable_authors_tags`
-	WHERE reservation_information_id = id;
+	WHERE reservable_information_id = id;
 	DELETE FROM `library_system`.`reservable_information`
 	WHERE reservable_id = id;
 END$$
@@ -287,7 +295,55 @@ BEGIN
 		  author.`author_firstname` LIKE author_first;
 END$$
 
+CREATE PROCEDURE `add_author` (IN author_last VARCHAR(45), IN author_first VARCHAR(45), IN author_middle VARCHAR(45))
+BEGIN
+	INSERT INTO `library_system`.`reservable_authors`
+	(`author_lastname`, `author_firstname`, `author_middlename`)
+	VALUES(author_last, author_first, author_middle);
+END$$
 
+CREATE PROCEDURE `add_author_with_id` (IN id INT, IN author_last VARCHAR(45), IN author_first VARCHAR(45), IN author_middle VARCHAR(45))
+BEGIN
+	INSERT INTO `library_system`.`reservable_authors`
+	(`author_id`,`author_lastname`, `author_firstname`, `author_middlename`)
+	VALUES(id, author_last, author_first, author_middle);
+END$$
+
+CREATE PROCEDURE `delete_author`(IN id INT)
+BEGIN
+	DELETE FROM `library_system`.`reservable_authors_tags`
+	WHERE reservable_author_id = id;
+	DELETE FROM `library_system`.`reservable_authors`
+	WHERE author_id = id;
+END$$
+
+CREATE PROCEDURE `update_author` (IN id INT, IN author_last VARCHAR(45), IN author_first VARCHAR(45), IN author_middle VARCHAR(45))
+BEGIN
+	UPDATE `library_system`.`reservable_authors` auth
+	SET auth.`author_lastname` = author_last, 
+		auth.`author_firstname` = author_first,
+		auth.`author_middlename` = author_middle
+	WHERE auth.`author_id` = id;
+END$$
+
+CREATE PROCEDURE `delete_tag` (IN tag INT)
+BEGIN
+	DELETE FROM `library_system`.`reservable_authors_tags`
+	WHERE reservable_authors_tag = tag;
+END$$
+
+CREATE PROCEDURE `add_tag` (IN user_id INT, IN auth_id INT)
+BEGIN
+	INSERT INTO `library_system`.`reservable_authors_tags` (`reservable_information_id`,`reservable_authors_id`)
+	VALUES(user_id, auth_id);
+END$$
+
+CREATE PROCEDURE `add_tag_with_id` (IN id INT, IN user_id INT, IN auth_id INT)
+BEGIN
+	INSERT INTO `library_system`.`reservable_authors_tags` (`reservable_authors_tag`,`reservable_information_id`,`reservable_authors_id`)
+	VALUES(id, user_id, auth_id);
+END$$
+	
 /*******/
 /*USERS*/
 CREATE PROCEDURE `get_all_user_types` ()

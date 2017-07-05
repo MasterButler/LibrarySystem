@@ -173,6 +173,24 @@ public class DBConnection {
         }
     }
 
+    public void createLiteratureWithId(int id, int type, String title, String date, String publisher, int dds){//date format YYYY-MM-DD
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL create_literature_with_id(?,?,?,?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setInt(2,type);
+            stmt.setString(3,title);
+            stmt.setString(4,date);
+            stmt.setString(5,publisher);
+            stmt.setInt(6,dds);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createLiterature(int type, String title, String date, String publisher, int dds){//date format YYYY-MM-DD
         Connection con = connect();
         CallableStatement stmt;
@@ -190,7 +208,9 @@ public class DBConnection {
         }
     }
 
-    public void updateLiterature(int id){//date format YYYY-MM-DD
+
+
+    public void deleteLiterature(int id){//date format YYYY-MM-DD
         Connection con = connect();
         CallableStatement stmt;
         try {
@@ -250,5 +270,76 @@ public class DBConnection {
         }
         return list;
     }
+
+    //A
+    //U
+    //T
+    //H
+    //O
+    //R
+    public void addAuthor(String last, String first, String middle){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_author(?,?,?)}");
+            stmt.setString(1,last);
+            stmt.setString(2,first);
+            stmt.setString(3,middle);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addAuthorWithID(int id, String last, String first, String middle){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_author(?,?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setString(2,last);
+            stmt.setString(3,first);
+            stmt.setString(4,middle);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAuthor(int id){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL delete_author(?)}");
+            stmt.setInt(1,id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAuthor(int id, String last, String first, String middle){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL update_author(?,?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setString(2,last);
+            stmt.setString(3,first);
+            stmt.setString(4,middle);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //T
+    //A
+    //G
+    //S
 
 }
