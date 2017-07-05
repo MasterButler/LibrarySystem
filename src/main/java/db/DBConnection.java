@@ -1,18 +1,11 @@
 package db;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import beans.Literature;
 import beans.Name;
 import beans.list.LiteratureList;
 import beans.user.LoginCredentials;
 import beans.user.User;
-import jdk.nashorn.internal.codegen.CompilerConstants;
-
-import javax.xml.transform.Result;
 
 public class DBConnection {
     // JDBC driver name and database URL
@@ -43,6 +36,11 @@ public class DBConnection {
         return null;
     }
 
+    //U
+    //S
+    //E
+    //R
+    //S
     public User getCurrentUser(String username, String pass){
         ResultSet rs;
         Connection con = connect();
@@ -89,6 +87,17 @@ public class DBConnection {
         }
     }
 
+
+    //L
+    //I
+    //T
+    //E
+    //R
+    //A
+    //T
+    //U
+    //R
+    //E
     public LiteratureList getAllLiterature(){
         ResultSet rs;
         Connection con = connect();
@@ -108,14 +117,14 @@ public class DBConnection {
 
     }
 
-    public LiteratureList getLiteratureByTitle(String name){
+    public LiteratureList getLiteratureByTitle(String title){
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
         LiteratureList list = null;
         try {
             stmt = con.prepareCall("{CALL get_all_literatures_by_title()}");
-            stmt.setString(1, name);
+            stmt.setString(1, title);
             stmt.execute();
             rs = stmt.getResultSet();
             list = createLiteratureList(list, rs, con);
@@ -143,6 +152,54 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void updateLiterature(int id, int type, String title, String date, String publisher, int dds){//date format YYYY-MM-DD
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL update_literature(?,?,?,?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setInt(2,type);
+            stmt.setString(3,title);
+            stmt.setString(4,date);
+            stmt.setString(5,publisher);
+            stmt.setInt(6,dds);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createLiterature(int type, String title, String date, String publisher, int dds){//date format YYYY-MM-DD
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL add_literature(?,?,?,?,?)}");
+            stmt.setInt(1,type);
+            stmt.setString(2,title);
+            stmt.setString(3,date);
+            stmt.setString(4,publisher);
+            stmt.setInt(5,dds);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateLiterature(int id){//date format YYYY-MM-DD
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL delete_literature(?)}");
+            stmt.setInt(1,id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
