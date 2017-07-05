@@ -10,6 +10,7 @@ import beans.Name;
 import beans.list.LiteratureList;
 import beans.user.LoginCredentials;
 import beans.user.User;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 import javax.xml.transform.Result;
 
@@ -43,14 +44,13 @@ public class DBConnection {
     }
 
     public User getCurrentUser(String username, String pass){
-        ResultSet rs = null;
+        ResultSet rs;
         Connection con = connect();
-        CallableStatement stmt = null;
+        CallableStatement stmt;
         try {
             stmt = con.prepareCall("{CALL get_user_information(?,?)}");
             stmt.setString(1, username);
             stmt.setString(2, pass);
-            boolean hasResults = stmt.execute();
             rs = stmt.getResultSet();
             if(rs == null) {
                 con.close();
@@ -90,42 +90,15 @@ public class DBConnection {
     }
 
     public LiteratureList getAllLiterature(){
-        ResultSet rs = null;
+        ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
         LiteratureList list = null;
         try {
             stmt = con.prepareCall("{CALL get_all_literature()}");
             stmt.execute();
-            boolean hasResults = stmt.execute();
             rs = stmt.getResultSet();
-            if(rs == null)
-                return null;
-            else{
-                while(rs.next()){
-                    Literature lit = new Literature();
-                    lit.setId(rs.getInt(1));
-                    lit.setTitle(rs.getString(3));
-                    lit.setDatePublished(rs.getDate(4));
-                    lit.setPublisher(rs.getString(5));
-                    lit.setDds(Integer.toString(rs.getInt(6)));
-                    ResultSet rs2 = null;
-                    stmt = con.prepareCall("{CALL get_all_authors_by_reservable(?)}");
-                    stmt.setInt(1, (int) lit.getId());
-                    hasResults = stmt.execute();
-                    while (hasResults) {
-                        rs2 = stmt.getResultSet();
-                        hasResults = stmt.getMoreResults();
-                    }
-                    if(rs == null)
-                        lit.addAuthor(new Name("N/A", "N/A", "N/A"));
-                    else{
-                        while(!rs.isAfterLast())
-                            lit.addAuthor(new Name(rs.getString(1), rs.getString(3), rs.getString(2)));
-                    }
-                    list.add(lit);
-                }
-            }
+            list = createLiteratureList(list, rs, con);
             con.close();
             return list;
         } catch (SQLException e) {
@@ -133,6 +106,92 @@ public class DBConnection {
             return null;
         }
 
+    }
+
+    public LiteratureList getLiteratureByTitle(String name){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        LiteratureList list = null;
+        try {
+            stmt = con.prepareCall("{CALL get_all_literatures_by_title()}");
+            stmt.setString(1, name);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            list = createLiteratureList(list, rs, con);
+            con.close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LiteratureList getLiteratureByPublisher(String pub){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        LiteratureList list = null;
+        try {
+            stmt = con.prepareCall("{CALL get_all_literatures_by_publisher()}");
+            stmt.setString(1, pub);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            list = createLiteratureList(list, rs, con);
+            con.close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LiteratureList getLiteratureByAuthor(String last, String first){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        LiteratureList list = null;
+        try {
+            stmt = con.prepareCall("{CALL get_all_literatures_by_author()}");
+            stmt.setString(1, last);
+            stmt.setString(2, first);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            list = createLiteratureList(list, rs, con);
+            con.close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LiteratureList createLiteratureList(LiteratureList list, ResultSet rs, Connection con ) throws SQLException {
+        CallableStatement stmt;
+        if(rs == null)
+            return null;
+        else{
+            while(rs.next()){
+                Literature lit = new Literature();
+                lit.setId(rs.getInt(1));
+                lit.setTitle(rs.getString(3));
+                lit.setDatePublished(rs.getDate(4));
+                lit.setPublisher(rs.getString(5));
+                lit.setDds(Integer.toString(rs.getInt(6)));
+                ResultSet rs2 = null;
+                stmt = con.prepareCall("{CALL get_all_authors_by_reservable(?)}");
+                stmt.setInt(1, (int) lit.getId());
+                rs2 = stmt.getResultSet();
+                if(rs2 == null)
+                    lit.addAuthor(new Name("N/A", "N/A", "N/A"));
+                else{
+                    while(!rs2.isAfterLast())
+                        lit.addAuthor(new Name(rs2.getString(1), rs2.getString(3), rs2.getString(2)));
+                }
+                list.add(lit);
+            }
+        }
+        return list;
     }
 
 }
