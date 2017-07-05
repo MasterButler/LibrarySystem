@@ -41,7 +41,6 @@ public class DBConnection {
     //S
     //E
     //R
-    //S
     public User getCurrentUser(String username, String pass){
         ResultSet rs;
         Connection con = connect();
@@ -204,7 +203,7 @@ public class DBConnection {
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
-        LiteratureList list = null;
+        LiteratureList list = new LiteratureList();
         try {
             stmt = con.prepareCall("{CALL get_all_literature()}");
             stmt.execute();
@@ -223,7 +222,7 @@ public class DBConnection {
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
-        LiteratureList list = null;
+        LiteratureList list = new LiteratureList();
         try {
             stmt = con.prepareCall("{CALL get_all_literatures_by_title()}");
             stmt.setString(1, title);
@@ -242,7 +241,7 @@ public class DBConnection {
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
-        LiteratureList list = null;
+        LiteratureList list = new LiteratureList();
         try {
             stmt = con.prepareCall("{CALL get_all_literatures_by_publisher()}");
             stmt.setString(1, pub);
