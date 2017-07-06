@@ -18,7 +18,6 @@ public class Literature extends LibraryObject{
 	private String dds;
 	
 	private String title;
-	private String type;
 	private String publisher;
 	private Date datePublished;
 	private NameList authors;
@@ -90,15 +89,7 @@ public class Literature extends LibraryObject{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
+	
 	public String getPublisher() {
 		return publisher;
 	}
@@ -108,13 +99,13 @@ public class Literature extends LibraryObject{
 	}
 
 	@Override
-	public void setLibraryObjectType(int category) {
-		this.libraryObjectType = category;
+	public void setLibraryObjectType(int libraryObjectType) {
+		this.libraryObjectType = libraryObjectType;
 	}
 
 	@Override
 	public int getLibraryObjectType() {
-		return libraryObjectType != 0 ? libraryObjectType : LibraryObjectTypes.DEFAULT.getValue();
+		return libraryObjectType;
 	}
 	
 }

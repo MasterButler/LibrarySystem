@@ -11,19 +11,20 @@ import util.DateUtil;
 
 public class ReservationManager {
 	public static boolean reserve(LibraryObject libObject, User user){
-		if(libObject.isBorrowable()){
+		if(libObject.isBorrowable() || (libObject.isNotOut() && user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue())){
 			Status newStatus = new Status();
 			Date dateStart = DateUtil.getCurrentDate();
 			//TODO modify this so change will be easeir to do based on user type
 			
 			System.out.println("USER TYPE: " + user.getUserType());
+			System.out.println(UserTypes.values()[user.getUserType()].getName());
 			System.out.println(UserTypes.values()[user.getUserType()].getNumValues());
 			System.out.println(UserTypes.values()[user.getUserType()].getFieldTypes());
 			System.out.println(Calendar.MONTH);
 			Date dateEnd = DateUtil.addToDate(
 					dateStart, 
-					UserTypes.values()[user.getUserType()].getFieldTypes(),
-					UserTypes.values()[user.getUserType()].getNumValues());
+					UserTypes.values()[user.getUserType()-1].getFieldTypes(),
+					UserTypes.values()[user.getUserType()-1].getNumValues());
 			
 			newStatus.setAvailability(Status.STATUS_RESERVED);
 			newStatus.setCurrentHolder(user);

@@ -16,6 +16,13 @@ public abstract class LibraryObject {
 		return false;
 	}
 	
+	public boolean isNotOut(){
+		if(status.getAvailability() != Status.STATUS_OUT){
+			return true;
+		}
+		return false;
+	}
+	
 	public abstract void setLibraryObjectType(int category);
 	public abstract int getLibraryObjectType();
 	

@@ -20,10 +20,10 @@
 		<h2>Hello, 
 			<c:choose>
 				<c:when test="${sessionScope.user != null}">
-					${sessionScope.user.name.firstName}
+					${sessionScope.user.name.firstName}<br>
 				</c:when>
 				<c:when test="${sessionScope.user == null}">
-					Anonymous User
+					Anonymous User<br>
 				</c:when>	
 			</c:choose>
 		
@@ -31,18 +31,47 @@
 		<h3>
 			<c:choose>
 				<c:when test="${sessionScope.user != null}">
-					<a href="logout">Logout</a>
-					<a href="my_literaturelist">My Borrowed Readings</a>
+					<a href="logout">Logout</a><br>
+					
+					<c:choose>
+						<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value ||
+										sessionScope.user.userType == UserTypes.STUDENT.value}">
+							<a href="my_literaturelist">My Borrowed Readings</a><br>
+						</c:when>
+						
+						<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
+										sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
+							<a href="literature_add">Add A Literature</a><br>
+							<a href="literatures">Delete A Literature</a><br>
+									
+							<c:choose>
+								<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
+									<a href="my_literaturelist">My Overriden Readings</a><br>
+								</c:when>
+							</c:choose>
+							
+						</c:when>
+						
+						<c:when test = "${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
+						
+							<a href="staff_list">View Current Library Staffs</a><br>
+							<a href="manager_list">View Current Library Managers</a><br>
+							<a href="admin_account_create">Create Higher Level Users</a>
+						</c:when>
+						
+					</c:choose>
+					
 				</c:when>
+				
 				<c:when test="${sessionScope.user == null}">
-					<a href="register">Register</a>
-					<a href="login">Login</a>
+					<a href="register">Register</a><br>
+					<a href="login">Login</a><br>
 				</c:when>	
 			</c:choose>
-			
-			<a href="hello?name=Eric">Click Here</a>
-			<a href="literatures">Check all literature available</a>
+
+			<a href="literatures">Check all literature available</a><br>
 		</h3>
+		
 	</center>
 </body>
 </html>

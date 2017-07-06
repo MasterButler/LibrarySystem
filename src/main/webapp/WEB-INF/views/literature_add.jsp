@@ -5,8 +5,10 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
+<%@ page import="beans.LibraryObjectTypes" %>
 <%@ page import="beans.Status" %>
 <%@ page import="util.DateUtil" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,7 +17,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form method="POST" modelAttribute="literature" action="literature_edit">
+
+	<form:form method="POST" modelAttribute="literature" action="literature_add">
 		<table style="width:100%">
 	  		<tr>
 	    		<td><form:label path="title">Title</form:label></td>
@@ -47,6 +50,7 @@
 					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.THESIS.value}" label="${LibraryObjectTypes.THESIS.name}"/>
 				<td>
 			</tr>
+			
 	  		<tr>
 	    		<td>Date of Publication</td>
 	    		<fmt:formatDate var="fmtDate" value="${literature.datePublished}" pattern="${DateUtil.NUMBER_FORMAT}"/>
@@ -57,7 +61,7 @@
             	<td><form:input path="publisher" placeholder="Publisher"/></td>
 	  		</tr>
 	  		<tr>
-	  			<td><input type="submit" value="Save Edits" name = "action"/></td>
+	  			<td><input type="submit" value="Create Literature" name = "action"/></td>
 	  		</tr>
 		</table>	
 	</form:form>

@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@ page import="beans.Status" %>
+<%@ page import="beans.user.UserTypes" %>
 <%@ page import="util.DateUtil" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -44,20 +45,34 @@
 	
 	<c:choose>
 		<c:when test="${literature.status.availability == Status.STATUS_AVAILABLE}">
-			<a href = "reservation?id=<c:out value="${literature.id}"/>">
-				<button class = "button_borrow_literature">Proceed to Reservation Page</button>
-			</a>
+			This ${litearture.type} is currently available.
+			<c:choose>
+				<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
+				 				sessionScope.user.userType == UserTypes.STUDENT.value}">
+					<a href = "reservation?id=<c:out value="${literature.id}"/>">Proceed to Reservation Page</a>
+				</c:when>
+			</c:choose>
 		</c:when>
 	
 		<c:when test="${literature.status.availability == Status.STATUS_RESERVED}">
+		
 			This ${litearture.type} has already been reserved by someone else. Available again 
 			after <fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowEnd}" />
 	
+			<c:choose>
+				<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
+					However, you can override this. 
+					<a href = "reservation_override/confirmation?id=<c:out value="${literature.id}"/>">Click here</a>
+				</c:when>
+			</c:choose>
+			
 		</c:when>
 		
 		<c:when test="${literature.status.availability == Status.STATUS_OUT}">
+		
 			This ${litearture.type} has already been borrowed by someone else. Available again
 			after <fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowEnd}" />
+			
 		</c:when>
 	</c:choose>
 	
