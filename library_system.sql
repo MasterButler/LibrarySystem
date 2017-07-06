@@ -191,7 +191,14 @@ CREATE PROCEDURE `get_all_literature` ()
 BEGIN
 	SELECT *
 	FROM `library_system`.`reservable_information`;
-END$$ 
+END$$
+
+CREATE PROCEDURE `get_literature_by_id` (IN id INT)
+BEGIN
+	SELECT *
+	FROM `library_system`.`reservable_information` library
+	WHERE library.`reservable_id` = id;
+END$$
 
 CREATE PROCEDURE `get_all_literatures_by_title` (IN lit_name VARCHAR(200))
 BEGIN 
@@ -449,6 +456,57 @@ BEGIN
 							FROM `library_system`.`users` users
 							WHERE users.`user_username` = user AND
 								  users.`user_password` = pass);
+END$$
+
+
+/**************/
+/*RESERVATIONS*/
+CREATE PROCEDURE `get_all_reservations`()
+BEGIN
+	SELECT `reservable_id`, `reservable_type_id`, `reservable_title`, `reservable_date`, `reservable_publisher`, `reservable_dds`
+	FROM `library_system`.`reserved_information` res, `library_system`.`reservable_information` lib
+	WHERE res.`reserved_reservable_id` = lib.`reservable_id`;
+END$$
+
+CREATE PROCEDURE `get_user_literature_reservations` (IN user VARCHAR(20), IN pass VARCHAR(20))
+BEGIN
+	SELECT `reservable_id`, `reservable_type_id`, `reservable_title`, `reservable_date`, `reservable_publisher`, `reservable_dds`,
+		   `reserved_borrowed_date`, `reserved_due_date`
+	FROM `library_system`.`reserved_information` res, `library_system`.`reservable_information` lib
+	WHERE res.`reserved_reservable_id` = lib.`reservable_id` AND
+		  res.`reserved_user_id` IN (SELECT users.`user_id`
+									 FROM `library_system`.`users` users
+									 WHERE users.`user_username` = user AND
+										   users.`user_password` = pass);
+END$$
+
+CREATE PROCEDURE `reserve_literature` (IN user_id INT, IN lit_id INT, IN borrowed DATE, IN due DATE)
+BEGIN
+	INSERT INTO `library_system`.`reserved_literature`
+	(`reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`)
+	VALUES(user_id, lit_id, borrowed, due);
+END$$
+
+CREATE PROCEDURE `reserve_literature_with_id` (IN id INT, IN user_id INT, IN lit_id INT, IN borrowed DATE, IN due DATE)
+BEGIN
+	INSERT INTO `library_system`.`reserved_literature`
+	(`reserved_information_id`, `reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`)
+	VALUES(id, user_id, lit_id, borrowed, due);
+END$$
+
+CREATE PROCEDURE `delete_reservation` (IN user_id INT, IN lit_id INT)
+BEGIN
+	DELETE FROM `library_system`.`reserved_literature`
+	WHERE reserved_user_id = user_id AND
+		  reserved_reservable_id = lit_id;
+END$$
+
+/******************/
+/*DISCUSSION ROOMS*/
+CREATE PROCEDURE `get_all_discussion_rooms` ()
+BEGIN
+	SELECT *
+	FROM `library_system`.`discussion_rooms`;
 END$$
 
 DELIMITER ;

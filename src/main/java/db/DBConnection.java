@@ -218,13 +218,32 @@ public class DBConnection {
 
     }
 
+    public LiteratureList getLiteratureByID(int id){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        LiteratureList list = new LiteratureList();
+        try {
+            stmt = con.prepareCall("{CALL get_literature_by_id(?)}");
+            stmt.setInt(1, id);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            list = createLiteratureList(list, rs, con);
+            con.close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public LiteratureList getLiteratureByTitle(String title){
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
         LiteratureList list = new LiteratureList();
         try {
-            stmt = con.prepareCall("{CALL get_all_literatures_by_title()}");
+            stmt = con.prepareCall("{CALL get_all_literatures_by_title(?)}");
             stmt.setString(1, title);
             stmt.execute();
             rs = stmt.getResultSet();
@@ -243,7 +262,7 @@ public class DBConnection {
         CallableStatement stmt;
         LiteratureList list = new LiteratureList();
         try {
-            stmt = con.prepareCall("{CALL get_all_literatures_by_publisher()}");
+            stmt = con.prepareCall("{CALL get_all_literatures_by_publisher(?)}");
             stmt.setString(1, pub);
             stmt.execute();
             rs = stmt.getResultSet();
@@ -498,6 +517,85 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    //R
+    //E
+    //S
+    //E
+    //R
+    //V
+    //A
+    //T
+    //I
+    //O
+    //N
+    //S
+
+    public void reserveLiterature(int userid, int litid, String borrowed, String due){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL reserve_literature(?,?,?,?)}");
+            stmt.setInt(1,userid);
+            stmt.setInt(2,litid);
+            stmt.setString(3,borrowed);
+            stmt.setString(4,due);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reserveLiteratureWithID(int id, int userid, int litid, String borrowed, String due){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL reserve_literature_with_id(?,?,?,?,?)}");
+            stmt.setInt(1,id);
+            stmt.setInt(2,userid);
+            stmt.setInt(3,litid);
+            stmt.setString(4,borrowed);
+            stmt.setString(5,due);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteReservation(int userid, int litid){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL delete_reservation(?,?)}");
+            stmt.setInt(1,userid);
+            stmt.setInt(2,litid);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public LiteratureList getAllReserved(){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        LiteratureList list = new LiteratureList();
+        try {
+            stmt = con.prepareCall("{CALL get_all_reservations()}");
+            stmt.execute();
+            rs = stmt.getResultSet();
+            list = createLiteratureList(list, rs, con);
+            con.close();
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 }
