@@ -70,6 +70,7 @@
 			</c:choose>
 
 			<a href="literatures">Check all literature available</a><br>
+			<a href="meeting_room">Check all meeting rooms available</a><br>
 		</h3>
 		
 	</center>

@@ -17,6 +17,10 @@
 <body>
 	<form:form method="POST" modelAttribute="literature" action="literature_edit">
 		<table style="width:100%">
+			<tr>
+				<td><form:label path="id">Literature ID</form:label></td>
+            	<td><form:input path="id" value= "${literature.id}" readonly="true"/></td>
+			</tr>
 	  		<tr>
 	    		<td><form:label path="title">Title</form:label></td>
             	<td><form:input path="title" placeholder = "Title"/></td>

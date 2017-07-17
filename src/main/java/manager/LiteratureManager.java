@@ -193,4 +193,16 @@ public class LiteratureManager {
 			}
 		}
 	}
+	
+	public boolean updateLiteratureWithId(long id, Literature literature){
+		for(int i = 0; i < literatureList.size(); i++){
+			System.out.println("CHECKING BOOT AT INDEX " + i + " WITH ID " + literatureList.get(i).getId());
+			if(literatureList.get(i).getId() == id){
+				literatureList.set(i, literature);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

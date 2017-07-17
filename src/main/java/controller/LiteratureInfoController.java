@@ -66,6 +66,7 @@ public class LiteratureInfoController {
 	
 	public String addAuthors(HttpServletRequest request, ModelMap model, Literature literature){
 		literature.addAuthor(new Name("Firstname", "Middlename", "Lastname"));
+		LiteratureManager.getInstance().updateLiteratureWithId(literature.getId(), literature);
 		request.setAttribute(AttributeDictionary.LITERATURE, literature);
 		model.addAttribute(AttributeDictionary.LITERATURE, literature);
 		
@@ -74,6 +75,7 @@ public class LiteratureInfoController {
 	
 	public String deleteAuthors(HttpServletRequest request, ModelMap model, Literature literature, int indexToRemove){
 		literature.getAuthors().remove(indexToRemove);
+		LiteratureManager.getInstance().updateLiteratureWithId(literature.getId(), literature);
 		request.setAttribute(AttributeDictionary.LITERATURE, literature);
 		model.addAttribute(AttributeDictionary.LITERATURE, literature);
 		
@@ -81,6 +83,8 @@ public class LiteratureInfoController {
 	}
 	
 	public String saveEdit(HttpServletRequest request, ModelMap model, Literature literature){
+		LiteratureManager.getInstance().updateLiteratureWithId(literature.getId(), literature);
+		model.addAttribute(AttributeDictionary.LITERATURE_LIST, LiteratureManager.getInstance().getAllLiterature());
 		request.setAttribute(AttributeDictionary.LITERATURE, literature);
 		model.addAttribute(AttributeDictionary.LITERATURE, literature);
 		
