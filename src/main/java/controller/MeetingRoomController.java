@@ -1,19 +1,12 @@
 package controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import Handler.ErrorHandler;
-import beans.MeetingRoom;
-import beans.MeetingRoomTimeSlots;
 import beans.list.LiteratureList;
 import beans.list.MeetingRoomList;
-import beans.user.User;
 import manager.LiteratureManager;
 import manager.MeetingRoomManager;
 import util.AttributeDictionary;
@@ -22,7 +15,7 @@ import util.AttributeDictionary;
 public class MeetingRoomController {
 	
 	@RequestMapping(value = "/meeting_room", method = RequestMethod.GET)
-	public ModelAndView getAllMeetingRooms() {
+	public ModelAndView showMessage() {
 			System.out.println("in controller");
 	 
 			MeetingRoomList meetingrooms = MeetingRoomManager.getInstance().getAllMeetingRooms();
@@ -31,5 +24,4 @@ public class MeetingRoomController {
 			mv.addObject(AttributeDictionary.MEETING_ROOM_LIST, meetingrooms);
 			return mv;
 	}
-	
 }

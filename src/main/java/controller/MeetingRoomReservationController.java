@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import Handler.ErrorHandler;
+import handler.ErrorHandler;
 import beans.MeetingRoom;
 import beans.user.LoginCredentials;
 import beans.user.User;

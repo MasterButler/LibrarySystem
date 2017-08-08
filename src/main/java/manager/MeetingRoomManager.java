@@ -2,6 +2,7 @@ package manager;
 
 import beans.Literature;
 import beans.MeetingRoom;
+import beans.MeetingRoomTimeSlots;
 import beans.Name;
 import beans.list.MeetingRoomList;
 import beans.user.User;
@@ -11,17 +12,17 @@ public class MeetingRoomManager {
 
 	private static MeetingRoomList meetingRoomList;
 
-	public static final String[] ROOM_NAME = {
-			"Room A",
-			"Room B",
-			"Room C",
-			"Room D",
-			"Room E"};
+    public static final String[] ROOM_NAME = {
+            "Room A",
+            "Room B",
+            "Room C",
+            "Room D",
+            "Room E"};
 
-	public static String[] getRoomNames(){
-		return ROOM_NAME;
-	}
-	
+    public static String[] getRoomNames(){
+        return ROOM_NAME;
+    }
+
 	private MeetingRoomManager(){
 		
 	}
@@ -34,23 +35,23 @@ public class MeetingRoomManager {
 			
 			MeetingRoom roomA = new MeetingRoom();
 			roomA.setId(1);
-			roomA.setName(ROOM_NAME[0]);
+            roomA.setName(ROOM_NAME[0]);
 			
 			MeetingRoom roomB = new MeetingRoom();
 			roomB.setId(2);
-			roomB.setName(ROOM_NAME[1]);
+            roomB.setName(ROOM_NAME[1]);
 			
 			MeetingRoom roomC = new MeetingRoom();
-			roomC.setId(3);
-			roomC.setName(ROOM_NAME[2]);
+			roomC.setId(1);
+            roomC.setName(ROOM_NAME[2]);
 			
 			MeetingRoom roomD = new MeetingRoom();
-			roomD.setId(4);
-			roomD.setName(ROOM_NAME[3]);
+			roomD.setId(1);
+            roomD.setName(ROOM_NAME[3]);
 			
 			MeetingRoom roomE = new MeetingRoom();
-			roomE.setId(5);
-			roomE.setName(ROOM_NAME[4]);
+			roomE.setId(1);
+            roomE.setName(ROOM_NAME[4]);
 			
 			meetingRoomList.add(roomA);
 			meetingRoomList.add(roomB);
@@ -62,19 +63,19 @@ public class MeetingRoomManager {
 			userA.setName(new Name("Winfred", "D", "VILL"));
 			userA.setId("1234");
 			
-			ReservationManager.reserve(roomA, 1, userA);
-			ReservationManager.reserve(roomA, 3, userA);
-			ReservationManager.reserve(roomA, 5, userA);
-			ReservationManager.reserve(roomA, 7, userA);
-			ReservationManager.reserve(roomA, 8, userA);
+            ReservationManager.reserve(roomA, 1, userA);
+            ReservationManager.reserve(roomA, 3, userA);
+            ReservationManager.reserve(roomA, 5, userA);
+            ReservationManager.reserve(roomA, 7, userA);
+            ReservationManager.reserve(roomA, 8, userA);
 			
-			for(int i = 0; i < roomA.getUserIsHolding().length; i++){
-				if(roomA.getUserIsHolding()[i] == null){
-					System.out.println(roomA.getUserIsHolding()[i] + " WAS NOT ADDED");
-				}else{
-					System.out.println(roomA.getUserIsHolding()[i] + " WAS ADDED");
-				}
-			}
+            for(int i = 0; i < roomA.getUserIsHolding().length; i++){
+                if(roomA.getUserIsHolding()[i] == null){
+                    System.out.println(roomA.getUserIsHolding()[i] + " WAS NOT ADDED");
+                }else{
+                    System.out.println(roomA.getUserIsHolding()[i] + " WAS ADDED");
+                }
+            }
 		}
 		return instance;
 	}
@@ -111,11 +112,11 @@ public class MeetingRoomManager {
 	
 	public MeetingRoomList getAllMeetingRooms(){
 		for(int i = 0; i < meetingRoomList.size(); i++){
-			for(int j = 0; j < meetingRoomList.get(i).getUserIsHolding().length; j++){
-				System.out.println(meetingRoomList.get(i).getName() + "at space " + (j+9) + ": " + meetingRoomList.get(i).getUserIsHolding()[j]);
+			for(int j = 0; j < MeetingRoomTimeSlots.slots.length; j++){
+				System.out.println(meetingRoomList.get(i).getName() + ": " + meetingRoomList.get(i).getUserIsHolding()[j]);
 			}
 		}
-		return meetingRoomList;
+		return this.meetingRoomList;
 	}
 	
 	public void validateUserReservations(User user){

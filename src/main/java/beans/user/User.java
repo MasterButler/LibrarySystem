@@ -46,7 +46,7 @@ public class User {
 		this.hasTempPassword = false;
 		this.reservationList = new MeetingRoomReservedList();
 		
-		for(int i = 0; i < MeetingRoomManager.getRoomNames().length; i++){
+		for(int i = 0; i < MeetingRoomManager.ROOM_NAME.length; i++){
 			this.reservationList.add(new ArrayList<Status>());
 		}
 	}	

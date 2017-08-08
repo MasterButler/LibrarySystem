@@ -16,10 +16,10 @@
 	Start of list <br>
 	<table>
 		<tr>
-			<td> Title
-			<td> Due On
-			<td> Status
-			<td> 
+			<td align="center"> Title </td>
+			<td align="center"> Due On </td>
+			<td align="center"> Status </td>
+			<td> </td>
 		</tr>
 		<c:forEach items="${user.literatureList}" var="literature">
 			<tr>

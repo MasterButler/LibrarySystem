@@ -21,13 +21,13 @@ public class UserManager {
 			
 			userList = new UserList();
 			
-			User userRandom = new User();
-			userRandom.setCredentials(new LoginCredentials("aaaaa", "aaaaa"));
-			userRandom.setEmail("aaa@a.a");
-			userRandom.setName(new Name("AAA", "A", "AAAAA"));
-			userRandom.setId("AAAAAAA");
-			userRandom.setUserType(UserTypes.STUDENT.getValue());
-			
+            User userRandom = new User();
+            userRandom.setCredentials(new LoginCredentials("aaaaa", "aaaaa"));
+            userRandom.setEmail("aaa@a.a");
+            userRandom.setName(new Name("AAA", "A", "AAAAA"));
+            userRandom.setId("AAAAAAA");
+            userRandom.setUserType(UserTypes.STUDENT.getValue());
+            
 			User userA = new User();
 			userA.setCredentials(new LoginCredentials("WinVillaluna","1234"));
 			userA.setEmail("winfredvillaluna@google.com");

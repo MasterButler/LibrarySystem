@@ -8,11 +8,12 @@ public class AttributeDictionary {
 	public static final String STAFFLIST = "stafflist";
 	public static final String MANAGERLIST = "managerlist";
 	public static final String MEETING_ROOM_LIST = "meetingroomlist";
-	public static final String MEETING_ROOM_NAME = "room";
-		
-	public static final String MEETING_ROOM_RESERVATION_SUCCESS = "meeting_room_reservation_bool";
-	public static final String MEETING_ROOM_INDEX = "row";
-	public static final String MEETING_TIME_INDEX = "col";
-	public static final String MEETING_ROOM_TIME_START = "time_start";
-	public static final String MEETING_ROOM_TIME_END = "time_end";
+    public static final String MEETING_ROOM_NAME = "room";
+    
+    public static final String MEETING_ROOM_RESERVATION_SUCCESS = "meeting_room_reservation_bool";
+    public static final String MEETING_ROOM_INDEX = "row";
+    public static final String MEETING_TIME_INDEX = "col";
+    public static final String MEETING_ROOM_TIME_START = "time_start";
+    public static final String MEETING_ROOM_TIME_END = "time_end";
+
 }
