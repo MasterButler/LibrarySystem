@@ -12,11 +12,11 @@ public class Literature extends LibraryObject{
 	public static final int FIELD_TITLE = 1;
 	public static final int FIELD_AUTHOR = 2;
 	public static final int FIELD_PUBLISHER= 3;
-	
-	
+		
 	private long id;
+	private Status status;
+
 	private String dds;
-	
 	private String title;
 	private String publisher;
 	private Date datePublished;
@@ -26,7 +26,29 @@ public class Literature extends LibraryObject{
 	
 	public Literature(){
 		super();
+		status = new Status();
 		authors = new NameList();
+	}
+	
+	public boolean isBorrowable(){
+		if(status.getAvailability() == Status.STATUS_AVAILABLE)
+			return true;
+		return false;
+	}
+	
+	public boolean isNotOut(){
+		if(status.getAvailability() != Status.STATUS_OUT){
+			return true;
+		}
+		return false;
+	}
+	
+	public void setStatus(Status status){
+		this.status = status;
+	}
+	
+	public Status getStatus(){
+		return this.status;
 	}
 	
 	public Date getDatePublished() {

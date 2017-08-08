@@ -104,7 +104,7 @@ public class LiteratureManager {
 	}
 	
 	public boolean reserve(Literature literature, User user){
-		if(ReservationManager.reserve((LibraryObject)literature, user)){
+		if(ReservationManager.reserve(literature, user)){
 			user.addToLiteratureList(literature);
 			return true;
 		}

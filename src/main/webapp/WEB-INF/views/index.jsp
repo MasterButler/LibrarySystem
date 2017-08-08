@@ -36,6 +36,7 @@
 					<c:choose>
 						<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value ||
 										sessionScope.user.userType == UserTypes.STUDENT.value}">
+							<a href="my_roomlist">My Room Reservations</a><br>
 							<a href="my_literaturelist">My Borrowed Readings</a><br>
 						</c:when>
 						

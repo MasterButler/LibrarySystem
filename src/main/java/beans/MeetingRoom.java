@@ -4,12 +4,13 @@ import beans.user.User;
 
 public class MeetingRoom extends LibraryObject{
 	
-	private User[] userIsHolding;
+	private Status[] userIsHolding;
+	
 	String name;
 	long id;
 	
 	public MeetingRoom(){
-		userIsHolding = new User[22];
+		userIsHolding = new Status[MeetingRoomTimeSlots.slots.length];
 	}
 	
 	public int getLibraryObjectType() {
@@ -21,29 +22,11 @@ public class MeetingRoom extends LibraryObject{
 		this.libraryObjectType = LibraryObjectTypes.MEETING_ROOMS.getValue();		
 	}
 	
-	public boolean addMeeting(int[] time, User[] list){
-		for(int i = 0; i < time.length; i++){
-			if(userIsHolding[time[i]] == null){
-				userIsHolding[time[i]] = list[i];
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean addMeeting(int time, User user){
-		if(userIsHolding[time] == null){
-			userIsHolding[time] = user;
-			return true;
-		}
-		return false;
-	}
-
-	public User[] getUserIsHolding() {
+	public Status[] getUserIsHolding() {
 		return userIsHolding;
 	}
 
-	public void setUserIsHolding(User[] userIsHolding) {
+	public void setUserIsHolding(Status[] userIsHolding) {
 		this.userIsHolding = userIsHolding;
 	}
 

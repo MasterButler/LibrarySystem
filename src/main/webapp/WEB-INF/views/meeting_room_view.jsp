@@ -1,3 +1,4 @@
+<%@page import="manager.MeetingRoomManager"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix ="form" uri="http://www.springframework.org/tags/form"%>
@@ -6,9 +7,12 @@
 
 <%@ page import="beans.user.UserTypes" %>
 <%@ page import="beans.LibraryObjectTypes" %>
-<%@ page import="util.DateUtil" %>    
 <%@ page import="beans.Literature" %>
+<%@ page import="beans.MeetingRoom" %>
 <%@ page import="beans.MeetingRoomTimeSlots" %>
+<%@ page import="util.DateUtil" %>    
+<%@ page import="manager.MeetingRoomManager" %>
+<%@ page import="util.AttributeDictionary" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,18 +23,82 @@
 	<script>
 		$(document).ready(function(){
 		    $('a.toggleReservationUp').click(function(){
-		        $(this).toggleClass("toggleReservationDown");
+		    	if($(this).hasClass("toggleReservationDown")){
+		    		$(this).removeClass("toggleReservationDown").addClass("toggleReservationUp");
+		    		
+		    		$(".reservation_Information").hide();
+		    	}else{
+		    		$(".toggleReservationDown").removeClass("toggleReservationDown").addClass("toggleReservationUp");
+			    	$(this).removeClass("toggleReservationUp").addClass("toggleReservationDown");
+			    	
+				   	var $td = $(this).closest('td');
+				    var col = $td.index() - 1;
+				    var $tr = $(this).closest('tr');
+				    var row = $tr.index() - 2;
+				    
+					console.log(col);
+					var importedListTime = [
+					<%	String[] list = MeetingRoomTimeSlots.getSlots();
+						for(int i = 0; i < list.length; i++){					%>
+							"<%=list[i]%>"
+					<%		if(i + 1 < list.length){ 							%>
+								,
+					<%		}							    					
+						}														%>
+					];
+					
+					
+					var importedRoom =[
+					<% 	String[] roomList = MeetingRoomManager.getRoomNames();
+						for(int i = 0; i < roomList.length; i++){				%>
+							"<%=roomList[i]%>"
+					<%		if(i + 1 < list.length){ 							%>
+								,
+					<%		}							    					
+						}														%>
+					];
+					
+					console.log("var=\"${AttributeDictionary.MEETING_ROOM_INDEX}\"");
+					console.log("var=\"${AttributeDictionary.MEETING_ROOM_INDEX}\" value=\"" + row + "\"/>");
+					
+					var appendTime = importedListTime[col];
+					var appendRoom = importedRoom[row]; 
+					var format =
+						"<table>" +
+							"<tr>" + 
+								"<td colspan = \"2\" align = \"center\">Booking Details</td>" +
+							"</tr>" +
+							"<tr>" + 
+								"<td>Room Name </td>" +
+								"<td>" + appendRoom + "</td>" +
+							"</tr>" + 
+							"<tr>" + 
+								"<td>Reservation Time</td>" +
+								"<td>" + appendTime + "</td>" + 
+							"</tr>" +
+						"</table>" +
+						"<form method=\"POST\" action=\"meeting_room_reserve?" +
+								"${AttributeDictionary.MEETING_ROOM_INDEX}=" + row + 
+								"&${AttributeDictionary.MEETING_TIME_INDEX}=" + col + "\">" +
+							"<table>" +
+								"<tr>" +    
+									"<td><button type = \"submit\" value = \"reserve\">Confirm Reservation</button></td>" +
+								"</tr>" + 
+							"</table>" + 
+						"</form>";
+					
+					$(".reservation_Information").show();
+					$(".reservation_Information").html(format);
+		    	}
+		    	
+
 		    });
 		});
-		
-		resetReservationClicks(){
-			
-		}
 	</script>
 	
 	<style>
 		a.toggleReservationUp {
-		    width: 25px; 
+		    width: 55px; 
 		    height: 25px; 
 		    float:left; 
 		    display: block; 
@@ -44,13 +112,13 @@
 	    }
 	
 		a.toggleReservationDown {
-		    width: 25px; 
+			width: 55px; 
 		    height: 25px; 
-		    float:left; 
-		    display: block; 
-		    background-color:#F5B93C;   
+		    float:left;
+		    display: block;    
 			border-style:solid; 
-			border-color:white;     
+			border-color:white; 
+		    background-color:#F5B93C;     
 	    }
 	    
 	    a.toggleReservationDown:hover{
@@ -60,7 +128,7 @@
 
 </head>
 <body>
-		
+		Back to <a href="./">Homepage</a>
 		<table style="font-family:arial;font-size:10px;" cellpadding = "0" cellspacing="1" >
 			<tr>
 				<td colspan="<%=MeetingRoomTimeSlots.slots.length + 1%>" align="center">
@@ -82,48 +150,37 @@
 						<c:forEach items = "${MeetingRoomTimeSlots.slots}" var = "timeslot" varStatus="loop">
 							<td>
 								<div style="width:60px;height:25px;float:left;background-color:#7ABCDE">
-									<c:set var="indexA" value="${loop.index}" />
-									<c:set var="indexA" value="${2 * indexA}" />
 									
-									<c:set var="indexB" value="${loop.index}" />
-									<c:set var="indexB" value="${2 * indexB + 1}" />
+									<c:set var="index" value = "${loop.index}"/>
 									
 									<c:set var="meetingroom" value = "${meetingroomlist[roomNum]}"/>
 									<c:set var="userList" value = "${meetingroom.userIsHolding}"/>
 									
-									<c:set var="userListTimeA" value = "${userList[indexA]}"/>
-									<c:set var="userListTimeB" value = "${userList[indexB]}"/>
+									<c:set var="userListTime" value = "${userList[index]}"/>
 									
 									<!-- 
 									<c:out value="${indexA}"/> and <c:out value="${indexB}"/>
 									${userListTimeA.name.firstName}
 									 -->
 									<c:choose> 
-										<c:when test="${userListTimeA == null}">
+										<c:when test="${userListTime == null}">
 											<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;">
 											</a>
 										</c:when>
-										<c:otherwise>
-											<div style="width: 25px; height: 25px; float:left; display: block; 
-											border-width: 0px 1px 0px 0px;  
-											border-style:solid; 
-											border-color: transparent;
-											padding-right:4px">
-											</div>
-										</c:otherwise>
 									</c:choose>
-									<c:choose>
-										<c:when test="${userListTimeB == null}">
-											<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 1px; margin-right:0px;">
-											</a>
-										</c:when>
-									</c:choose>
+
 								</div>
 							</td>
 						</c:forEach>
 					</tr>
 				</c:forEach>
 		</table>
+		
+		<div class = "reservation_Information">
+			
+			<!-- 
+			Reserving Room at Time Slot ${MeetingRoomTimeSlots.slots[selectedColumn]} -->
+		</div>
 </body>
 
 

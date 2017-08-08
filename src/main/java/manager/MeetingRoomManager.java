@@ -9,6 +9,17 @@ public class MeetingRoomManager {
 	private static volatile MeetingRoomManager instance;
 
 	private static MeetingRoomList meetingRoomList;
+
+	public static final String[] ROOM_NAME = {
+			"Room A",
+			"Room B",
+			"Room C",
+			"Room D",
+			"Room E"};
+
+	public static String[] getRoomNames(){
+		return ROOM_NAME;
+	}
 	
 	private MeetingRoomManager(){
 		
@@ -22,23 +33,23 @@ public class MeetingRoomManager {
 			
 			MeetingRoom roomA = new MeetingRoom();
 			roomA.setId(1);
-			roomA.setName("Room A");
+			roomA.setName(ROOM_NAME[0]);
 			
 			MeetingRoom roomB = new MeetingRoom();
 			roomB.setId(2);
-			roomB.setName("Room B");
+			roomB.setName(ROOM_NAME[1]);
 			
 			MeetingRoom roomC = new MeetingRoom();
-			roomC.setId(1);
-			roomC.setName("Room C");
+			roomC.setId(3);
+			roomC.setName(ROOM_NAME[2]);
 			
 			MeetingRoom roomD = new MeetingRoom();
-			roomD.setId(1);
-			roomD.setName("Room D");
+			roomD.setId(4);
+			roomD.setName(ROOM_NAME[3]);
 			
 			MeetingRoom roomE = new MeetingRoom();
-			roomE.setId(1);
-			roomE.setName("Room E");
+			roomE.setId(5);
+			roomE.setName(ROOM_NAME[4]);
 			
 			meetingRoomList.add(roomA);
 			meetingRoomList.add(roomB);
@@ -50,20 +61,32 @@ public class MeetingRoomManager {
 			userA.setName(new Name("Winfred", "D", "VILL"));
 			userA.setId("1234");
 			
-			roomA.addMeeting(9, userA);
-			roomA.addMeeting(10, userA);
-			roomA.addMeeting(12, userA);
-			roomA.addMeeting(14, userA);
-			roomA.addMeeting(18, userA);
-			roomA.addMeeting(19, userA);
+			ReservationManager.reserve(roomA, 1, userA);
+			ReservationManager.reserve(roomA, 3, userA);
+			ReservationManager.reserve(roomA, 5, userA);
+			ReservationManager.reserve(roomA, 7, userA);
+			ReservationManager.reserve(roomA, 8, userA);
 			
-			if(roomA.getUserIsHolding()[10] == null){
-				System.out.println("IT WAS NOT ADDED");
-			}else{
-				System.out.println("IT WASS ADDED");
+			for(int i = 0; i < roomA.getUserIsHolding().length; i++){
+				if(roomA.getUserIsHolding()[i] == null){
+					System.out.println(roomA.getUserIsHolding()[i] + " WAS NOT ADDED");
+				}else{
+					System.out.println(roomA.getUserIsHolding()[i] + " WAS ADDED");
+				}
 			}
 		}
 		return instance;
+	}
+
+	public boolean reserve(int meetingRoomIndex, int timeSlotIndex, User user){
+		if(ReservationManager.reserve(getMeetingRoomByIndex(meetingRoomIndex), timeSlotIndex, user)){
+			return true;
+		}
+		return false;
+	}
+	
+	public MeetingRoom getMeetingRoomByIndex(int index){
+		return meetingRoomList.get(index);
 	}
 	
 	public MeetingRoom getMeetingRoomByID(long id){
@@ -85,11 +108,11 @@ public class MeetingRoomManager {
 	}
 	
 	public MeetingRoomList getAllMeetingRooms(){
-		for(int i = 0; i < 5; i++){
-			for(int j = 0; j < 22; j++){
-				System.out.println(meetingRoomList.get(i).getName() + ": " + meetingRoomList.get(i).getUserIsHolding()[j]);
+		for(int i = 0; i < meetingRoomList.size(); i++){
+			for(int j = 0; j < meetingRoomList.get(i).getUserIsHolding().length; j++){
+				System.out.println(meetingRoomList.get(i).getName() + "at space " + (j+9) + ": " + meetingRoomList.get(i).getUserIsHolding()[j]);
 			}
 		}
-		return this.meetingRoomList;
+		return meetingRoomList;
 	}
 }
