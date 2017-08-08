@@ -1,13 +1,19 @@
 package beans.user;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import beans.Literature;
+import beans.MeetingRoom;
+import beans.MeetingRoomReservedList;
 import beans.Name;
+import beans.Status;
 import beans.list.LiteratureList;
+import beans.list.MeetingRoomList;
 import manager.LiteratureManager;
+import manager.MeetingRoomManager;
 import util.DateUtil;
 
 public class User {
@@ -23,7 +29,12 @@ public class User {
 	private Date birthday;
 	private int userType;
 	
+	//TODO These TWO lists in particular, I've only placed 
+	//to track currently reserved books. We can remove this once
+	//db is impelmented, but I'll leave that to you guys. call nyo na to
+	//-win
 	private LiteratureList literatureList;
+	private MeetingRoomReservedList reservationList;
 	
 	private boolean hasTempPassword;
 	
@@ -33,6 +44,15 @@ public class User {
 		this.birthday = new Date();
 		this.literatureList = new LiteratureList();
 		this.hasTempPassword = false;
+		this.reservationList = new MeetingRoomReservedList();
+		
+		for(int i = 0; i < MeetingRoomManager.getRoomNames().length; i++){
+			this.reservationList.add(new ArrayList<Status>());
+			this.reservationList.add(new ArrayList<Status>());
+			this.reservationList.add(new ArrayList<Status>());
+			this.reservationList.add(new ArrayList<Status>());
+			this.reservationList.add(new ArrayList<Status>());
+		}
 	}	
 	
 	public boolean getHasTempPassword() {
@@ -104,5 +124,18 @@ public class User {
 			}
 		}
 		return false;
+	}
+	
+	public boolean addToReservationList(int roomIndex, Status status){
+		reservationList.get(roomIndex).add(status);
+		return false;
+	}
+
+	public MeetingRoomReservedList getReservationlist() {
+		return reservationList;
+	}
+
+	public void setReservationlist(MeetingRoomReservedList reservationlist) {
+		this.reservationList = reservationlist;
 	}
 }
