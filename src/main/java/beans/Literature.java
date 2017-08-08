@@ -3,6 +3,8 @@ package beans;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import beans.list.NameList;
 import beans.list.ReviewList;
 
@@ -17,6 +19,7 @@ public class Literature extends LibraryObject{
 	
 	private String title;
 	private String publisher;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date datePublished;
 	private NameList authors;
 	

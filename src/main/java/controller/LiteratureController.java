@@ -114,13 +114,18 @@ public class LiteratureController {
 	//TODO add lits
 	@RequestMapping(value="/literature_add", method = RequestMethod.GET)
 	public ModelAndView showAddLiterature(){
+		ModelAndView mv; 
 		Literature toCreate = new Literature();
 		
 		NameList nameList = new NameList();
 		nameList.add(new Name());
 		
 		toCreate.setAuthors(nameList);
-		ModelAndView mv = new ModelAndView("literature_add", AttributeDictionary.LITERATURE, toCreate);
+		
+		System.out.println("IN HERE HEHE");
+//		mv = new ModelAndView("literature_add", AttributeDictionary.LITERATURE, toCreate);
+		long id = createBlankBook(toCreate);
+		mv = new ModelAndView("redirect:/literature_edit?id=" + id);
 		return mv;
 	}
 	
@@ -171,5 +176,9 @@ public class LiteratureController {
 		model.addAttribute(AttributeDictionary.LITERATURE, literature);
 		
 		return "/index";
+	}
+	
+	public long createBlankBook(Literature literature){
+		return LiteratureManager.getInstance().addLiterature(literature);
 	}
 }

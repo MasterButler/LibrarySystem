@@ -44,11 +44,11 @@
 		    	</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.BOOK.value}" label="${LibraryObjectTypes.BOOK.name}"/>
 					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.MAGAZINE.value}" label="${LibraryObjectTypes.MAGAZINE.name}"/>
 					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.THESIS.value}" label="${LibraryObjectTypes.THESIS.name}"/>
-				<td>
+				</td>
 			</tr>
 			
 	  		<tr>

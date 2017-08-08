@@ -90,7 +90,7 @@
 		
 	    <br>
 		
-		<p><fmt:formatDate pattern = "${DateUtil.DATE_FORMAT }" value = "${literature.datePublished}" /></p>
+		<fmt:formatDate pattern = "${DateUtil.DATE_FORMAT }" value = "${literature.datePublished}" />
 		
 		<c:choose>
 			<c:when test="${user.userType > UserTypes.FACULTY.value}">

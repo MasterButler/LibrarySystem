@@ -69,13 +69,13 @@ public class LiteratureManager {
 		return null;
 	}
 
-	public boolean addLiterature(Literature literature){
+	public long addLiterature(Literature literature){
 		long id = literatureList.size();
 		literature.setId(id);
 		if(literatureList.add(literature)){
-			return true;
+			return id;
 		}
-		return false;
+		return -1;
 	}
 	
 	private static Literature createLiterature(String id, String dds, String title, int type, String publisher, String datePublished, NameList authors, Status status){
