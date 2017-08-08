@@ -1,5 +1,6 @@
 package manager;
 
+import beans.Literature;
 import beans.MeetingRoom;
 import beans.Name;
 import beans.list.MeetingRoomList;
@@ -80,6 +81,7 @@ public class MeetingRoomManager {
 
 	public boolean reserve(int meetingRoomIndex, int timeSlotIndex, User user){
 		if(ReservationManager.reserve(getMeetingRoomByIndex(meetingRoomIndex), timeSlotIndex, user)){
+			user.getReservationList().get(meetingRoomIndex).add(getMeetingRoomByIndex(meetingRoomIndex).getUserIsHolding()[timeSlotIndex]);
 			return true;
 		}
 		return false;
@@ -114,5 +116,15 @@ public class MeetingRoomManager {
 			}
 		}
 		return meetingRoomList;
+	}
+	
+	public void validateUserReservations(User user){
+		for(int i = 0; i < user.getReservationList().size(); i++){
+			for(int j = 0; j < user.getReservationList().get(i).size(); j++){
+				if(!user.getReservationList().get(i).get(j).getCurrentHolder().getId().equals(user.getId())){
+					user.getReservationList().get(i).remove(j);
+				}
+			}
+		}
 	}
 }

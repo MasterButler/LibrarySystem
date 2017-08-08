@@ -48,10 +48,6 @@ public class User {
 		
 		for(int i = 0; i < MeetingRoomManager.getRoomNames().length; i++){
 			this.reservationList.add(new ArrayList<Status>());
-			this.reservationList.add(new ArrayList<Status>());
-			this.reservationList.add(new ArrayList<Status>());
-			this.reservationList.add(new ArrayList<Status>());
-			this.reservationList.add(new ArrayList<Status>());
 		}
 	}	
 	
@@ -131,11 +127,11 @@ public class User {
 		return false;
 	}
 
-	public MeetingRoomReservedList getReservationlist() {
+	public MeetingRoomReservedList getReservationList() {
 		return reservationList;
 	}
 
-	public void setReservationlist(MeetingRoomReservedList reservationlist) {
+	public void setReservationList(MeetingRoomReservedList reservationlist) {
 		this.reservationList = reservationlist;
 	}
 }

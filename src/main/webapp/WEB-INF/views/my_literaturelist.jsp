@@ -23,18 +23,22 @@
 		</tr>
 		<c:forEach items="${user.literatureList}" var="literature">
 			<tr>
-				<td>${literature.title}
-				<td>${literature.status.dateBorrowEnd}
+				<td>${literature.title}</td>
+				<td>
+					<fmt:formatDate value="${literature.status.dateBorrowEnd}" pattern="${DateUtil.NUMBER_FORMAT}"/>
+					<br>
+					<fmt:formatDate value="${literature.status.dateBorrowEnd}" pattern="${DateUtil.TIME_FORMAT}"/>
+				</td>
 				
 					<c:choose>
 						<c:when test="${literature.status.availability == Status.STATUS_OUT}">
-							<td>Out
-							<td>
+							<td>Out</td>
+							<td></td>
 						</c:when>
 					
 						<c:when test="${literature.status.availability == Status.STATUS_RESERVED}">
-							<td>Reserved
-							<td><a href = "borrow_literature?id=<c:out value="${literature.id}"/>">Borrow Book</a>
+							<td>Reserved</td>
+							<td><a href = "borrow_literature?id=<c:out value="${literature.id}"/>">Borrow Book</a></td>
 						</c:when>
 					</c:choose>
 				<td>
