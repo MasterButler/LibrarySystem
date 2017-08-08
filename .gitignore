@@ -1,0 +1,8 @@
+/.metadata/
+target/m2e-wtp/web-resources/.gitignore
+target/classes/.gitignore
+target/.gitignore
+src/main/webapp/WEB-INF/views/meeting_room_reservation_result.jsp
+src/main/java/Handler/ErrorHandler.java
+src/main/java/Handler.java
+RemoteSystemsTempFiles/.project
