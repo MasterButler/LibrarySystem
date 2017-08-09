@@ -3,7 +3,9 @@
 <%@ taglib prefix ="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-   
+    
+<%@ page import="beans.user.UserTypes" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,12 +39,12 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="#">DLSU Library System</a>
+	      <a class="navbar-brand" href="index">DLSU Library System</a>
 	    </div>
 	    
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       		<ul class="nav navbar-nav navbar-left">
-      			<li><a href="literatures">Books</a></li>
+      			<li><a href="literatures">Literatures</a></li>
 		        <li><a href="meeting_room_view">Rooms</a></li>
       		</ul>
       		
@@ -54,7 +56,7 @@
         			<li><a href="login">Login</a></li>
 				</c:when>
 				
-				<c:otherwise>
+				<c:when test="${sessionScope.user != null}">
 					<c:choose>				
 						<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value ||
 										sessionScope.user.userType == UserTypes.STUDENT.value}">
@@ -66,15 +68,13 @@
 						</c:when>
 						
 						<c:when test="${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
+							<li><a href="#">Hello, Admin ${sessionScope.user.name.firstName}</a></li>
 							<li><a href="staff_list">Library Staffs</a></li>
 							<li><a href="manager_list">Library Managers</a></li>
-							<li><a href="admin_account_create">Create Higher Level Users</a></li>
-							
-							<li><a href="#">Hello, Admin ${sessionScope.user.name.firstName}</a></li>
 					        <li><a href="logout">Logout</a></li>
 						</c:when>	
 					</c:choose>
-				</c:otherwise>
+				</c:when>
 			</c:choose>			
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
