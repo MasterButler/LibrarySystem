@@ -16,7 +16,7 @@ import util.AttributeDictionary;
 @Scope("session")
 public class MeetingRoomController {
 	
-	@RequestMapping(value = "/meeting_room", method = RequestMethod.GET)
+	@RequestMapping(value = "/meeting_room_view", method = RequestMethod.GET)
 	public ModelAndView showMessage() {
 			System.out.println("in controller");
 	 

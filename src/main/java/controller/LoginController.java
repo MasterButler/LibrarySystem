@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.user.LoginCredentials;
 import beans.user.User;
 import handler.ErrorHandler;
+import handler.SessionHandler;
+import handler.TextHandler;
 import manager.LoginManager;
 import manager.UserManager;
 import util.AttributeDictionary;
@@ -24,7 +26,7 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView showLogin(
 			HttpServletRequest request){
-		
+
 		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
 		if(user == null){
 			ModelAndView mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
@@ -42,19 +44,20 @@ public class LoginController {
 		if(LoginManager.getInstance().authenticate(credentials)){
 			System.out.println("A");
 			request.getSession().setAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
+			request.getSession().setMaxInactiveInterval(SessionHandler.MAX_INACTIVE_INTERVAL);
 			model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername ()));
 			return "index";
 		}else{
 			System.out.println("B");
 			model.addAttribute(AttributeDictionary.LOGIN, credentials);
 			model.addAttribute("loginErrorMessage", "The entered username/password is incorrect");
-			return "login";
 		}
+		return "login";
 	}
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request){
 		request.getSession().setAttribute(AttributeDictionary.USER, null);
-		return "index";
+		return ErrorHandler.goToHomePageString();
 	}
 }

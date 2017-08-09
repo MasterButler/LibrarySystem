@@ -13,6 +13,7 @@ import beans.Literature;
 import beans.user.LoginCredentials;
 import beans.user.User;
 import beans.user.UserTypes;
+import handler.ErrorHandler;
 import manager.LiteratureManager;
 import manager.ReservationManager;
 import manager.UserManager;
@@ -52,6 +53,7 @@ String message = "Welcome to Spring MVC!";
 		
 		ModelAndView mv;
 		
+		
 		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
 			Literature lit = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
 			User user = UserManager.getInstance().searchUserById(((User)request.getSession().getAttribute(AttributeDictionary.USER)).getId());
@@ -61,10 +63,10 @@ String message = "Welcome to Spring MVC!";
 			mv.addObject("literature", lit);
 			mv.addObject("literature_reservation_bool", successful);
 			request.getSession().setAttribute(AttributeDictionary.USER, user);
-		}else{
-			mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
+			
+			return mv;
 		}
-		return mv;
+		return ErrorHandler.goToLogin();
 	}
 	
 	@RequestMapping("/reservation_override/confirmation")
@@ -82,13 +84,13 @@ String message = "Welcome to Spring MVC!";
 				
 				request.getSession().setAttribute(AttributeDictionary.USER, user);
 				mv = new ModelAndView("literature_reservation_result");
+				
 				mv.addObject("literature", lit);
 				mv.addObject("literature_reservation_bool", successful);
 				return mv;
 			}
 		}
-		mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
-		return mv;
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	@RequestMapping("/my_literaturelist")
@@ -100,30 +102,33 @@ String message = "Welcome to Spring MVC!";
 		if(user != null){
 			LiteratureManager.getInstance().validateUserList(user); //TODO delete once db implementation is implemented
 			mv = new ModelAndView("my_literaturelist");
-		}else{
-			mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
 		}
-		return mv;
+		return ErrorHandler.goToLogin();
 	}
 	
 	@RequestMapping("/borrow_literature")
 	public String borrowLiterature(
 			HttpServletRequest request,
 			@RequestParam(value="id", required = true) String id){
-		Literature toBorrow = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
-		String currentHolderId = toBorrow.getStatus().getCurrentHolder().getId();
+		
 		User loggedUser = (User) request.getSession().getAttribute(AttributeDictionary.USER);
-		String loggedUserId = loggedUser.getId();
-		
-		System.out.println("LITERARY ID          : " + toBorrow.getId());
-		System.out.println("CURRENT ID YOU HAVE  : " + currentHolderId);
-		System.out.println("LOGGED USER ID OF LIT: " + loggedUserId);
-		
-		if(currentHolderId.equalsIgnoreCase(loggedUserId)){
-			LiteratureManager.getInstance().borrow(toBorrow);
-			System.out.println("BORROWED");
+		if(loggedUser != null){
+			Literature toBorrow = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
+			String currentHolderId = toBorrow.getStatus().getCurrentHolder().getId();
+			String loggedUserId = loggedUser.getId();
+			
+			System.out.println("LITERARY ID          : " + toBorrow.getId());
+			System.out.println("CURRENT ID YOU HAVE  : " + currentHolderId);
+			System.out.println("LOGGED USER ID OF LIT: " + loggedUserId);
+			
+			if(currentHolderId.equalsIgnoreCase(loggedUserId)){
+				LiteratureManager.getInstance().borrow(toBorrow);
+				System.out.println("BORROWED");
+			}
+			//TODO fix variable currentHolder in Status.java and add cross checking if requesting user and reserved user is the same to finish the borrowing sequence
+			return "my_literaturelist";
 		}
-		//TODO fix variable currentHolder in Status.java and add cross checking if requesting user and reserved user is the same to finish the borrowing sequence
-		return "my_literaturelist";
+		
+		return ErrorHandler.goToLoginString();
 	}
 }

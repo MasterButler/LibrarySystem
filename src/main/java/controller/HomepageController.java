@@ -19,7 +19,7 @@ String message = "Welcome to Spring MVC!";
 		return "index";
 	}
 	
-	@RequestMapping(value={"/*"})
+	@RequestMapping(value={"/**"})
 	public String showUnknownPage(HttpServletRequest request){
 		return "not_found";
 	}

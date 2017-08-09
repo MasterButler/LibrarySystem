@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import beans.list.NameList;
 import beans.list.ReviewList;
+import beans.user.User;
+import beans.user.UserTypes;
 
 public class Literature extends LibraryObject{
 	
@@ -14,6 +16,11 @@ public class Literature extends LibraryObject{
 	public static final int FIELD_TITLE = 1;
 	public static final int FIELD_AUTHOR = 2;
 	public static final int FIELD_PUBLISHER= 3;
+	
+	public static final int CATEGORY_ALL = 0;
+	public static final int CATEGORY_BOOKS = 0;
+	public static final int CATEGORY_THESIS = 0;
+	public static final int CATEGORY_MAGAZINES = 0;
 	
 	private String dds;
 	
@@ -35,6 +42,14 @@ public class Literature extends LibraryObject{
         if(status.getAvailability() == Status.STATUS_AVAILABLE)
             return true;
         return false;
+    }
+    
+    public boolean isBorrowable(User user){
+    	if(status.getAvailability() == Status.STATUS_AVAILABLE || 
+    		status.getAvailability() == status.STATUS_RESERVED && user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
+    		return true;
+    	}
+    	return false;
     }
     
     public boolean isNotOut(){

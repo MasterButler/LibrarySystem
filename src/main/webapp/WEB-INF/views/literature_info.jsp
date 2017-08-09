@@ -14,6 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	Back to <a href="literatures">Literature List</a>
 	<table style="width:100%">
   		<tr>
     		<td>Title</td>
@@ -47,10 +48,18 @@
 		<c:when test="${literature.status.availability == Status.STATUS_AVAILABLE}">
 			This ${litearture.type} is currently available.
 			<c:choose>
-				<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
-				 				sessionScope.user.userType == UserTypes.STUDENT.value}">
-					<a href = "reservation?id=<c:out value="${literature.id}"/>">Proceed to Reservation Page</a>
+				<c:when test="${sessionScope.user == null}">
+					<a href="login">Log in</a> to reserve this book.
 				</c:when>
+				
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
+						 				sessionScope.user.userType == UserTypes.STUDENT.value}">
+							<a href = "reservation?id=<c:out value="${literature.id}"/>">Proceed to Reservation Page</a>
+						</c:when>
+					</c:choose>
+				</c:otherwise>
 			</c:choose>
 		</c:when>
 	

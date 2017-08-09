@@ -40,6 +40,7 @@ public class LiteratureInfoController {
 		Literature toView = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
 		//ReviewList reviews = ReviewManager.getInstance().searchReviewsByLiteratureId();
 		ModelAndView mv = new ModelAndView("literature_info");
+		mv.addObject(AttributeDictionary.LITERATURE, toView);
 		return mv;
 	}
 	
@@ -50,11 +51,12 @@ public class LiteratureInfoController {
 		
 		ModelAndView mv;
 		User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
-		
+		System.out.println("IN HERE");
 		if(user != null){
-			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getNumValues() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getNumValues()){
+			System.out.println("NOT NULL");
+			System.out.println(user.getUserType());
+			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
 				Literature literature = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
-				
 				mv = new ModelAndView("literature_edit");
 				mv.addObject(AttributeDictionary.LITERATURE, literature);	
 				
@@ -90,9 +92,9 @@ public class LiteratureInfoController {
 		}else if(action.contains("Save")){
 			System.out.println("WHAT I GOT FROM DATE: " + DateUtil.displayDate(literature.getDatePublished()));
 			return saveEdit(request, model, literature);
-		}else{
-			return "/index";
 		}
+		return ErrorHandler.goToHomePageString();
+		
 	}
 	
 	public String addAuthors(HttpServletRequest request, ModelMap model, Literature literature){

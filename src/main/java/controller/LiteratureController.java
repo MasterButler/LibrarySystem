@@ -28,12 +28,20 @@ import util.AttributeDictionary;
 public class LiteratureController {
 	
 	@RequestMapping(value = "/literatures", method = RequestMethod.GET)
-	public ModelAndView showMessage() {
+	public ModelAndView showMessage(
+			@RequestParam(value="category", required = false) String category) {
 			System.out.println("in controller");
 	 
-			LiteratureList literatures = LiteratureManager.getInstance().getAllLiterature();
-			
 			ModelAndView mv = new ModelAndView("literatures");
+			LiteratureList literatures;
+			
+			if(category != null){
+				literatures = LiteratureManager.getInstance().getAllInCategory(Integer.parseInt(category));
+				mv.addObject(AttributeDictionary.LITERATURE_CATEGORY, category);
+			}else{
+				literatures = LiteratureManager.getInstance().getAllLiterature();
+			}
+			
 			mv.addObject(AttributeDictionary.LITERATURE_LIST, literatures);
 			return mv;
 	}
@@ -43,8 +51,11 @@ public class LiteratureController {
 		String searchString = request.getParameter("searchString");
 
 		int fieldType = Integer.valueOf(request.getParameter("field"));
-		LiteratureList literatures = null;; 
+		LiteratureList literatures = null;
 		literatures = LiteratureManager.getInstance().search(searchString, fieldType);
+		
+//		int categoryType = Integer.valueOf(request.getParameter("category"));
+//		literatures = LiteratureManager.getInstance().search(searchString, fieldType, categoryType);
 		
 		ModelAndView mv = new ModelAndView("literatures");
 		mv.addObject(AttributeDictionary.LITERATURE_LIST, literatures);

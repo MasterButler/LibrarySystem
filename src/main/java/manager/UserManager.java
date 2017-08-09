@@ -5,6 +5,7 @@ import beans.list.UserList;
 import beans.user.LoginCredentials;
 import beans.user.User;
 import beans.user.UserTypes;
+import handler.TextHandler;
 
 public class UserManager {
 	private static volatile UserManager instance;
@@ -21,11 +22,25 @@ public class UserManager {
 			
 			userList = new UserList();
 			
+			User userBad = new User();
+			userBad.setCredentials(new LoginCredentials("12345", "12345"));
+			userBad.setEmail("abcde@a.a");
+            userBad.setName(new Name(TextHandler.sanitize("<body onload=alert('test1')>"), "A", "AAAAA"));
+            userBad.setId("AAAAAAA");
+            userBad.setUserType(UserTypes.STUDENT.getValue());
+			
+			User userGood = new User();
+			userGood.setCredentials(new LoginCredentials("23456", "23456"));
+			userGood.setEmail("bcdef@a.a");
+            userGood.setName(new Name("<body onload=alert('test1')>", "A", "AAAAA"));
+            userGood.setId("BBBBB");
+            userGood.setUserType(UserTypes.STUDENT.getValue());
+            
             User userRandom = new User();
             userRandom.setCredentials(new LoginCredentials("aaaaa", "aaaaa"));
             userRandom.setEmail("aaa@a.a");
             userRandom.setName(new Name("AAA", "A", "AAAAA"));
-            userRandom.setId("AAAAAAA");
+            userRandom.setId("CCCCC");
             userRandom.setUserType(UserTypes.STUDENT.getValue());
             
 			User userA = new User();
@@ -77,6 +92,10 @@ public class UserManager {
 			adminA.setId("1");
 			adminA.setUserType(UserTypes.ADMINISTRATOR.getValue());
 			
+			System.out.println("ADD");
+			
+			userList.add(userGood);
+			userList.add(userBad);
 			userList.add(userRandom);
 			userList.add(userA);
 			userList.add(userB);

@@ -13,7 +13,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Insert title here</title>
-						
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>						
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 	
@@ -107,7 +108,7 @@
 		<table style="max-width:800px;">
         <tr>
             <td><form:label path="name.firstName">First Name</form:label></td>
-            <td><form:input path="name.firstName"/></td>
+            <td><form:input path="name.firstName" required="required"/></td>
         </tr>
         
         <tr>
@@ -117,39 +118,39 @@
         
         <tr>
             <td><form:label path="name.lastName">Last Name</form:label></td>
-            <td><form:input path="name.lastName"/></td>
+            <td><form:input path="name.lastName" required="required"/></td>
         </tr>
         
         <tr>
         	<td><form:label path="birthday">Birthday</form:label></td>
             <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="dd/MM/yyyy"/>
-			<td><form:input type="text" path="birthday" name="user.birthday" value="${fmtDate}"/></td>
+			<td><form:input type="date" path="birthday" name="user.birthday" value="${fmtDate}" required="required"/></td>
             	
         </tr>
          
         <tr>
-        	<td><form:radiobutton path="userType" value="${UserTypes.STUDENT.value}" label="${UserTypes.STUDENT.name}"/></td>
+        	<td><form:radiobutton path="userType" value="${UserTypes.STUDENT.value}" label="${UserTypes.STUDENT.name}" required="required"/></td>
         	<td><form:radiobutton path="userType" value="${UserTypes.FACULTY.value}" label="${UserTypes.FACULTY.name}"/></td>
         </tr>
         
         <tr>
             <td><form:label path="id">ID Number</form:label></td>
-            <td><form:input path="id"/></td>
+            <td><form:input path="id" required="required"/></td>
         </tr>
         
 		<tr>
             <td><form:label path="credentials.username">Username</form:label></td>
-            <td><form:input path="credentials.username"/></td>
+            <td><form:input path="credentials.username" required="required"/></td>
         </tr>        
         
         <tr>
             <td><form:label path="email">Email</form:label></td>
-            <td><form:input type = "email" path="email"/></td>
+            <td><form:input type = "email" path="email" required="required"/></td>
         </tr>
 
         <tr>
             <td><form:label path="credentials.password">Password</form:label></td>
-            <td><form:password id="password" path="credentials.password"/></td>
+            <td><form:password id="password" path="credentials.password" minlength="6" required="required"/></td>
         </tr> 
         <tr>
         	<td></td>
@@ -161,7 +162,7 @@
         
         <tr>
         	<td><form:label path="credentials.password">Confirm Password</form:label></td>
-            <td><form:password id="confirm_password" path="credentials.password"/></td>
+            <td><form:password id="confirm_password" path="credentials.password" required="required"/></td>
             <td><p id="password_match_result"></p></td>
         </tr>
         
@@ -174,7 +175,7 @@
         </tr>
                
         <tr>
-            <td><input type="submit" value="Save"/></td>
+            <td><input id="form_submit" type="submit" value="Save"/></td>
         </tr>
         
     	</table>
@@ -212,14 +213,21 @@
 		    }
 		});
 		
-		confirmpassword.addEventListener('input', function(){
-			var result = document.getElementById("password_match_result"); 
-			if(password.value == confirmpassword.value){
-				result.innerHTML = "Passwords match!"
-			}else{
-				result.innerHTML = "Passwords do not match!"
-			}
+		$('#password, #confirm_password').on('keyup', function(){
+			validatePassword();
 		});
+		
+		function validatePassword(){
+			$("password_match_result")
+			var result = document.getElementById("password_match_result"); 
+			if($("#password").val() == $("#confirm_password").val()){
+				$("#password_match_result").html("Matching!").css('color', 'green')
+			}else{
+				$("#password_match_result").html("Passwords do not match!").css('color', 'red')
+			}
+		}
+		
+		$('#form_submit').click('function')
 	</script>
 </body>
 </html>

@@ -116,7 +116,67 @@ public class LiteratureManager {
 		return true;
 	}
 	
+	public LiteratureList getAllInCategory(int category){
+		LiteratureList searched = new LiteratureList();
+		for(int i = 0; i < literatureList.size(); i++){
+			if(literatureList.get(i).getLibraryObjectType() == category){
+				searched.add(literatureList.get(i));
+			}
+		}
+		return searched;
+	}
+	
 	public LiteratureList search(String searchString, int field){
+		LiteratureList searched = new LiteratureList();
+		if(field == Literature.FIELD_ALL){
+			for(int i = 0; i < literatureList.size(); i++){
+				Literature currLit = literatureList.get(i);
+				
+				boolean isCriteriaMet = false;
+				if(matches(currLit.getTitle(), searchString)){
+					isCriteriaMet = true;
+				}else if(matches(currLit.getPublisher(), searchString)){
+					isCriteriaMet = true;
+				}else{
+					for(int j = 0; j < currLit.getAuthors().size(); j++){
+						if(matches(currLit.getAuthors().get(j).getFirstName(), searchString) ||
+								matches(currLit.getAuthors().get(j).getMiddleName(), searchString) ||
+								matches(currLit.getAuthors().get(j).getLastName(), searchString)){
+							isCriteriaMet = true;
+							break;
+						}
+					}
+				}
+				if(isCriteriaMet){
+					searched.add(currLit);
+				}
+			}
+		}else{
+			for(int i = 0; i < literatureList.size(); i++){
+				Literature currLit = literatureList.get(i);
+				if(field == Literature.FIELD_TITLE){
+					if(matches(currLit.getTitle(), searchString)){
+						searched.add(currLit);
+					}
+				}else if(field == Literature.FIELD_AUTHOR){
+					for(int j = 0; j < currLit.getAuthors().size(); j++){
+						if(matches(currLit.getAuthors().get(j).getFirstName(), searchString) ||
+								matches(currLit.getAuthors().get(j).getMiddleName(), searchString) ||
+								matches(currLit.getAuthors().get(j).getLastName(), searchString)){
+							searched.add(currLit);
+						}
+					}
+				}else if(field == Literature.FIELD_PUBLISHER){
+					if(matches(currLit.getPublisher(), searchString)){
+						searched.add(currLit);
+					}
+				}
+			}
+		}
+		return searched;
+	}
+	
+	public LiteratureList search(String searchString, int field, int category){
 		LiteratureList searched = new LiteratureList();
 		if(field == Literature.FIELD_ALL){
 			for(int i = 0; i < literatureList.size(); i++){
