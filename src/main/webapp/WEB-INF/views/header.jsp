@@ -17,8 +17,8 @@
 	    border-radius: 0;
 		}
 		
-		body, html, .container-fluid {
-	     height: 30%;
+		.after-header {
+	     padding-top: 40px;
 		}
 	</style>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
