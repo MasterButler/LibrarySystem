@@ -62,8 +62,8 @@ public class LiteratureManager {
 	
 	public Literature searchLiteratureById(Long long1){
 		for(int i = 0; i < literatureList.size(); i++){
-			if(literatureList.get(i).getId() == long1){
-				return literatureList.get(i);
+			if(getBook(i).getId() == long1){
+				return getBook(i);
 			}
 		}
 		return null;
@@ -100,6 +100,10 @@ public class LiteratureManager {
 	}
 	
 	public LiteratureList getAllLiterature(){
+		for(int i = 0; i < literatureList.size(); i++){
+			Literature literature = removeBook(i);
+			literatureList.add(i, literature);
+		}
 		return literatureList;
 	}
 	
@@ -119,8 +123,9 @@ public class LiteratureManager {
 	public LiteratureList getAllInCategory(int category){
 		LiteratureList searched = new LiteratureList();
 		for(int i = 0; i < literatureList.size(); i++){
-			if(literatureList.get(i).getLibraryObjectType() == category){
-				searched.add(literatureList.get(i));
+			if(getBook(i).getLibraryObjectType() == category){
+				Literature literature = getBook(i);
+				searched.add(literature);
 			}
 		}
 		return searched;
@@ -130,7 +135,7 @@ public class LiteratureManager {
 		LiteratureList searched = new LiteratureList();
 		if(field == Literature.FIELD_ALL){
 			for(int i = 0; i < literatureList.size(); i++){
-				Literature currLit = literatureList.get(i);
+				Literature currLit = getBook(i);
 				
 				boolean isCriteriaMet = false;
 				if(matches(currLit.getTitle(), searchString)){
@@ -153,7 +158,7 @@ public class LiteratureManager {
 			}
 		}else{
 			for(int i = 0; i < literatureList.size(); i++){
-				Literature currLit = literatureList.get(i);
+				Literature currLit = getBook(i);
 				if(field == Literature.FIELD_TITLE){
 					if(matches(currLit.getTitle(), searchString)){
 						searched.add(currLit);
@@ -180,7 +185,7 @@ public class LiteratureManager {
 		LiteratureList searched = new LiteratureList();
 		if(field == Literature.FIELD_ALL){
 			for(int i = 0; i < literatureList.size(); i++){
-				Literature currLit = literatureList.get(i);
+				Literature currLit = getBook(i);
 				
 				boolean isCriteriaMet = false;
 				if(matches(currLit.getTitle(), searchString)){
@@ -203,7 +208,7 @@ public class LiteratureManager {
 			}
 		}else{
 			for(int i = 0; i < literatureList.size(); i++){
-				Literature currLit = literatureList.get(i);
+				Literature currLit = getBook(i);
 				if(field == Literature.FIELD_TITLE){
 					if(matches(currLit.getTitle(), searchString)){
 						searched.add(currLit);
@@ -232,7 +237,7 @@ public class LiteratureManager {
 	
 	public boolean delete(long id){
 		for(int i = 0; i < literatureList.size(); i++){
-			if(literatureList.get(i).getId() == id){
+			if(getBook(i).getId() == id){
 				literatureList.remove(i);
 				return true;
 			}
@@ -256,8 +261,8 @@ public class LiteratureManager {
 	
 	public boolean updateLiteratureWithId(long id, Literature literature){
 		for(int i = 0; i < literatureList.size(); i++){
-			System.out.println("CHECKING BOOT AT INDEX " + i + " WITH ID " + literatureList.get(i).getId());
-			if(literatureList.get(i).getId() == id){
+			System.out.println("CHECKING BOOT AT INDEX " + i + " WITH ID " + getBook(i).getId());
+			if(getBook(i).getId() == id){
 				sanitizeLiterature(literature);
 				
 				literatureList.set(i, literature);
@@ -271,4 +276,16 @@ public class LiteratureManager {
 		
 	}
 	
+	public Literature getBook(int index){
+		Literature lit = literatureList.get(index);
+		sanitizeLiterature(lit);
+		return lit;
+	}
+	
+	public Literature removeBook(int index){
+		Literature lit = literatureList.remove(index);
+		sanitizeLiterature(lit);
+		return lit;
+	}
+
 }

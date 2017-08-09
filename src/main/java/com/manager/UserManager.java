@@ -23,7 +23,7 @@ public class UserManager {
 			userList = new UserList();
 			
 			User userBad = new User();
-			userBad.setCredentials(new LoginCredentials("<b onload=alert('test1')>save</b>me", "12345"));
+			userBad.setCredentials(new LoginCredentials("12345", "12345"));
 			userBad.setEmail("abcde@a.a");
             userBad.setName(new Name("<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me"));
             userBad.setId("AAAAAAA");
@@ -94,8 +94,8 @@ public class UserManager {
 			
 			System.out.println("ADD");
 			
-			sanitizeUser(userGood);   
 			sanitizeUser(userBad);    
+			sanitizeUser(userGood);   
 			sanitizeUser(userRandom); 
 			sanitizeUser(userA);      
 			sanitizeUser(userB);      
@@ -133,7 +133,11 @@ public class UserManager {
 	}
 	
 	public UserList getAllUsers(){
-		return this.userList;
+		for(int i = 0; i < userList.size(); i++){
+			User user = removeUser(i);
+			userList.add(i, user);
+		}
+		return userList;
 	}
 	
 	public boolean addUser(User user){
@@ -154,9 +158,9 @@ public class UserManager {
 	public User searchUserById(String id){
 		System.out.println("START ID SEARCH");
 		for(int i = 0; i < userList.size(); i++){
-			System.out.println("WILL COMPARE " + id + "TO " + userList.get(i).getId());
-			if(userList.get(i).getId().equals(id)){
-				return userList.get(i);
+			System.out.println("WILL COMPARE " + id + "TO " + getUser(i).getId());
+			if(getUser(i).getId().equals(id)){
+				return getUser(i);
 			}
 		}
 		System.out.println("DIDN'T FIND ANY");
@@ -165,9 +169,9 @@ public class UserManager {
 	
 	public User searchUserByUsername(String username){
 		for(int i = 0; i < userList.size(); i++){
-			System.out.println("WILL COMPARE " + username + "TO " + userList.get(i).getCredentials().getUsername());
-			if(userList.get(i).getCredentials().getUsername().toLowerCase().equals(username.toLowerCase())){
-				return userList.get(i);
+			System.out.println("WILL COMPARE " + username + "TO " + getUser(i).getCredentials().getUsername());
+			if(getUser(i).getCredentials().getUsername().toLowerCase().equals(username.toLowerCase())){
+				return getUser(i);
 			}
 		}
 		System.out.println("DIDN'T FIND ANY");
@@ -176,13 +180,24 @@ public class UserManager {
 	
 	public User searchUserByEmail(String email){
 		for(int i = 0; i < userList.size(); i++){
-			System.out.println("COMPARING " + email + " AND " + userList.get(i).getEmail());
-			if(userList.get(i).getEmail().equalsIgnoreCase(email)){
+			System.out.println("COMPARING " + email + " AND " + getUser(i).getEmail());
+			if(getUser(i).getEmail().equalsIgnoreCase(email)){
 				System.out.println("RETURNING USER WITH EMAIL " + email);
-				return userList.get(i);
+				return getUser(i);
 			}
 		}
 		return null;
 	}
 	
+	private User getUser(int index){
+		User user = userList.get(index);
+		sanitizeUser(user);
+		return user;
+	}
+	
+	private User removeUser(int index){
+		User user = userList.remove(index);
+		sanitizeUser(user);
+		return user;
+	}
 }
