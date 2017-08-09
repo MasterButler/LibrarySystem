@@ -35,9 +35,8 @@
 	<div class="container after-header">
 		<div class="row">
 			<div class="col-xs-12">
-				<button type="button" class="btn btn-primary" href="literatures">
-				<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-				Back to Literature List</button>
+				<a class="btn btn-primary btn-sm" href="literatures" role="button">
+				Back to Literature List</a>
 			</div>
 		</div>
 		
@@ -70,11 +69,9 @@
 		    		</c:forEach></h4>
 		    		
 				    <p class="card-text">
-					    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 					    <fmt:formatDate pattern = "${DateUtil.DATE_FORMAT}" value = "${literature.datePublished}" />
 				    </p>
 				    <p class="card-text">
-					    <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
 					    ${literature.publisher}
 				    </p>
 				    
@@ -133,6 +130,7 @@
 				</div>
 			</div>
 		</div>	
+	</div>
 </body>
 </html>
 

@@ -101,7 +101,6 @@
 								</c:choose></h6>
 								
 								<h6 class="card-subtitle mb-2 text-muted">
-									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 									<c:forEach items="${literature.authors}" var="author" varStatus="loop">
 										${author.firstName} ${author.middleName} ${author.lastName}<c:if test="${!loop.last}">, </c:if>
 	    							</c:forEach>	
@@ -128,13 +127,13 @@
 								<c:choose>
 									<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
 													sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
-										<a href="literature_delete?id=<c:out value="${id}"/>" class="card-link">
+										<a href="literature_delete?id=<c:out value="${id}"/>" class="card-link" role="button">
 										Delete</a>
 									</c:when>
 								</c:choose>
 								<c:choose>
 									<c:when test="${sessionScope.user.userType > UserTypes.FACULTY.value}">
-										<a href="literature_edit?id=<c:out value="${id}"/>" class="card-link">
+										<a href="literature_edit?id=<c:out value="${id}"/>" class="card-link" role="button">
 										Edit Book Information</a>
 									</c:when>
 								</c:choose>
