@@ -16,8 +16,11 @@ String message = "Welcome to Spring MVC!";
 	public String showMessage(HttpServletRequest request) {
 		System.out.println("in controller");
 		
-		ModelAndView mv = new ModelAndView("index");
-		//return mv;
 		return "index";
+	}
+	
+	@RequestMapping(value={"/*"})
+	public String showUnknownPage(HttpServletRequest request){
+		return "not_found";
 	}
 }

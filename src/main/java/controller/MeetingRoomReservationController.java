@@ -2,6 +2,7 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import manager.MeetingRoomManager;
 import util.AttributeDictionary;
 
 @Controller
+@Scope("session")
 public class MeetingRoomReservationController {
 
 	@RequestMapping(value = "/meeting_room_reserve", method = RequestMethod.POST)
@@ -58,8 +60,8 @@ public class MeetingRoomReservationController {
 			HttpServletRequest request){
 		
 		ModelAndView mv;
-		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
-		if(user != null){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
 			MeetingRoomManager.getInstance().validateUserReservations(user); //TODO delete once db implementation is implemented
 			for(int i = 0; i < user.getReservationList().size(); i++){
 				System.out.println(MeetingRoomManager.getRoomNames()[i]);
@@ -68,9 +70,8 @@ public class MeetingRoomReservationController {
 				}
 			}
 			mv = new ModelAndView("my_roomlist");
-		}else{
-			mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
+			return mv;
 		}
-		return mv;
+		return ErrorHandler.goToLogin();
 	}
 }

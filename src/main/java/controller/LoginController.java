@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.user.LoginCredentials;
+import beans.user.User;
+import handler.ErrorHandler;
 import manager.LoginManager;
 import manager.UserManager;
 import util.AttributeDictionary;
@@ -20,9 +22,15 @@ import util.AttributeDictionary;
 @Scope("session")
 public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView showLogin(){
-		ModelAndView mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
-		return mv;
+	public ModelAndView showLogin(
+			HttpServletRequest request){
+		
+		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
+		if(user == null){
+			ModelAndView mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
+			return mv;
+		}
+		return ErrorHandler.goToHomePage();
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

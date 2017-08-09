@@ -5,13 +5,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@ page import="beans.user.UserTypes" %>    
+<%@ page import="beans.Status" %>
 <%@ page import="beans.MeetingRoom" %>
 <%@ page import="beans.MeetingRoomTimeSlots" %>
 <%@ page import="manager.MeetingRoomManager" %>
 <%@ page import="util.DateUtil" %>
 <%@ page import="util.AttributeDictionary" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -93,6 +94,16 @@
 	    });
 	</script>
 	<style>
+		a.toggleReservationInHold{
+			width: 55px;
+		    height: 25px; 
+		    float:left; 
+		    display: block; 
+		    background-color:#ED1C24;   
+			border-style:solid; 
+			border-color:white;   
+			
+		}
 		a.toggleReservationUp {
 			width: 55px;
 		    height: 25px; 
@@ -149,6 +160,7 @@
 								<div style="width:60px;height:25px;float:left;background-color:#7ABCDE">
                                     <c:set var="index" value = "${loop.index}"/>
                                     
+                                    <c:set var="userList" value = "${meetingroom.userIsHolding}"/>
                                     <c:set var="userListTime" value = "${userList[index]}"/>
 									<!-- 
 									<c:out value="${indexA}"/> and <c:out value="${indexB}"/>
@@ -156,9 +168,22 @@
 									 -->
 									<c:choose> 
                                         <c:when test="${userListTime == null}">
-											<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;">
-											</a>
+											<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
 										</c:when>
+										<c:otherwise>
+											<c:choose>
+												<c:when test="${userListTime.availability == Status.STATUS_AVAILABLE}">
+													<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
+												</c:when>
+												<c:when test="${userListTime.availability == Status.STATUS_RESERVED}">
+													<c:choose>
+														<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
+															<a class = "toggleReservationInHold" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
+														</c:when>
+													</c:choose>
+												</c:when>
+											</c:choose>
+										</c:otherwise>
 									</c:choose>
 								</div>
 							</td>

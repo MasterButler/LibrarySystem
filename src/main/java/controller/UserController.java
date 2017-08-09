@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import beans.user.LoginCredentials;
 import beans.user.User;
+import handler.ErrorHandler;
 import manager.LoginManager;
 import manager.UserManager;
 import util.AttributeDictionary;
@@ -36,9 +37,17 @@ public class UserController {
     }
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView showRegister(){
-		ModelAndView mv = new ModelAndView("register", AttributeDictionary.USER, new User());
-		return mv;
+	public ModelAndView showRegister(
+			HttpServletRequest request){
+		
+		User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
+		
+		if(user == null){
+			ModelAndView mv = new ModelAndView("register", AttributeDictionary.USER, new User());
+			return mv;
+		}else{
+			return ErrorHandler.goToHomePage();
+		}
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -46,19 +55,26 @@ public class UserController {
 			@ModelAttribute("SpringWeb")User user, 
 			BindingResult result, 
 			ModelMap model){
-		System.out.println("USER EXISTING: " + (user != null));
-		boolean success = UserManager.getInstance().addUser(user);
-		if(success){
-			//model.addAttribute("user_bool", success);
-			System.out.println("A");
-			request.getSession().setAttribute(AttributeDictionary.USER, user);
+		
+		User curr= ((User)request.getSession().getAttribute(AttributeDictionary.USER));
+		
+		if(curr== null){
+			System.out.println("USER EXISTING: " + (user != null));
+			boolean success = UserManager.getInstance().addUser(user);
+			if(success){
+				//model.addAttribute("user_bool", success);
+				System.out.println("A");
+				request.getSession().setAttribute(AttributeDictionary.USER, user);
+				model.addAttribute(AttributeDictionary.USER, user);
+				System.out.println("B");
+				System.out.println("C");
+				return "register_finish";		
+			}
 			model.addAttribute(AttributeDictionary.USER, user);
-			System.out.println("B");
-			System.out.println("C");
-			return "register_finish";		
+			model.addAttribute("registerErrorMessage", "Username, ID Number, or Email has already been taken.");
+			return "register";
+		}else{
+			return ErrorHandler.goToHomePageString();
 		}
-		model.addAttribute(AttributeDictionary.USER, user);
-		model.addAttribute("registerErrorMessage", "Username, ID Number, or Email has already been taken.");
-		return "register";
 	}
 }

@@ -2,6 +2,7 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import manager.UserManager;
 import util.AttributeDictionary;
 
 @Controller
+@Scope("session")
 public class LiteratureReservationController{
 String message = "Welcome to Spring MVC!";
 	

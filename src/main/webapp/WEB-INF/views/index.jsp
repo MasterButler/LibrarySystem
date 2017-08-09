@@ -7,7 +7,7 @@
 <%@ page import="beans.user.UserTypes" %>
 <%@ page import="util.DateUtil" %> 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -47,7 +47,7 @@
 									
 							<c:choose>
 								<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
-									<a href="my_literaturelist">My Overriden Readings</a><br>
+									<a href="my_literaturelist">My Overridden Readings</a><br>
 								</c:when>
 							</c:choose>
 							

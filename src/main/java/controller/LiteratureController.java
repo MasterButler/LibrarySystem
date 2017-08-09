@@ -2,6 +2,7 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import manager.LiteratureManager;
 import util.AttributeDictionary;
 
 @Controller
+@Scope("session")
 public class LiteratureController {
 	
 	@RequestMapping(value = "/literatures", method = RequestMethod.GET)

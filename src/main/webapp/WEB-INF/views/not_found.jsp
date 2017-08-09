@@ -5,8 +5,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@ page import="beans.user.UserTypes" %>
-<%@ page import="util.DateUtil" %> 
-
+<%@ page import="util.DateUtil" %>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,18 +14,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Birthday: ${user.birthday} <br>
-	<table style="width:100%">
-  		<tr>
-    		<td>Name</td>
-    		<td>${user.name.firstName} ${user.name.middleName} ${user.name.lastName}</td>
-  		</tr>
-  		<tr>
-    		<td>Birthday</td>
-    		<td><fmt:formatDate pattern = "${DateUtil.PROPER_DATE_FORMAT}" value = "${user.birthday}" /></td>
-  		</tr>
-	</table>
-	${user.id}
-	<a href="./">Return to Homepage</a>
+	<center>
+		<img src="https://zadroweb.com/wp-content/uploads/2013/07/page-not-found.jpg">
+		<h3>Oops. Looks like we got a little lost.</h3>
+		<a href="/securde">Back to Homepage</p>
+	</center>
+	
 </body>
 </html>

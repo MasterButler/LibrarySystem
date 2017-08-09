@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,11 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.Literature;
 import beans.Name;
 import beans.user.User;
+import beans.user.UserTypes;
+import handler.ErrorHandler;
 import manager.LiteratureManager;
+import manager.UserManager;
 import util.AttributeDictionary;
 import util.DateUtil;
 
 @Controller
+@Scope("session")
 public class LiteratureInfoController {
 	
 	@RequestMapping("/literature_info")
@@ -40,17 +45,23 @@ public class LiteratureInfoController {
 	
 	@RequestMapping(value = "/literature_edit", method = RequestMethod.GET)
 	public ModelAndView editLiterature(
-			@RequestParam(value = "id", required = true) String id, 
-			ModelAndView curr){
+			HttpServletRequest request,
+			@RequestParam(value = "id", required = true) String id){
 		
-		System.out.println(curr.getViewName());
+		ModelAndView mv;
+		User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
 		
-		Literature literature = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
-		
-		ModelAndView mv = new ModelAndView("literature_edit");
-		mv.addObject(AttributeDictionary.LITERATURE, literature);	
-		
-		return mv;
+		if(user != null){
+			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getNumValues() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getNumValues()){
+				Literature literature = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
+				
+				mv = new ModelAndView("literature_edit");
+				mv.addObject(AttributeDictionary.LITERATURE, literature);	
+				
+				return mv;
+			}
+		}
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	@InitBinder
