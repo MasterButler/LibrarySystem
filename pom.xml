@@ -62,6 +62,13 @@
 		<version>5.1.9</version>
 	</dependency>
 
+	<!--  OWASP DATA SANITIZER -->
+	<dependency>
+	    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+	    <artifactId>owasp-java-html-sanitizer</artifactId>
+	    <version>20160628.1</version>
+	</dependency>
+
 	<!--  Start of MySQL Connector Dependencies -->
   </dependencies>
   
