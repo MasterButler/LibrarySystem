@@ -13,58 +13,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
-	<form:form method="POST" modelAttribute="literature" action="literature_add">
-		<table style="width:100%">
-	  		<tr>
-	    		<td><form:label path="title">Title</form:label></td>
-            	<td><form:input path="title" placeholder = "Title"/></td>
-	  		</tr>
-	  		<tr>
-			<tr>
-	  			<td><form:label path="authors">Authors</form:label></td>
-	  			<td>
-					<c:forEach items="${literature.authors}" var="author" varStatus="loop">
-						<form:input path="authors[${loop.index}].firstName" placeholder = "First Name"/>
-						<form:input path="authors[${loop.index}].middleName" placeholder = "Middle Name" />
-						<form:input path="authors[${loop.index}].lastName" placeholder = "Last Name"/>
-						<input type="submit" value="Delete Author ${loop.index}" name="action"/>
-						<br>
-						
-						<c:choose>
-							<c:when test="${loop.last}">
-								<td><input type="submit" value="Add Author" name="action"/></td>		
-							</c:when>
-						</c:choose>
-		    		</c:forEach>
-		    	</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.BOOK.value}" label="${LibraryObjectTypes.BOOK.name}"/>
+	<%@include file="header.jsp" %>
+	
+	<div class="container after-header">
+	  <div class="row">
+	  	<div class="col-xs-12">
+	  		<h1>Add a Literature</h1>
+	  		<form:form method="POST" modelAttribute="literature" action="literature_add">
+				<div class="form-group row">
+			      <label for="addlit-title" class="col-sm-5 col-form-label">Title</label>
+			      <div class="col-sm-10">
+			        <form:input type="text" class="form-control form-control-sm" id="addlit-title" placeholder="Title" path="title"/>
+			      </div>
+			    </div>
+			    
+			    <h6>Authors</h6>
+			    <c:forEach items="${literature.authors}" var="author" varStatus="loop">
+				  	<div class="form-group row">
+				      <label for="addlit-firstname" class="col-sm-5 col-form-label">Authors</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" class="form-control form-control-sm" id="addlit-firstname" placeholder="First Name" path="authors[${loop.index}]"/>
+				      	<form:input type="text" class="form-control form-control-sm" id="addlit-middlename" placeholder="Middle Name" path="authors[${loop.index}]"/>
+				      	<form:input type="text" class="form-control form-control-sm" id="addlit-lastname" placeholder="Last Name" path="authors[${loop.index}]"/>
+				      </div>
+				      <input type="submit" value="Delete Author ${loop.index}" name="action"/>
+				    </div>
+				    <c:choose>
+				    	<c:when test="${loop.last}">
+						    <div class="form-group row">
+						      <input type="submit" value="Add Author" name="action"/>
+						    </div>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+				
+				<div class="form-group row">
+			      	<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.BOOK.value}" label="${LibraryObjectTypes.BOOK.name}"/>
 					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.MAGAZINE.value}" label="${LibraryObjectTypes.MAGAZINE.name}"/>
 					<form:radiobutton path="libraryObjectType" value="${LibraryObjectTypes.THESIS.value}" label="${LibraryObjectTypes.THESIS.name}"/>
-				</td>
-			</tr>
-			
-	  		<tr>
-	    		<td>Date of Publication</td>
-	    		<fmt:formatDate var="fmtDate" value="${literature.datePublished}" pattern="${DateUtil.NUMBER_FORMAT}"/>
-				<td><form:input type="text" path="datePublished" placeholder = "MM/dd/yyyy" name="literature.datePublished" value="${fmtDate}"/></td>
-	  		</tr>
-	  		<tr>
-	    		<td><form:label path="publisher">Publisher</form:label></td>
-            	<td><form:input path="publisher" placeholder="Publisher"/></td>
-	  		</tr>
-	  		<tr>
-	  			<td><input type="submit" value="Create Literature" name = "action"/></td>
-	  		</tr>
-		</table>	
-	</form:form>
+			    </div>
+			    <div class="form-group row">
+			      <label for="addlit-date" class="col-sm-5 col-form-label">Date of Publication</label>
+			      <div class="col-sm-10">
+			      	<fmt:formatDate var="fmtDate" value="${literature.datePublished}" pattern="${DateUtil.NUMBER_FORMAT}"/>
+			        <form:input type="text" class="form-control form-control-sm" id="addlit-date" placeholder="mm/dd/yyy" path="datePublished"/>
+			      </div>
+			    </div>
+			    <div class="form-group row">
+			      <label for="addlit-publisher" class="col-sm-5 col-form-label">Publisher</label>
+			      <div class="col-sm-10">
+			        <form:input type="text" class="form-control form-control-sm" id="addlit-publisher" placeholder="publisher" path="Publisher"/>
+			      </div>
+			    </div>
+			    <div class="form-group row">
+			    	<input type="submit" value="Create Literature" name = "action"/>
+			    </div>	
+			</form:form>
+		</div>
+	</div>
+	</div>
 </body>
 </html>
 

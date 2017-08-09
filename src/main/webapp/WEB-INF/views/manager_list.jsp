@@ -25,12 +25,12 @@
 	<%@include file="header.jsp" %>
 	<div class="container after-header"></div>
 
-	<h1>Manager List</h1>
 	<div class="container">
 		<div class="row">
 				<div class="col-xs-12">
+					<h1>Manager List</h1>
 					<c:forEach items="${managerlist}" var="manager"> 
-						<div class="card">
+						<div class="card lit-width">
 						  <div class="card-block">
 						    <h4 class="card-title">${manager.credentials.username}</h4>
 						    <h6 class="card-subtitle mb-2 text-muted">ID Number : ${manager.id}</h6>

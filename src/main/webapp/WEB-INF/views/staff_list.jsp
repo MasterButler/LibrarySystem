@@ -16,12 +16,6 @@
 		
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Insert title here</title>
-	
-	<style>
-		.after-header {
-	     padding-top: 100px;
-		}
-	</style>
 </head>
 <body>
 	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
@@ -31,12 +25,12 @@
 	<%@include file="header.jsp" %>
 	<div class="container after-header"></div>
 
-	<h1>Staff List</h1>
 	<div class="container">
 		<div class="row">
 				<div class="col-xs-12">
+					<h1>Staff List</h1>
 					<c:forEach items="${stafflist}" var="staff">  
-						<div class="card">
+						<div class="card lit-width">
 						  <div class="card-block">
 						    <h4 class="card-title">${staff.credentials.username}</h4>
 						    <h6 class="card-subtitle mb-2 text-muted">ID Number : ${staff.id}</h6>
