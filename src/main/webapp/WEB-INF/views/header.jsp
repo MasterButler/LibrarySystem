@@ -50,7 +50,7 @@
 							    sessionScope.user.userType == UserTypes.FACULTY.value ||
 								sessionScope.user.userType == UserTypes.STUDENT.value}">
 								
-					<li><a href="register_finish">Hello, ${sessionScope.user.name.firstName}</a></li>
+					<li>Hello, ${sessionScope.user.name.firstName}</li>
 		            <li><a href="my_literaturelist">My Borrowed Books</a></li>
 		            <li><a href="my_roomlist">My Reserved Rooms</a></li>
 		            <li><a href="logout">Logout</a></li>
@@ -62,7 +62,7 @@
 					<li><a href="manager_list">Library Managers</a></li>
 					<li><a href="admin_account_create">Create Higher Level Users</a></li>
 					
-					<li><a href="register_finish">Hello, Admin ${sessionScope.user.name.firstName}</a></li>
+					<li>Hello, Admin ${sessionScope.user.name.firstName}</li>
 			        <li><a href="logout">Logout</a></li>
 				</c:when>	
 			</c:choose>			
