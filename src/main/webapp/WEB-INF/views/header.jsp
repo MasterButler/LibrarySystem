@@ -16,6 +16,10 @@
 	    -moz-border-radius: 0;
 	    border-radius: 0;
 		}
+		
+		body, html, .container-fluid {
+	     height: 30%;
+		}
 	</style>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Insert title here</title>
@@ -37,41 +41,44 @@
 	    </div>
 	    
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      		<ul class="nav navbar-nav navbar-right">
+      		<ul class="nav navbar-nav navbar-left">
+      			<li><a href="literatures">Books</a></li>
+		        <li><a href="meeting_room_view">Rooms</a></li>
+      		</ul>
       		
+      		<ul class="nav navbar-nav navbar-right">
 			<c:choose>
 				<c:when test="${sessionScope.user == null}">
-			      	<li> Hello, Guest!</li>
-			      	<li><a href="literatures">Books</a></li>
-		            <li><a href="meeting_room_view">Rooms</a></li>
+			      	<li><a href="#">Hello, Guest!</a></li>
 			      	<li><a href="register">Register</a></li>
         			<li><a href="login">Login</a></li>
 				</c:when>
 				
-				<c:when test="${sessionScope.user != null ||
-							    sessionScope.user.userType == UserTypes.FACULTY.value ||
-								sessionScope.user.userType == UserTypes.STUDENT.value}">
-								
-					<li>Hello, ${sessionScope.user.name.firstName}</li>
-		            <li><a href="my_literaturelist">My Borrowed Books</a></li>
-		            <li><a href="my_roomlist">My Reserved Rooms</a></li>
-		            <li><a href="logout">Logout</a></li>
-				</c:when>
-				
-				<c:when test="${sessionScope.user != null ||
-							    sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
-					<li><a href="staff_list">Library Staffs</a></li>
-					<li><a href="manager_list">Library Managers</a></li>
-					<li><a href="admin_account_create">Create Higher Level Users</a></li>
-					
-					<li>Hello, Admin ${sessionScope.user.name.firstName}</li>
-			        <li><a href="logout">Logout</a></li>
-				</c:when>	
+				<c:otherwise>
+					<c:choose>				
+						<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value ||
+										sessionScope.user.userType == UserTypes.STUDENT.value}">
+										
+							<li><a href="#">Hello, ${sessionScope.user.name.firstName}</a></li>
+				            <li><a href="my_literaturelist">My Borrowed Books</a></li>
+				            <li><a href="my_roomlist">My Reserved Rooms</a></li>
+				            <li><a href="logout">Logout</a></li>
+						</c:when>
+						
+						<c:when test="${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
+							<li><a href="staff_list">Library Staffs</a></li>
+							<li><a href="manager_list">Library Managers</a></li>
+							<li><a href="admin_account_create">Create Higher Level Users</a></li>
+							
+							<li><a href="#">Hello, Admin ${sessionScope.user.name.firstName}</a></li>
+					        <li><a href="logout">Logout</a></li>
+						</c:when>	
+					</c:choose>
+				</c:otherwise>
 			</c:choose>			
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container -->
 	</nav>
-
 </body>
 </html>
