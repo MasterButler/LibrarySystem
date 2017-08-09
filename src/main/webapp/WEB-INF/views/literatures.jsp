@@ -38,10 +38,10 @@
 				<div class="form-group row">
 					<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 						<div class="btn-group" role="group" aria-label="First group">
-						    <button type="submit" class="btn btn-secondary" name="action">All</button>
-						    <button type="submit" class="btn btn-secondary" name="action">Books</button>
-						    <button type="submit" class="btn btn-secondary" name="action">Thesis</button>
-						    <button type="submit" class="btn btn-secondary" name="action">Magazine</button>
+						    <button type="submit" class="btn btn-secondary btn-info" name="action">All</button>
+						    <button type="submit" class="btn btn-secondary btn-info" name="action">Books</button>
+						    <button type="submit" class="btn btn-secondary btn-info" name="action">Thesis</button>
+						    <button type="submit" class="btn btn-secondary btn-info" name="action">Magazine</button>
 						</div>
 					</div>	 
 					<form method="POST" action="literatures">
@@ -109,7 +109,7 @@
 								</c:choose></h5>
 								
 								<h5 class="card-subtitle mb-2 text-muted">
-									<span class="glyphicon glyphicon-user" aria-hidden="true">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 									<c:forEach items="${literature.authors}" var="author" varStatus="loop">
 										${author.firstName} ${author.middleName} ${author.lastName}<c:if test="${!loop.last}">, </c:if>
 	    							</c:forEach>	
@@ -118,37 +118,37 @@
 								<h5 class="card-subtitle mb-2 text-muted">
 									<c:choose>
 										<c:when test = "${literature.libraryObjectType == LibraryObjectTypes.BOOK.value }">
-											<span class="glyphicon glyphicon-book" aria-hidden="true">
+											<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
 											${LibraryObjectTypes.BOOK.name}
 										</c:when>
 										<c:when test = "${literature.libraryObjectType == LibraryObjectTypes.THESIS.value }">
-											<span class="glyphicon glyphicon-duplicate" aria-hidden="true">
+											<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
 											${LibraryObjectTypes.THESIS.name}
 										</c:when>
 										<c:when test = "${literature.libraryObjectType == LibraryObjectTypes.MAGAZINE.value }">
-											<span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true">
+											<span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>
 											${LibraryObjectTypes.MAGAZINE.name}	
 										</c:when>
 									</c:choose>	
 								</h5>
 								
 								<h5 class="card-subtitle mb-2 text-muted">
-									<span class="glyphicon glyphicon-calendar" aria-hidden="true">
-									<fmt:formatDate pattern = "${DateUtil.DATE_FORMAT }" value = "${literature.datePublished}" />
+									<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+									<fmt:formatDate pattern = "${DateUtil.DATE_FORMAT}" value = "${literature.datePublished}" />
 								</h5>
 
 								<c:choose>
 									<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
 													sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
 										<a href="literature_delete?id=<c:out value="${id}"/>" class="card-link">
-										<span class="glyphicon glyphicon-trash" aria-hidden="true">
+										<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 										Delete</a>
 									</c:when>
 								</c:choose>
 								<c:choose>
 									<c:when test="${sessionScope.user.userType > UserTypes.FACULTY.value}">
 										<a href="literature_edit?id=<c:out value="${id}"/>" class="card-link">
-										<span class="glyphicon glyphicon-trash" aria-hidden="true">
+										<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 										Edit Book Information</a>
 									</c:when>
 								</c:choose>
