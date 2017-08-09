@@ -42,6 +42,8 @@
 			<c:choose>
 				<c:when test="${sessionScope.user == null}">
 			      	<li> Hello, Guest!</li>
+			      	<li><a href="literatures">Books</a></li>
+		            <li><a href="meeting_room_view">Rooms</a></li>
 			      	<li><a href="register">Register</a></li>
         			<li><a href="login">Login</a></li>
 				</c:when>
