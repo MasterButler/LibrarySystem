@@ -99,7 +99,7 @@
 								  <div class="card-block">
 								    <h3 class="card-title">High-level Accounts</h3>
 								    <p>Have an overview of all the existing high-level accounts in the system.</p>
-								    <a href="literatures" class="btn btn-success">
+								    <a href="staff_list" class="btn btn-success">
 								    	<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 								    	View All High-level Accounts</a>
 								  </div>

@@ -3,12 +3,12 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import="beans.Status" %>
-<%@ page import="beans.user.UserTypes" %>
-<%@ page import="beans.LibraryObjectTypes" %>
-<%@ page import="util.DateUtil" %>    
-<%@ page import="beans.Literature" %>
-<%@ page import="beans.Status" %>
+<%@ page import="com.beans.Status" %>
+<%@ page import="com.beans.user.UserTypes" %>
+<%@ page import="com.beans.LibraryObjectTypes" %>
+<%@ page import="com.util.DateUtil" %>    
+<%@ page import="com.beans.Literature" %>
+<%@ page import="com.beans.Status" %>
 
 <!DOCTYPE html>
 <html>
@@ -90,7 +90,7 @@
 											<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
 											 				sessionScope.user.userType == UserTypes.STUDENT.value}">
 											 	Proceed to
-												<a href = "reservation?id=<c:out value="${literature.id}"/> class="alert-link">
+												<a href = "reservation?id=<c:out value="${literature.id}"/>" class="alert-link">
 												Reservation Page</a>
 											</c:when>
 										</c:choose>

@@ -4,9 +4,9 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import="beans.Status" %>
-<%@ page import="util.DateUtil" %>
-<%@ page import="manager.MeetingRoomManager" %>
+<%@ page import="com.beans.Status" %>
+<%@ page import="com.util.DateUtil" %>
+<%@ page import="com.manager.MeetingRoomManager" %>
 
 <!DOCTYPE html>
 <html>

@@ -4,8 +4,8 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import="beans.user.UserTypes" %>
-<%@ page import="util.DateUtil" %>
+<%@ page import="com.beans.user.UserTypes" %>
+<%@ page import="com.util.DateUtil" %>
  
 <!DOCTYPE html>
 <html>

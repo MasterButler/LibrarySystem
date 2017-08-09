@@ -4,9 +4,9 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import="beans.user.UserTypes" %>
-<%@ page import="util.DateUtil" %>   
-<%@ page import="util.AttributeDictionary" %>   
+<%@ page import="com.beans.user.UserTypes" %>
+<%@ page import="com.util.DateUtil" %>   
+<%@ page import="com.util.AttributeDictionary" %>   
 
 <!DOCTYPE html>
 <html>
