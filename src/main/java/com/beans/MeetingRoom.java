@@ -1,6 +1,6 @@
-package beans;
+package com.beans;
 
-import beans.user.User;
+import com.beans.user.User;
 
 public class MeetingRoom extends LibraryObject{
 	

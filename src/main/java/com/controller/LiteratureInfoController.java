@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import beans.Literature;
-import beans.Name;
-import beans.user.User;
-import beans.user.UserTypes;
-import handler.ErrorHandler;
-import manager.LiteratureManager;
-import manager.UserManager;
-import util.AttributeDictionary;
-import util.DateUtil;
+import com.beans.Literature;
+import com.beans.Name;
+import com.beans.user.User;
+import com.beans.user.UserTypes;
+import com.handler.ErrorHandler;
+import com.manager.LiteratureManager;
+import com.manager.UserManager;
+import com.util.AttributeDictionary;
+import com.util.DateUtil;
 
 @Controller
 @Scope("session")
@@ -81,6 +81,7 @@ public class LiteratureInfoController {
 		
 		String action = request.getParameter("action");
 		System.out.println("THE ID OF REQUESTER IS: " + request.getParameter("id"));
+		
 		if(action.contains("Add Author")){
 			System.out.println("DONE ADDING");
 			return addAuthors(request, model, literature);

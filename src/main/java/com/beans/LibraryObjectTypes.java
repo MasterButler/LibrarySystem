@@ -1,4 +1,4 @@
-package beans;
+package com.beans;
 
 public enum LibraryObjectTypes {
 	BOOK(1, "Book"), 

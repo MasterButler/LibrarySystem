@@ -1,8 +1,8 @@
-package beans.list;
+package com.beans.list;
 
 import java.util.ArrayList;
 
-import beans.Name;
+import com.beans.Name;
 
 public class NameList extends ArrayList<Name>{
 

@@ -1,20 +1,20 @@
-package beans.user;
+package com.beans.user;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import beans.Literature;
-import beans.MeetingRoom;
-import beans.MeetingRoomReservedList;
-import beans.Name;
-import beans.Status;
-import beans.list.LiteratureList;
-import beans.list.MeetingRoomList;
-import manager.LiteratureManager;
-import manager.MeetingRoomManager;
-import util.DateUtil;
+import com.beans.Literature;
+import com.beans.MeetingRoom;
+import com.beans.MeetingRoomReservedList;
+import com.beans.Name;
+import com.beans.Status;
+import com.beans.list.LiteratureList;
+import com.beans.list.MeetingRoomList;
+import com.manager.LiteratureManager;
+import com.manager.MeetingRoomManager;
+import com.util.DateUtil;
 
 public class User {
 	

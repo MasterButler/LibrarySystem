@@ -1,12 +1,12 @@
-package db;
+package com.db;
 import java.sql.*;
 import java.util.ArrayList;
 
-import beans.Literature;
-import beans.Name;
-import beans.list.LiteratureList;
-import beans.user.LoginCredentials;
-import beans.user.User;
+import com.beans.Literature;
+import com.beans.Name;
+import com.beans.list.LiteratureList;
+import com.beans.user.LoginCredentials;
+import com.beans.user.User;
 
 public class DBConnection {
     // JDBC driver name and database URL

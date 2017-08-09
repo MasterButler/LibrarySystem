@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import beans.list.LiteratureList;
-import beans.list.MeetingRoomList;
-import manager.LiteratureManager;
-import manager.MeetingRoomManager;
-import util.AttributeDictionary;
+import com.beans.list.LiteratureList;
+import com.beans.list.MeetingRoomList;
+import com.manager.LiteratureManager;
+import com.manager.MeetingRoomManager;
+import com.util.AttributeDictionary;
 
 @Controller
 @Scope("session")

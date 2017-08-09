@@ -1,4 +1,4 @@
-package beans;
+package com.beans;
 
 public class MeetingRoomTimeSlots {
 	public static final String[] slots = {"09:00 AM", 

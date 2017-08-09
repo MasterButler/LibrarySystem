@@ -1,8 +1,8 @@
-package beans.list;
+package com.beans.list;
 
 import java.util.ArrayList;
 
-import beans.user.User;
+import com.beans.user.User;
 
 public class UserList extends ArrayList<User>{
 

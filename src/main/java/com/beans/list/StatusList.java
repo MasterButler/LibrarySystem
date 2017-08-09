@@ -1,8 +1,8 @@
-package beans.list;
+package com.beans.list;
 
 import java.util.ArrayList;
 
-import beans.Status;
+import com.beans.Status;
 
 public class StatusList extends ArrayList<Status>{
 

@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import beans.user.LoginCredentials;
-import beans.user.User;
-import handler.ErrorHandler;
-import handler.SessionHandler;
-import handler.TextHandler;
-import manager.LoginManager;
-import manager.UserManager;
-import util.AttributeDictionary;
+import com.beans.user.LoginCredentials;
+import com.beans.user.User;
+import com.handler.ErrorHandler;
+import com.handler.SessionHandler;
+import com.handler.TextHandler;
+import com.manager.LoginManager;
+import com.manager.UserManager;
+import com.util.AttributeDictionary;
 
 @Controller
 @Scope("session")
@@ -27,7 +27,16 @@ public class LoginController {
 	public ModelAndView showLogin(
 			HttpServletRequest request){
 
+		User userBad = UserManager.getInstance().getAllUsers().get(1);
+		System.out.println("FN: " + userBad.getName().getFirstName());
+		System.out.println("MN: " + userBad.getName().getMiddleName());
+		System.out.println("LN: " + userBad.getName().getLastName());
+		System.out.println("EM: " + userBad.getEmail());
+		System.out.println("UN: " + userBad.getCredentials().getUsername());
+		System.out.println("PW: " + userBad.getCredentials().getPassword());
+		
 		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
+		
 		if(user == null){
 			ModelAndView mv = new ModelAndView("login", AttributeDictionary.LOGIN, new LoginCredentials());
 			return mv;

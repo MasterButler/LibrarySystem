@@ -1,4 +1,4 @@
-package beans;
+package com.beans;
 
 public class Name {
 	private String firstName;

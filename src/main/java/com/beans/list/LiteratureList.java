@@ -1,8 +1,10 @@
-package beans.list;
+package com.beans.list;
 
 import java.util.ArrayList;
 
-import beans.Literature;
+import org.springframework.context.annotation.ComponentScan;
+
+import com.beans.Literature;
 
 public class LiteratureList extends ArrayList<Literature>{
 }

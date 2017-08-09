@@ -1,16 +1,16 @@
-package manager;
+package com.manager;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import beans.LibraryObject;
-import beans.Literature;
-import beans.MeetingRoom;
-import beans.MeetingRoomTimeSlots;
-import beans.Status;
-import beans.user.User;
-import beans.user.UserTypes;
-import util.DateUtil;
+import com.beans.LibraryObject;
+import com.beans.Literature;
+import com.beans.MeetingRoom;
+import com.beans.MeetingRoomTimeSlots;
+import com.beans.Status;
+import com.beans.user.User;
+import com.beans.user.UserTypes;
+import com.util.DateUtil;
 
 public class ReservationManager {
     public static boolean reserve(Literature libObject, User user){

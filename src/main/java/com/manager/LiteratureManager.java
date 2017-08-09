@@ -1,15 +1,15 @@
-package manager;
+package com.manager;
 
-import beans.LibraryObject;
-import beans.LibraryObjectTypes;
-import beans.Literature;
-import beans.Name;
-import beans.Status;
-import beans.list.LiteratureList;
-import beans.list.NameList;
-import beans.user.User;
-import db.DBConnection;
-import util.DateUtil;
+import com.beans.LibraryObject;
+import com.beans.LibraryObjectTypes;
+import com.beans.Literature;
+import com.beans.Name;
+import com.beans.Status;
+import com.beans.list.LiteratureList;
+import com.beans.list.NameList;
+import com.beans.user.User;
+import com.db.DBConnection;
+import com.util.DateUtil;
 
 public class LiteratureManager {
 	private static volatile LiteratureManager instance;
@@ -258,11 +258,17 @@ public class LiteratureManager {
 		for(int i = 0; i < literatureList.size(); i++){
 			System.out.println("CHECKING BOOT AT INDEX " + i + " WITH ID " + literatureList.get(i).getId());
 			if(literatureList.get(i).getId() == id){
+				sanitizeLiterature(literature);
+				
 				literatureList.set(i, literature);
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public void sanitizeLiterature(Literature literature){
+		
 	}
 	
 }

@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import beans.user.LoginCredentials;
-import beans.user.User;
-import handler.ErrorHandler;
-import manager.LoginManager;
-import manager.UserManager;
-import util.AttributeDictionary;
-import util.DateUtil;
+import com.beans.user.LoginCredentials;
+import com.beans.user.User;
+import com.handler.ErrorHandler;
+import com.manager.LoginManager;
+import com.manager.UserManager;
+import com.util.AttributeDictionary;
+import com.util.DateUtil;
 
 @Controller
 @Scope("session")
@@ -58,7 +58,7 @@ public class UserController {
 		
 		User curr= ((User)request.getSession().getAttribute(AttributeDictionary.USER));
 		
-		if(curr== null){
+		if(curr == null){
 			System.out.println("USER EXISTING: " + (user != null));
 			boolean success = UserManager.getInstance().addUser(user);
 			if(success){

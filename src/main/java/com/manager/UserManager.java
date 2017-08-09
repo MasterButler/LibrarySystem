@@ -1,11 +1,11 @@
-package manager;
+package com.manager;
 
-import beans.Name;
-import beans.list.UserList;
-import beans.user.LoginCredentials;
-import beans.user.User;
-import beans.user.UserTypes;
-import handler.TextHandler;
+import com.beans.Name;
+import com.beans.list.UserList;
+import com.beans.user.LoginCredentials;
+import com.beans.user.User;
+import com.beans.user.UserTypes;
+import com.handler.TextHandler;
 
 public class UserManager {
 	private static volatile UserManager instance;
@@ -23,9 +23,9 @@ public class UserManager {
 			userList = new UserList();
 			
 			User userBad = new User();
-			userBad.setCredentials(new LoginCredentials("12345", "12345"));
+			userBad.setCredentials(new LoginCredentials("<b onload=alert('test1')>save</b>me", "12345"));
 			userBad.setEmail("abcde@a.a");
-            userBad.setName(new Name(TextHandler.sanitize("<body onload=alert('test1')>"), "A", "AAAAA"));
+            userBad.setName(new Name("<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me"));
             userBad.setId("AAAAAAA");
             userBad.setUserType(UserTypes.STUDENT.getValue());
 			
@@ -94,6 +94,17 @@ public class UserManager {
 			
 			System.out.println("ADD");
 			
+			sanitizeUser(userGood);   
+			sanitizeUser(userBad);    
+			sanitizeUser(userRandom); 
+			sanitizeUser(userA);      
+			sanitizeUser(userB);      
+			sanitizeUser(userC);      
+			sanitizeUser(facultyA);   
+			sanitizeUser(managerA);   
+			sanitizeUser(staffA);     
+			sanitizeUser(adminA);     
+			
 			userList.add(userGood);
 			userList.add(userBad);
 			userList.add(userRandom);
@@ -108,11 +119,25 @@ public class UserManager {
 		return instance;
 	}
 	
+	public static void sanitizeUser(User user){
+		String username = TextHandler.sanitize(user.getCredentials().getUsername());
+		String firstName = TextHandler.sanitize(user.getName().getFirstName());
+		String middleName = TextHandler.sanitize(user.getName().getMiddleName());
+		String lastName = TextHandler.sanitize(user.getName().getLastName());
+		
+		LoginCredentials credentials = new LoginCredentials(username, user.getCredentials().getPassword());
+		Name name = new Name(firstName, middleName, lastName);
+		
+		user.setCredentials(credentials);
+		user.setName(name);
+	}
+	
 	public UserList getAllUsers(){
 		return this.userList;
 	}
 	
 	public boolean addUser(User user){
+		sanitizeUser(user);
 		System.out.println("BEFORE FIRST");
 		if(searchUserById(user.getId()) == null){
 			System.out.println("BEFORE SECOND");

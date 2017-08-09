@@ -1,11 +1,11 @@
-package manager;
+package com.manager;
 
-import beans.Literature;
-import beans.MeetingRoom;
-import beans.MeetingRoomTimeSlots;
-import beans.Name;
-import beans.list.MeetingRoomList;
-import beans.user.User;
+import com.beans.Literature;
+import com.beans.MeetingRoom;
+import com.beans.MeetingRoomTimeSlots;
+import com.beans.Name;
+import com.beans.list.MeetingRoomList;
+import com.beans.user.User;
 
 public class MeetingRoomManager {
 	private static volatile MeetingRoomManager instance;

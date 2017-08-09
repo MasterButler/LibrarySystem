@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import handler.ErrorHandler;
-import beans.MeetingRoom;
-import beans.user.LoginCredentials;
-import beans.user.User;
-import manager.LiteratureManager;
-import manager.MeetingRoomManager;
-import util.AttributeDictionary;
+import com.handler.ErrorHandler;
+import com.beans.MeetingRoom;
+import com.beans.user.LoginCredentials;
+import com.beans.user.User;
+import com.manager.LiteratureManager;
+import com.manager.MeetingRoomManager;
+import com.util.AttributeDictionary;
 
 @Controller
 @Scope("session")

@@ -1,7 +1,7 @@
-package manager;
+package com.manager;
 
-import beans.user.LoginCredentials;
-import beans.user.User;
+import com.beans.user.LoginCredentials;
+import com.beans.user.User;
 
 public class LoginManager {
 	private static volatile LoginManager instance;

@@ -1,14 +1,14 @@
-package beans;
+package com.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import beans.list.NameList;
-import beans.list.ReviewList;
-import beans.user.User;
-import beans.user.UserTypes;
+import com.beans.list.NameList;
+import com.beans.list.ReviewList;
+import com.beans.user.User;
+import com.beans.user.UserTypes;
 
 public class Literature extends LibraryObject{
 	

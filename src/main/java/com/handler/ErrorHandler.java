@@ -1,4 +1,4 @@
-package handler;
+package com.handler;
 import org.springframework.web.servlet.ModelAndView;
 
 public class ErrorHandler {

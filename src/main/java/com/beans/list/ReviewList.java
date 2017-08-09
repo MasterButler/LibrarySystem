@@ -1,8 +1,8 @@
-package beans.list;
+package com.beans.list;
 
 import java.util.ArrayList;
 
-import beans.Review;
+import com.beans.Review;
 
 public class ReviewList extends ArrayList<Review> {
 	

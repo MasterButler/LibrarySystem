@@ -1,4 +1,4 @@
-package controller;
+package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import beans.list.UserList;
-import beans.user.User;
-import beans.user.UserTypes;
-import manager.UserManager;
-import util.AttributeDictionary;
+import com.beans.list.UserList;
+import com.beans.user.User;
+import com.beans.user.UserTypes;
+import com.manager.UserManager;
+import com.util.AttributeDictionary;
 
 @Controller
 @Scope("session")

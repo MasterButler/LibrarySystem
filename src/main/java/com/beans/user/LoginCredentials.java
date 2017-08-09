@@ -1,4 +1,4 @@
-package beans.user;
+package com.beans.user;
 
 public class LoginCredentials {
 	private String username;

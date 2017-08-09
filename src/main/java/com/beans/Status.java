@@ -1,9 +1,9 @@
-package beans;
+package com.beans;
 
 import java.util.Date;
 
-import beans.user.User;
-import util.DateUtil;
+import com.beans.user.User;
+import com.util.DateUtil;
 
 public class Status {
 

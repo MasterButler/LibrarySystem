@@ -1,4 +1,4 @@
-package handler;
+package com.handler;
 
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;

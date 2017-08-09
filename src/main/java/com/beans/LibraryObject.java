@@ -1,4 +1,4 @@
-package beans;
+package com.beans;
 
 public abstract class LibraryObject {
     

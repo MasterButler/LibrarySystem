@@ -1,4 +1,4 @@
-package util;
+package com.util;
 
 public class AttributeDictionary {
 	public static final String USER = "user";
