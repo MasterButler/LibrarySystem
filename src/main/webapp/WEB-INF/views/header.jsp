@@ -9,76 +9,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-	
-	<style>
-		.navbar {
-	    -webkit-border-radius: 0;
-	    -moz-border-radius: 0;
-	    border-radius: 0;
-		}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		
-		.after-header {
-	     padding-top: 40px;
-		}
-	</style>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Insert title here</title>
+	
+	<style>
+		.after-header {
+	     padding-top: 50px;
+		}
+		.lit-width{
+		width: 30rem;
+		}
+	</style>
 </head>
 <body>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	
-	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
-	  <div class="container">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="/securde">DLSU Library System</a>
-	    </div>
-	    
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      		<ul class="nav navbar-nav navbar-left">
-      			<li><a href="literatures">Literatures</a></li>
-		        <li><a href="meeting_room_view">Rooms</a></li>
-      		</ul>
-      		
-      		<ul class="nav navbar-nav navbar-right">
-			<c:choose>
+	<nav class="navbar sticky-top navbar-toggleable-md navbar-light bg-faded">
+	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <a class="navbar-brand" href="/securde">DLSU Library System</a>
+	
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto navbar-left">
+   			<li><a class="nav-link" href="literatures">Literatures</a></li>
+	        <li><a class="nav-link" href="meeting_room_view">Rooms</a></li>
+      	</ul>
+	    <ul class="navbar-nav navbar-right my-lg-0 my-2">
+	      <c:choose>
 				<c:when test="${sessionScope.user == null}">
-			      	<li><a href="#">Hello, Guest!</a></li>
-			      	<li><a href="register">Register</a></li>
-        			<li><a href="login">Login</a></li>
+			      	<li class="nav-item"><a class="nav-link disabled" href="#">Hello, Guest!</a></li>
+			      	<li class="nav-item"><a class="nav-link" href="register">Register</a></li>
+        			<li class="nav-item"><a class="nav-link" href="login">Login</a></li>
 				</c:when>
-				
-				<c:when test="${sessionScope.user != null}">
+		  		
+		  		<c:when test="${sessionScope.user != null}">
 					<c:choose>				
 						<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value ||
 										sessionScope.user.userType == UserTypes.STUDENT.value}">
 										
-							<li><a href="#">Hello, ${sessionScope.user.name.firstName}</a></li>
-				            <li><a href="my_literaturelist">My Borrowed Books</a></li>
-				            <li><a href="my_roomlist">My Reserved Rooms</a></li>
-				            <li><a href="logout">Logout</a></li>
+							<li class="nav-item"><a class="nav-link disabled" href="#">Hello, ${sessionScope.user.name.firstName}</a></li>
+				            <li class="nav-item"><a class="nav-link" href="my_literaturelist">My Borrowed Books</a></li>
+				            <li class="nav-item"><a class="nav-link" href="my_roomlist">My Reserved Rooms</a></li>
+				            <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 						</c:when>
 						
 						<c:when test="${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
-							<li><a href="#">Hello, Admin ${sessionScope.user.name.firstName}</a></li>
-							<li><a href="staff_list">Library Staffs</a></li>
-							<li><a href="manager_list">Library Managers</a></li>
-					        <li><a href="logout">Logout</a></li>
+							<li class="nav-item"><a class="nav-link disabled" href="#">Hello, Admin ${sessionScope.user.name.firstName}</a></li>
+							<li class="nav-item"><a class="nav-link" href="staff_list">Library Staffs</a></li>
+							<li class="nav-item"><a class="nav-link" href="manager_list">Library Managers</a></li>
+					        <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 						</c:when>	
 					</c:choose>
 				</c:when>
-			</c:choose>			
-	      </ul>
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container -->
+			</c:choose>	
+	    </ul>
+	  </div>
 	</nav>
 </body>
 </html>

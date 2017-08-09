@@ -13,37 +13,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
-	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Spring 4 MVC -HelloWorld</title>
+	<title>Insert title here</title>
 	
 	<style>
 		.after-header {
-	     padding-top: 20%;
+	     padding-top: 100px;
 		}
 	</style>
 </head>
 <body>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
 	<%@include file="header.jsp" %>
 	<div class="container after-header"></div>
 	
 	<div class="container after-header">
 		<div class="row">
-			<div class="col-xs-2"></div>
-			<div class="col-xs-8">
+			<div class="col-xs-12">
 				<button type="button" class="btn btn-primary" href="literatures">
 				<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
 				Back to Literature List</button>
 			</div>
-			<div class="col-xs-2"></div>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-2"></div>
-			<div class="col-xs-8">
+			<div class="col-xs-12">
 				<div class="card">
 				  <h3 class="card-header">${literature.title}
 				  	<c:choose>
@@ -133,7 +132,6 @@
 				  </div>
 				</div>
 			</div>
-			<div class="col-xs-2"></div>
 		</div>	
 </body>
 </html>
