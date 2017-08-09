@@ -9,42 +9,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Spring 4 MVC -HelloWorld</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Insert title here</title>
 </head>
 <body>
-	<table style="width:100%">
-  		<tr>
-    		<td>Title</td>
-    		<td>${literature.title}</td>
-  		</tr>
-  		<tr>
-    		<td>Author</td>
-    		<td><c:forEach items="${literature.authors}" var="author" varStatus="loop">
-					${author.firstName} ${author.middleName} ${author.lastName}
-					<c:choose>
-						<c:when test="${!loop.last}">
-						  , 
-						</c:when>
-						<c:otherwise>
-					  	  
-						</c:otherwise>
-					</c:choose>
-	    		</c:forEach></td>
-  		</tr>
-  		<tr>
-    		<td>Date of Publication</td>
-    		<td><fmt:formatDate pattern = "${DateUtil.DATE_FORMAT}" value = "${literature.datePublished}" /></td>
-  		</tr>
-  		<tr>
-    		<td>Publisher</td>
-    		<td>${literature.publisher}</td>
-  		</tr>
-	</table>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+	<%@include file="header.jsp" %>
 	
-	<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>">
-		<button>Confirm Reservation</button>
-	</a>
+	<div class="container after-header">
+	  <div class="row">
+	  	<div class="col-xs-12">
+	  		<h3 class="card-header">${literature.title}</h3>
+	  			<div class="card-block">
+				    <h4 class="card-title">
+					    <c:forEach items="${literature.authors}" var="author" varStatus="loop">
+						${author.firstName} ${author.middleName} ${author.lastName}
+						<c:choose>
+							<c:when test="${!loop.last}">
+							  , 
+							</c:when>
+						</c:choose>
+		    		</c:forEach></h4>
+		    		
+				    <p class="card-text">
+					    <fmt:formatDate pattern = "${DateUtil.DATE_FORMAT}" value = "${literature.datePublished}" />
+				    </p>
+				    <p class="card-text">
+					    ${literature.publisher}
+				    </p>
+				 </div>
+		</div>
+	  </div>
+	  <div class="row">
+	  	<div class="col-xs-12">
+			<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>
+			   class="btn btn-primary btn-sm" role="button">Confirm Reservation</a>
+		</div>
+	  </div>
+	</div>
 	
 </body>
 </html>
