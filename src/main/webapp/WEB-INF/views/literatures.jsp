@@ -132,14 +132,14 @@
 									</c:when>
 								</c:choose>
 								<c:choose>
-									<c:when test="${sessionScope.user.userType > UserTypes.FACULTY.value}">
+									<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
+													sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
 										<a href="literature_edit?id=<c:out value="${id}"/>" class="card-link" role="button">
 										Edit Book Information</a>
 									</c:when>
 								</c:choose>
 								<c:choose>
-									<c:when test="${sessionScope.user.userType > UserTypes.FACULTY.value ||
-													sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
+									<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
 													sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
 										<a href="literature_edit?id=<c:out value="${id}"/>" class="card-link" role="button">
 										Add Book</a>
