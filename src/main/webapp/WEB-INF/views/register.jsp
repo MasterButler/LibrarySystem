@@ -11,53 +11,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Insert title here</title>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>						
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 	
 	<style>
 		@import url(https://fonts.googleapis.com/css?family=Signika:400,700|Courgette);
-		
-		* {
-		    box-sizing: border-box;
-		}
-		
-		body {
-		    padding: 2.5em 2em 0em;
-		    background: #f5f7f9;
-		        font-size: 1.5em;
-		        color: #346;
-		        font-family: Signika, -apple-system, sans-serif;
-		}
-		
-		section {
-		    margin: 0em auto 0;
-		    width: 100%;
-		    max-width: 800px;
-		}
-		
-		input {
-		    display: block;
-		    margin: .5em auto 0em;
-		    padding: 0.5em 1em 0.5em 0.7em;
-		    width: 100%;
-		    border: none;
-		    background: rgba(0,0,0,0.05);
-		    color: rgba(0,0,0,0.8);
-		    font-size: 2em;
-		    line-height: 0;
-		        transition: all .5s linear;
-		}
-		
-		input:hover, input:focus {
-		    outline: 0;
-		    transition: all .5s linear;
-		    box-shadow: inset 0px 0px 10px #ccc;
-		}
-		
+
 		meter {
 		    /* Reset the default appearance.
 		       -webkit-appearance: none is removed
@@ -104,83 +63,121 @@
 	</style>
 </head>
 <body>
-	<form:form id = "form_register" method="POST" action="register" modelAttribute="user">
-		<table style="max-width:800px;">
-        <tr>
-            <td><form:label path="name.firstName">First Name</form:label></td>
-            <td><form:input path="name.firstName" required="required"/></td>
-        </tr>
-        
-        <tr>
-            <td><form:label path="name.middleName">Middle Name</form:label></td>
-            <td><form:input path="name.middleName"/></td>
-        </tr>
-        
-        <tr>
-            <td><form:label path="name.lastName">Last Name</form:label></td>
-            <td><form:input path="name.lastName" required="required"/></td>
-        </tr>
-        
-        <tr>
-        	<td><form:label path="birthday">Birthday</form:label></td>
-            <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="yyyy-MM-dd"/>
-			<td><form:input type="date" path="birthday" name="user.birthday" value="${fmtDate}" required="required"/></td>
-            	
-        </tr>
-         
-        <tr>
-        	<td><form:radiobutton path="userType" value="${UserTypes.STUDENT.value}" label="${UserTypes.STUDENT.name}" required="required"/></td>
-        	<td><form:radiobutton path="userType" value="${UserTypes.FACULTY.value}" label="${UserTypes.FACULTY.name}"/></td>
-        </tr>
-        
-        <tr>
-            <td><form:label path="id">ID Number</form:label></td>
-            <td><form:input path="id" required="required"/></td>
-        </tr>
-        
-		<tr>
-            <td><form:label path="credentials.username">Username</form:label></td>
-            <td><form:input path="credentials.username" required="required"/></td>
-        </tr>        
-        
-        <tr>
-            <td><form:label path="email">Email</form:label></td>
-            <td><form:input type = "email" path="email" required="required"/></td>
-        </tr>
+	
+	<%@include file="header.jsp" %>
+	
+	<div class="container after-header">
+		<div class="row">
+	  		<div class="col-xs-12">
+	  			<h1>Create an Administrator Account</h1>
+	  			<form:form id = "form_register" method="POST" action="register" modelAttribute="user">
+	  				<h3>Basic Information</h3>
+					<div class="form-group row">
+				      <label for="create-firstname" class="col-sm-5 col-form-label">First Name</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-firstname" placeholder="Marnel" path="name.firstName"/>
+				      </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-middlename" class="col-sm-5 col-form-label">Middle Name</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" class="form-control form-control-sm" id="create-middlename" placeholder="S." path="name.middleName"/>
+				      </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-lastname" class="col-sm-5 col-form-label">Last Name</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-lastname" placeholder="Peradilla" path="name.lastName"/>
+				      </div>
+				    </div>
+					<hr />
+					<div class="form-group row">
+				      <label for="create-bday" class="col-sm-5 col-form-label">Birthday</label>
+				      <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="dd/MM/yyyy"/>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-bday" placeholder="dd/mm/yyyy" path="birthday"/>
+				      </div>
+				    </div>
+				    <fieldset class="form-group row">
+					      <legend class="col-form-legend col-sm-2">User Type</legend>
+					      <div class="col-sm-10">
+					        <div class="form-check">
+					          <label class="form-check-label">
+					            <form:radiobutton path="userType" value="${UserTypes.STUDENT.value}" label="${UserTypes.STUDENT.name}" required="required"/>
+					          	<br>
+					          	<form:radiobutton path="userType" value="${UserTypes.FACULTY.value}" label="${UserTypes.FACULTY.name}"/>
+					          </label>
+							</div>
+						</div>
+					</fieldset>
+				    <div class="form-group row">
+				      <label for="create-idnum" class="col-sm-5 col-form-label">ID Number</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id"/>
+				      </div>
+				    </div>
+				    <hr />
+				    <h3>Credentials</h3>
+				    <div class="form-group row">
+				      <label for="create-username" class="col-sm-5 col-form-label">Username</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-username" placeholder="Username" path="credentials.username"/>
+				      </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-email" class="col-sm-5 col-form-label">Email</label>
+				      <div class="col-sm-10">
+				        <form:input type="email" required="required" class="form-control form-control-sm" id="create-email" placeholder="Email" path="email"/>
+				      </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-password" class="col-sm-5 col-form-label">Password</label>
+				      <div class="col-sm-10">
+				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password"/>
+				      </div>
+				       <div class="col-sm-10">
+				       	 <meter max="4" id="password-strength-meter"></meter>
+		       			 <p id="password-strength-text"></p>
+				       </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-confirmpw" class="col-sm-5 col-form-label">Confirm Password</label>
+				      <div class="col-sm-10">
+				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-confirmpw" placeholder="" path="credentials.password"/>
+				      	<p id="password_match_result">
+				      </div>
+				    </div>
+				    <hr />
+				    <div class="form-group row">
+				      <label for="create-secretQ" class="col-sm-5 col-form-label">Security Question</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-secretQ" placeholder="(e.g. What is the name of your first favorite pet?)" path="securityQuestion"/>
+				      </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-secretA" class="col-sm-5 col-form-label">Answer</label>
+				      <div class="col-sm-10">
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-secretA" placeholder="Answer" path="securityAnswer"/>
+				      </div>
+				    </div>
+				    <hr />
+				    <div class="form-group row">
+				    	<c:choose>
+							<c:when test="${not empty loginErrorMessage}">
+								<div class="alert alert-danger alert-sm" role="alert">
+								  <strong>Oh snap!</strong> ${loginErrorMessage}.
+								</div>
+							</c:when>
+						</c:choose>
+				    </div>
+				    <div class="form-group row col-sm-10">
+				    	<input id="form_submit" class="btn btn-info" type="submit" value="Save"/>
+				    </div>
+			    </form:form>
+			</div>
+		</div>
+	</div>
 
-        <tr>
-            <td><form:label path="credentials.password">Password</form:label></td>
-            <td><form:password id="password" path="credentials.password" minlength="6" required="required"/></td>
-        </tr> 
-        <tr>
-        	<td></td>
-	        <td>
-		        <meter max="4" id="password-strength-meter"></meter>
-		        <p id="password-strength-text"></p>
-	        </td>
-        </tr>
-        
-        <tr>
-        	<td><form:label path="credentials.password">Confirm Password</form:label></td>
-            <td><form:password id="confirm_password" path="credentials.password" required="required"/></td>
-            <td><p id="password_match_result"></p></td>
-        </tr>
-        
-        <tr>
-			<c:choose>
-				<c:when test="${not empty registerErrorMessage}">
-					${registerErrorMessage}
-				</c:when>
-			</c:choose>
-        </tr>
-               
-        <tr>
-            <td><input id="form_submit" type="submit" value="Save"/></td>
-        </tr>
-        
-    	</table>
-    </form:form>
-    
     <script type="text/javascript">
 		var strength = {
 		        0: "Worst",
@@ -227,7 +224,10 @@
 				$("#form_submit").prop("disabled", true);
 			}
 		}
-		
 	</script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	
 </body>
 </html>
