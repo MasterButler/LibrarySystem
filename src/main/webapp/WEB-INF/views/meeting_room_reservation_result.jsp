@@ -56,7 +56,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<a class="btn btn-primary btn-sm" href="meeting_room" role="button">
+				<a class="btn btn-primary btn-sm" href="meeting_room_view" role="button">
 				Return to Room Reservation List</a>
 			</div>
 		</div>
