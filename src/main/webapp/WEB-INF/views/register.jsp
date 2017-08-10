@@ -69,7 +69,7 @@
 	<div class="container after-header">
 		<div class="row">
 	  		<div class="col-xs-12">
-	  			<h1>Create an Administrator Account</h1>
+	  			<h1>Create an Account</h1>
 	  			<form:form id = "form_register" method="POST" action="register" modelAttribute="user">
 	  				<h3>Basic Information</h3>
 					<div class="form-group row">
@@ -113,7 +113,7 @@
 				    <div class="form-group row">
 				      <label for="create-idnum" class="col-sm-5 col-form-label">ID Number</label>
 				      <div class="col-sm-10">
-				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id"/>
+				        <form:input type="number" min = "1000000" max="99999999" required="required" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id"/>
 				      </div>
 				    </div>
 				    <hr />
@@ -157,7 +157,7 @@
 				    <div class="form-group row">
 				      <label for="create-secretA" class="col-sm-5 col-form-label">Answer</label>
 				      <div class="col-sm-10">
-				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-secretA" placeholder="Answer" path="securityAnswer"/>
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-secretA" placeholder="Alex" path="securityAnswer"/>
 				      </div>
 				    </div>
 				    <hr />
@@ -187,8 +187,8 @@
 		        4: "Strong"
 		}
 	
-		var password = document.getElementById('password');
-		var confirmpassword = document.getElementById('confirm_password');
+		var password = document.getElementById('create-password');
+		var confirmpassword = document.getElementById('create-confirmpw');
 		
 		var meter = document.getElementById('password-strength-meter');
 		var text = document.getElementById('password-strength-text');
@@ -210,13 +210,13 @@
 		    }
 		});
 		
-		$('#password, #confirm_password').on('keyup', function(){
+		$('#create-password, #create-confirmpw').on('keyup', function(){
 			validatePassword();
 		});
 		
 		function validatePassword(){
 			var result = document.getElementById("password_match_result"); 
-			if($("#password").val() == $("#confirm_password").val()){
+			if($("#create-password").val() == $("#create-confirmpw").val()){
 				$("#password_match_result").html("Matching!").css('color', 'green')
 				$("#form_submit").prop("disabled", false);
 			}else{
