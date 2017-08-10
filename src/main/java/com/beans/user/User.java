@@ -18,6 +18,7 @@ import com.util.DateUtil;
 
 public class User {
 	
+	private int userType;
 	private String id;
 	//private SecretQuestions secretQuestion;
 	
@@ -30,7 +31,6 @@ public class User {
 	
 	@DateTimeFormat(pattern=DateUtil.NUMBER_FORMAT)
 	private Date birthday;
-	private int userType;
 	
 	//TODO These TWO lists in particular, I've only placed 
 	//to track currently reserved books. We can remove this once
@@ -40,9 +40,10 @@ public class User {
 	private MeetingRoomReservedList reservationList;
 	
 	private boolean hasTempPassword;
-	private int times;
+	private int attempts;
 	
 	public User(){
+		this.attempts = 0;
 		this.credentials = new LoginCredentials();
 		this.name = new Name();
 		this.birthday = new Date();
@@ -69,14 +70,6 @@ public class User {
 
 	public void setSecurityAnswer(String securityAnswer) {
 		this.securityAnswer = securityAnswer;
-	}
-
-	public int getTimes() {
-		return times;
-	}
-
-	public void setTimes(int times) {
-		this.times = times;
 	}
 
 	public boolean getHasTempPassword() {
@@ -161,5 +154,22 @@ public class User {
 
 	public void setReservationList(MeetingRoomReservedList reservationlist) {
 		this.reservationList = reservationlist;
+	}
+
+	public int getAttempts() {
+		return attempts;
+	}
+
+	public void setAttempts(int attempts) {
+		this.attempts = attempts;
+	}
+
+	public void resetAttempts(){
+		this.attempts = 0;
+	}
+	
+	public int addAttempt(){
+		attempts++;
+		return attempts;
 	}
 }
