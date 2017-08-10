@@ -13,7 +13,6 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 	
 	<style>
 		@import url(https://fonts.googleapis.com/css?family=Signika:400,700|Courgette);
@@ -114,7 +113,7 @@
 				    <div class="form-group row">
 				      <label for="create-idnum" class="col-sm-5 col-form-label">ID Number</label>
 				      <div class="col-sm-10">
-				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id"/>
+				        <form:input type="number" min = "1000000" max="99999999" required="required" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id"/>
 				      </div>
 				    </div>
 				    <hr />
@@ -158,7 +157,7 @@
 				    <div class="form-group row">
 				      <label for="create-secretA" class="col-sm-5 col-form-label">Answer</label>
 				      <div class="col-sm-10">
-				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-secretA" placeholder="Answer" path="securityAnswer"/>
+				        <form:input type="text" required="required" class="form-control form-control-sm" id="create-secretA" placeholder="Alex" path="securityAnswer"/>
 				      </div>
 				    </div>
 				    <hr />
