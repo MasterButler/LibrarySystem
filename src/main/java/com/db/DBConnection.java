@@ -8,25 +8,24 @@ import com.beans.list.LiteratureList;
 import com.beans.user.LoginCredentials;
 import com.beans.user.User;
 
-public class DBConnection {
-    // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/library_system";
+import javax.sql.DataSource;
 
-    //  Database credentials
-    static final String USER = "root";
-    static final String PASS = "password";
+public class DBConnection{
+
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public DBConnection(){
 
     }
 
     public Connection connect() {
-        Connection con;
-        String driver = "com.mysql.jdbc.Driver";
+        Connection con ;
         try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(DB_URL, USER, PASS);
+            con = dataSource.getConnection();
             if (con == null) {
                 System.out.println("Connection cannot be established");
             }
