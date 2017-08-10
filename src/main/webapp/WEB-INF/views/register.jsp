@@ -13,6 +13,7 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 	
 	<style>
 		@import url(https://fonts.googleapis.com/css?family=Signika:400,700|Courgette);
@@ -187,8 +188,8 @@
 		        4: "Strong"
 		}
 	
-		var password = document.getElementById('password');
-		var confirmpassword = document.getElementById('confirm_password');
+		var password = document.getElementById('create-password');
+		var confirmpassword = document.getElementById('create-confirmpw');
 		
 		var meter = document.getElementById('password-strength-meter');
 		var text = document.getElementById('password-strength-text');
@@ -210,13 +211,13 @@
 		    }
 		});
 		
-		$('#password, #confirm_password').on('keyup', function(){
+		$('#create-password, #create-confirmpw').on('keyup', function(){
 			validatePassword();
 		});
 		
 		function validatePassword(){
 			var result = document.getElementById("password_match_result"); 
-			if($("#password").val() == $("#confirm_password").val()){
+			if($("#create-password").val() == $("#create-confirmpw").val()){
 				$("#password_match_result").html("Matching!").css('color', 'green')
 				$("#form_submit").prop("disabled", false);
 			}else{
