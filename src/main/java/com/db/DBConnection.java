@@ -380,12 +380,13 @@ public class DBConnection{
                 ResultSet rs2;
                 stmt = con.prepareCall("{CALL get_all_authors_by_reservable(?)}");
                 stmt.setInt(1, (int) lit.getId());
+                stmt.execute();
                 rs2 = stmt.getResultSet();
                 if(rs2 == null)
                     lit.addAuthor(new Name("N/A", "N/A", "N/A"));
                 else{
                     while(rs2.next())
-                        lit.addAuthor(new Name(rs2.getString(1), rs2.getString(3), rs2.getString(2)));
+                        lit.addAuthor(new Name(rs2.getString(2), rs2.getString(4), rs2.getString(3)));
                 }
                 list.add(lit);
             }
