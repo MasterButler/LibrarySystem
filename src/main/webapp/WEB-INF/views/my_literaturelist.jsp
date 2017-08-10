@@ -24,6 +24,7 @@
 	<div class="container after-header">
 		<div class="row">
 				<div class="col-xs-12">
+				<h3>Borrowed Books</h3>
 					<c:forEach items="${literaturelist}" var="literature">  
 		
 						<div class="card lit-width">
@@ -46,9 +47,9 @@
 									<br>
 									<fmt:formatDate value="${literature.status.dateBorrowEnd}" pattern="${DateUtil.TIME_FORMAT}"/>
 								</h6>
-
 							</div>
 						</div>	
+						
 					</c:forEach>
 				</div>
 			</div>
