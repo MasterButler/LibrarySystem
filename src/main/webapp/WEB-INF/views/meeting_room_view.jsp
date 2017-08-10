@@ -75,7 +75,7 @@
 	                            "${AttributeDictionary.MEETING_ROOM_INDEX}=" + row + 
 	                            "&${AttributeDictionary.MEETING_TIME_INDEX}=" + col + "\">" +
 	                        
-	                        	"<input type=\"submit\" class=\"btn btn-info\" value=\"Submit\"></form></div></div>" ;
+	                        	"<input type=\"submit\" class=\"btn btn-info\" value=\"Confirm Reservation\"></form></div></div>" ;
 	                
 	                $(".reservation_Information").show();
 	                $(".reservation_Information").html(format);
