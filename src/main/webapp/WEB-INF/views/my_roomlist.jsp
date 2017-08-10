@@ -11,46 +11,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Insert title here</title>
 </head>
 <body>
-	Back to <a href="./">Homepage</a>
-	<table style="border-style: double;">
-		<tr>
-			<td align="center">Time Start</td>
-			<td align="center">Time End</td>
-			<td align="center"></td>
-		</tr>
-		
-		<c:forEach items="${user.reservationList}" var="reservation" varStatus="loop">
-			<c:set var="index" value="${loop.index}"/>
-			<c:choose>
-				<c:when test="${fn:length(reservation) != 0}">
-					<tr>
-						<td colspan="2" align="center"><c:out value="${MeetingRoomManager.ROOM_NAME[index]}"/></td>
-					<tr>	
-					
-					<c:forEach items="${reservation}" var="status" varStatus="inner">
-						<tr>
-							<td>
-								<fmt:formatDate value="${status.dateBorrowStart}" pattern="${DateUtil.NUMBER_FORMAT}"/>
-								<br>
-								<fmt:formatDate value="${status.dateBorrowStart}" pattern="${DateUtil.TIME_FORMAT}"/>
-							</td>
-							<td>
-								<fmt:formatDate value="${status.dateBorrowEnd}" pattern="${DateUtil.NUMBER_FORMAT}"/>
-								<br>
-								<fmt:formatDate value="${status.dateBorrowEnd}" pattern="${DateUtil.TIME_FORMAT}"/>
-							</td>
-						</tr>
-					</c:forEach>
-				</c:when>
-				
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-	</table>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+	<%@include file="header.jsp" %>
+	
+	<div class="container after-header">
+		<div class="row">
+			<div class="col-xs-12">
+				<h3>Reserved Rooms</h3>
+				<c:forEach items="${user.reservationList}" var="reservation" varStatus="loop"> 
+					<c:set var="index" value="${loop.index}"/>
+					<c:choose>
+						<c:when test="${fn:length(reservation) != 0}">
+							<div class="card lit-width">
+								<div class="card-block">
+									<h4 class="card-title"><c:out value="${MeetingRoomManager.ROOM_NAME[index]}"/></h4>
+					                <c:forEach items="${reservation}" var="status" varStatus="inner">
+										<h6 class="card-subtitle mb-2">Start: 
+											<span class="card-text text-muted">
+												<fmt:formatDate value="${status.dateBorrowStart}" pattern="${DateUtil.NUMBER_FORMAT}"/>  
+												<fmt:formatDate value="${status.dateBorrowStart}" pattern="${DateUtil.TIME_FORMAT}"/></span>
+										</h6>
+										<h6 class="card-subtitle mb-2">End:
+											<span class="card-text text-muted">
+												<fmt:formatDate value="${status.dateBorrowEnd}" pattern="${DateUtil.NUMBER_FORMAT}"/>  
+												<fmt:formatDate value="${status.dateBorrowEnd}" pattern="${DateUtil.TIME_FORMAT}"/></span>
+										</h6>
+									</c:forEach>
+								</div>
+							</div>
+						</c:when>
+						
+						<c:otherwise></c:otherwise>
+						
+					</c:choose>
+				</c:forEach>
+			</div>
+		</div>
+	</div>	
 </body>
 </html>
