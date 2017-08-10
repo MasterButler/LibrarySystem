@@ -4,6 +4,7 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
+<%@ page import="java.util.Date" %>
 <%@ page import="com.beans.user.UserTypes" %>    
 <%@ page import="com.beans.Status" %>
 <%@ page import="com.beans.MeetingRoom" %>
@@ -140,8 +141,8 @@
 		<table style="font-family:arial;font-size:10px;" cellpadding = "0" cellspacing="1" >
 			<tr>
 				<td colspan="<%=MeetingRoomTimeSlots.slots.length + 1%>" align="center">
-					<c:set var = "now" value = "<%= DateUtil.getCurrentDate()%>" />
-					<p style="font-size:14px;font-weight:bold;padding:0px;margin:0px"  ><fmt:formatDate pattern = "MMMM dd, yyyy (EEEE)" value = "${now}"/></p> 
+					<c:set var="tomorrow" value="<%=new Date(new Date().getTime() + 60*60*24*1000)%>"/>
+					<p style="font-size:14px;font-weight:bold;padding:0px;margin:0px"  ><fmt:formatDate pattern = "MMMM dd, yyyy (EEEE)" value = "${tomorrow}"/></p> 
 				</td>
 			</tr>
 			<tr>
