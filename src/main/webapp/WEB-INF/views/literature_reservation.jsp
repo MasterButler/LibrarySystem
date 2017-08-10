@@ -24,6 +24,7 @@
 	<div class="container after-header">
 	  <div class="row">
 	  	<div class="col-xs-12">
+	  		<div class="card">
 	  		<h3 class="card-header">${literature.title}</h3>
 	  			<div class="card-block">
 				    <h4 class="card-title">
@@ -38,17 +39,16 @@
 		    		
 				    <p class="card-text">
 					    <fmt:formatDate pattern = "${DateUtil.DATE_FORMAT}" value = "${literature.datePublished}" />
-				    </p>
-				    <p class="card-text">
-					    ${literature.publisher}
+					    <br>${literature.publisher}
 				    </p>
 				 </div>
+			 </div>
 		</div>
 	  </div>
 	  <div class="row">
 	  	<div class="col-xs-12">
-			<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>
-			   class="btn btn-primary btn-sm" role="button">Confirm Reservation</a>
+			<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>"
+			   class="btn btn-primary" role="button">Confirm Reservation</a>
 		</div>
 	  </div>
 	</div>

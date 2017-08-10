@@ -49,7 +49,6 @@
 							    <h3 class="card-title">Borrow Literature</h3>
 							    <p class="card-text">Get access to numerous journals and books available in the library.</p>
 							    <a href="literatures" class="btn btn-success">
-							    	<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
 							    	View All Literatures</a>
 							  </div>
 							</div>
@@ -60,14 +59,39 @@
 							    <h3 class="card-title">Reserve Rooms</h3>
 							    <p class="card-text">Hold a group study, meeting or project-making session in one of our library's rooms. </p>
 							    <a href="meeting_room_view" class="btn btn-success">
-							    	<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
 							    	View All Meeting Rooms</a>
 							  </div>
 							</div>
 						</div>
 						<div class="col-xs-2"></div>
 					</c:when>
-			
+					
+					<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value ||
+									sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
+									sessionScope.user == null}">
+						<div class="col-xs-4">
+							<div class="card" style="width: 30rem;">
+							  <div class="card-block">
+							    <h3 class="card-title">Literatures</h3>
+							    <p class="card-text">Get access to numerous journals and books available in the library.</p>
+							    <a href="literatures" class="btn btn-success">
+							    	View All Literatures</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="card" style="width: 30rem;">
+							  <div class="card-block">
+							    <h3 class="card-title">Meeting Rooms</h3>
+							    <p class="card-text">Hold a group study, meeting or project-making session in one of our library's rooms. </p>
+							    <a href="meeting_room_view" class="btn btn-success">
+							    	View All Meeting Rooms</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col-xs-2"></div>
+					</c:when>
+						<hr />
 					<c:when test="${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
 						<div class="col-xs-4">
 							<div class="card" style="width: 30rem;">
@@ -75,7 +99,6 @@
 							    <h3 class="card-title">Borrow Literatures</h3>
 							    <p class="card-text">Get access to numerous journals and books available in the library.</p>
 							    <a href="literatures" class="btn btn-success">
-							    	<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
 							    	View All Literatures</a>
 							  </div>
 							</div>
@@ -86,7 +109,6 @@
 							    <h3 class="card-title">Reserve Rooms</h3>
 							    <p class="card-text">Hold a group study, meeting or project-making session in one of our library's rooms. </p>
 							    <a href="meeting_room_view" class="btn btn-success">
-							    	<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
 							    	View All Meeting Rooms</a>
 							  </div>
 							</div>
@@ -100,7 +122,6 @@
 								    <h3 class="card-title">High-level Accounts</h3>
 								    <p>Have an overview of all the existing high-level accounts in the system.</p>
 								    <a href="staff_list" class="btn btn-success">
-								    	<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 								    	View All High-level Accounts</a>
 								  </div>
 								</div>

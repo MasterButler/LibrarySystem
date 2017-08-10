@@ -70,15 +70,13 @@
 		    		
 				    <p class="card-text">
 					    <fmt:formatDate pattern = "${DateUtil.DATE_FORMAT}" value = "${literature.datePublished}" />
-				    </p>
-				    <p class="card-text">
-					    ${literature.publisher}
+					    <br>${literature.publisher}
 				    </p>
 				    
 				    <p>
 				    <c:choose>
 						<c:when test="${literature.status.availability == Status.STATUS_AVAILABLE}">
-							<div class="alert alert-success" role="alert">
+							<div class="alert alert-success alert-sm" role="alert">
   								<strong>It's available!</strong>
   								<c:choose>
 									<c:when test="${sessionScope.user == null}">
@@ -88,7 +86,7 @@
 									<c:otherwise>
 										<c:choose>
 											<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
-											 				sessionScope.user.userType == UserTypes.STUDENT.value}">
+											 				sessionScope.user.userType == UserTypes.STUDENT.value }">
 											 	Proceed to
 												<a href = "reservation?id=<c:out value="${literature.id}"/>" class="alert-link">
 												Reservation Page</a>
@@ -100,7 +98,7 @@
 						</c:when>
 					
 						<c:when test="${literature.status.availability == Status.STATUS_RESERVED}">
-							<div class="alert alert-warning" role="alert">
+							<div class="alert alert-warning alert-sm" role="alert">
   								<strong>Too bad, it's reserved already.</strong>
   								It will be available again after 
   								<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowEnd}" />
@@ -108,7 +106,7 @@
   														
  							<c:choose>
 								<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
-									<h5>Are you a manager? However, you can override this. </h5>
+									<h6>However, you can override this. </h6>
 									<button type="button" class="btn btn-primary" 
 									href = "reservation_override/confirmation?id=<c:out value="${literature.id}"/>">
 									Click here!</button>
@@ -117,7 +115,7 @@
 						</c:when>
 						
 						<c:when test="${literature.status.availability == Status.STATUS_OUT}">
-							<div class="alert alert-warning" role="alert">
+							<div class="alert alert-warning alert-sm" role="alert">
   								<strong>Someone already borrowed it!</strong>
   								It will be available again after 
   								<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowEnd}" />

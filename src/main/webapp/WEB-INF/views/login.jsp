@@ -44,8 +44,8 @@
 			    <div class="form-group row">
 			    	<c:choose>
 						<c:when test="${not empty loginErrorMessage}">
-							<div class="alert alert-danger" role="alert">
-							  <strong>Oh snap!</strong> ${loginErrorMessage}
+							<div class="alert alert-danger alert-sm" role="alert">
+							  <strong>Oh snap!</strong> ${loginErrorMessage}!
 							</div>
 						</c:when>
 					</c:choose>
