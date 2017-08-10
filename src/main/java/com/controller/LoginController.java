@@ -84,14 +84,17 @@ public class LoginController {
 		String email = request.getParameter("login-email");
 		System.out.println("EMAIL is " + email);
 		User user = UserManager.getInstance().searchUserByEmail(email);
-		if(user != null){
-			ModelAndView mv = new ModelAndView("login_security_questions");
-			mv.addObject("max_attempt_user", user);
-			return mv;
-		}else{
-			System.out.println("NO USER FOUND");
-			return ErrorHandler.goToLogInMaxAttempts();
+		if(email != null){
+			if(user != null){
+				ModelAndView mv = new ModelAndView("login_security_questions");
+				mv.addObject("max_attempt_user", user);
+				return mv;
+			}else{
+				System.out.println("NO USER FOUND");
+				return ErrorHandler.goToLogInMaxAttempts();				
+			}
 		}
+		return ErrorHandler.goToLogin();
 	}
 	
 	@RequestMapping(value="/login_security_questions", method=RequestMethod.GET)
@@ -99,13 +102,14 @@ public class LoginController {
 		System.out.println("IN STEP 2 A");
 		String email = (String) request.getSession().getAttribute("max_attempt_user_email");
 		User user = UserManager.getInstance().searchUserByEmail(email);
-		if(user != null){
-			ModelAndView mv = ErrorHandler.goToSecurityQuestions();
-			mv.addObject("max_attempt_user", user);
-			return mv;
-		}else{
-			return ErrorHandler.goToLogInMaxAttempts();
+		if(email != null){
+			if(user != null){
+				ModelAndView mv = ErrorHandler.goToSecurityQuestions();
+				mv.addObject("max_attempt_user", user);
+				return mv;
+			}
 		}
+		return ErrorHandler.goToLogin();
 	}
 	
 	@RequestMapping(value="/login_security_questions", method=RequestMethod.POST)
@@ -116,11 +120,40 @@ public class LoginController {
 		User user = UserManager.getInstance().searchUserByEmail(email);
 		if(user != null){
 			if(user.getSecurityAnswer().equals(securityAnswer)){
-				return ErrorHandler.goToHomePage();
+				ModelAndView mv = new ModelAndView("login_change_password");
+				mv.addObject("max_attempt_user", user);
+				return mv;
+			}
+		}
+		return ErrorHandler.goToLogin();
+	}
+	
+
+	@RequestMapping(value="/login_change_password", method=RequestMethod.POST)
+	public ModelAndView showChangePassword(HttpServletRequest request){
+		System.out.println("IN STEP 3 A");
+		String email = request.getParameter("login-email");
+		String password = request.getParameter("password");
+		String confirm_password = request.getParameter("confirm_password");
+		
+		User user = UserManager.getInstance().searchUserByEmail(email);
+		if(user != null){
+			if(password.equals(confirm_password)){
+				user.getCredentials().setPassword(LoginManager.getInstance().encrypt(password));
+				user.resetAttempts();
+				ModelAndView mv = new ModelAndView("password_change_result");
+				return mv;
 			}
 		}
 		return ErrorHandler.goToSecurityQuestions();
 	}
+	
+	@RequestMapping(value="password_change_result")
+	public ModelAndView showSuccessChangePassword(){
+		ModelAndView mv = new ModelAndView("password_change_result");
+		return mv;
+	}
+	
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request){
