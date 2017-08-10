@@ -69,7 +69,7 @@
 	<div class="container after-header">
 		<div class="row">
 	  		<div class="col-xs-12">
-	  			<h1>Create an Administrator Account</h1>
+	  			<h1>Create an Account</h1>
 	  			<form:form id = "form_register" method="POST" action="register" modelAttribute="user">
 	  				<h3>Basic Information</h3>
 					<div class="form-group row">
