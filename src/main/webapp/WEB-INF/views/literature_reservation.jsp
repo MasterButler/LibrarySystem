@@ -24,7 +24,7 @@
 	<div class="container after-header">
 	  <div class="row">
 	  	<div class="col-xs-12">
-	  		<div class="card">
+	  		<div class="card lit-width">
 	  		<h3 class="card-header">${literature.title}</h3>
 	  			<div class="card-block">
 				    <h4 class="card-title">

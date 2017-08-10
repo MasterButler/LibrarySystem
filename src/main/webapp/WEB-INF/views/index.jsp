@@ -91,8 +91,9 @@
 						</div>
 						<div class="col-xs-2"></div>
 					</c:when>
-						<hr />
+						
 					<c:when test="${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
+						<hr />
 						<div class="col-xs-4">
 							<div class="card" style="width: 30rem;">
 							  <div class="card-block">
