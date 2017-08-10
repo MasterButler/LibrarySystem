@@ -31,4 +31,18 @@ public class ErrorHandler {
     public static String goToHomePageString(){
     	return "redirect:/";
     }
+    
+    public static ModelAndView goToLogInMaxAttempts(){
+    	ModelAndView mv = new ModelAndView("redirect:/login_max_attempts");
+    	return mv;
+    }
+    
+    public static String goToLogInMaxAttemptsString(){
+    	return "redirect:/login_max_attempts";
+    }
+    
+    public static ModelAndView goToSecurityQuestions(){
+    	ModelAndView mv = new ModelAndView("redirect:/login_security_questions");
+    	return mv;
+    }
 }

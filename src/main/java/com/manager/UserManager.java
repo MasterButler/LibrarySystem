@@ -27,6 +27,8 @@ public class UserManager {
 			userBad.setEmail("abcde@a.a");
             userBad.setName(new Name("<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me"));
             userBad.setId("AAAAAAA");
+            userBad.setSecurityQuestion("Yay?");
+            userBad.setSecurityAnswer("yay");
             userBad.setUserType(UserTypes.STUDENT.getValue());
 			
 			User userGood = new User();
@@ -34,6 +36,8 @@ public class UserManager {
 			userGood.setEmail("bcdef@a.a");
             userGood.setName(new Name("<body onload=alert('test1')>test", "A", "AAAAA"));
             userGood.setId("BBBBB");
+            userGood.setSecurityQuestion("Yay?");
+            userGood.setSecurityAnswer("yay");
             userGood.setUserType(UserTypes.STUDENT.getValue());
             
             User userRandom = new User();
@@ -41,6 +45,8 @@ public class UserManager {
             userRandom.setEmail("aaa@a.a");
             userRandom.setName(new Name("AAA", "A", "AAAAA"));
             userRandom.setId("CCCCC");
+            userRandom.setSecurityQuestion("Yay?");
+            userRandom.setSecurityAnswer("yay");
             userRandom.setUserType(UserTypes.STUDENT.getValue());
             
 			User userA = new User();
