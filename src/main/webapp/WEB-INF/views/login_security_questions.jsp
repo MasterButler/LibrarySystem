@@ -30,7 +30,7 @@
 	  		<h1>${max_attempt_user.securityQuestion}</h1>
 	  		<form:form method="POST" action="login_security_questions">
 			    <div class="form-group row">
-			      <label for="securityAnswer" class="col-sm-5 col-form-label">Email</label>
+			      <label for="securityAnswer" class="col-sm-5 col-form-label">Answer</label>
 			      <div class="col-sm-10">
 				    <input type="hidden" name="login-email" class="form-control" id="login-email" value="${max_attempt_user.email}"/>
 			        <input type="password" name="securityAnswer" class="form-control" id="securityAnswer"/>
@@ -40,7 +40,7 @@
 			    	<input type="submit" class="btn btn-info" value="Submit">
 			    </div>
 			</form:form>
-	  	</div>
+	  	</div>																
 	  	<div class="col-xs-2"></div>
 	  </div> 
 	</div>
