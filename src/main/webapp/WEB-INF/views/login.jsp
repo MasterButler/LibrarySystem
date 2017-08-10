@@ -51,7 +51,7 @@
 					</c:choose>
 			    </div>
 			    <div class="form-group row col-sm-10">
-			    	<input type="submit" class="btn btn-info" value="Submit" class="btn btn-success">
+			    	<input type="submit" class="btn btn-info" value="Submit">
 			    </div>
 			    <div class="form-group row col-sm-10">
 			    	<br><p>Don't have an account yet?</p>

@@ -11,25 +11,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Insert title here</title>
+	
+	<style>
+		.after-header {
+	     padding-top: 100px;
+		}
+	</style>
 </head>
 <body>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
-	<c:choose>
-		<c:when test="${meeting_room_reservation_bool}">
-			${room} has been successfully reserved under the id number ${user.id}.
-			
-			Your reservation will last from
-			<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${time_start}" />
-			to 
-			<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${time_end}" />
-			.			
-		</c:when>
-		<c:otherwise>
-			This has already been reserved by another user.
-		</c:otherwise>
-	</c:choose>	
-	<a href="meeting_room">Return to room list</a>
+	<%@include file="header.jsp" %>
+	<div class="container after-header"></div>
+	<div class="container after-header">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="card">
+				  <div class="card-block">
+					<c:choose>
+						<c:when test="${meeting_room_reservation_bool}">
+							<h4 class="card-title">${room} has been successfully reserved under the id number ${user.id}.</h4>
+							
+							<h6 class="card-subtitle mb-2 text-muted">
+								Your reservation will last from
+								<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${time_start}" />
+								to 
+								<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${time_end}" />
+								.</h6>			
+						</c:when>
+						<c:otherwise>
+							<h4 class="card-title">
+							This has already been reserved by another user.</h4> 
+						</c:otherwise>
+					</c:choose>
+				  </div>
+				</div>
+			</div>		
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<a class="btn btn-primary btn-sm" href="meeting_room" role="button">
+				Return to Room Reservation List</a>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -38,9 +38,11 @@
 							.</h6>
 						</c:when>
 						<c:otherwise>
-							<h4 class="card-title"></h4>
-							${literature.title} has already been borrowed by someone else. Please check back after
-							<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowEnd}" /></h4>
+							<h4 class="card-title">
+							${literature.title} has already been borrowed by someone else.</h4> 
+							<h6 class="card-subtitle mb-2 text-muted">
+							Please check back after
+							<fmt:formatDate pattern = "${DateUtil.DATETIME_FORMAT}" value = "${literature.status.dateBorrowEnd}" /></h6>
 						</c:otherwise>
 					</c:choose>
 				  </div>

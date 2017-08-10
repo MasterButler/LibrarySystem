@@ -16,8 +16,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Insert title here</title>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script>
 	    $(document).ready(function(){
@@ -35,7 +39,7 @@
 	                var $tr = $(this).closest('tr');
 	                var row = $tr.index() - 2;
 	                
-	                console.log(col);
+	           		console.log(col);
 	                var importedListTime = [
 	                <%    String[] list = MeetingRoomTimeSlots.getSlots();
 	                    for(int i = 0; i < list.length; i++){                    %>
@@ -63,28 +67,15 @@
 	                var appendTime = importedListTime[col];
 	                var appendRoom = importedRoom[row]; 
 	                var format =
-	                    "<table>" +
-	                        "<tr>" + 
-	                            "<td colspan = \"2\" align = \"center\">Booking Details</td>" +
-	                        "</tr>" +
-	                        "<tr>" + 
-	                            "<td>Room Name </td>" +
-	                            "<td>" + appendRoom + "</td>" +
-	                        "</tr>" + 
-	                        "<tr>" + 
-	                            "<td>Reservation Time</td>" +
-	                            "<td>" + appendTime + "</td>" + 
-	                        "</tr>" +
-	                    "</table>" +
+	                            "<h4 class=\"card-title\">Booking Details</h4>" +
+	                            "<p class=\"card-text\">Room Name: " +appendRoom+
+	                            "<br>Reservation Time: " +appendTime + "</p>"  +
+	                    "<div class=\"row col-sm-10\"><div class=\"col-xs-12\">" +      
 	                    "<form method=\"POST\" action=\"meeting_room_reserve?" +
 	                            "${AttributeDictionary.MEETING_ROOM_INDEX}=" + row + 
 	                            "&${AttributeDictionary.MEETING_TIME_INDEX}=" + col + "\">" +
-	                        "<table>" +
-	                            "<tr>" +    
-	                                "<td><button type = \"submit\" value = \"reserve\">Confirm Reservation</button></td>" +
-	                            "</tr>" + 
-	                        "</table>" + 
-	                    "</form>";
+	                        
+	                        	"<input type=\"submit\" class=\"btn btn-info\" value=\"Submit\"></form></div></div>" ;
 	                
 	                $(".reservation_Information").show();
 	                $(".reservation_Information").html(format);
@@ -136,67 +127,78 @@
 
 </head>
 <body>
-		Back to <a href="./">Homepage</a>
-		
-		<table style="font-family:arial;font-size:10px;" cellpadding = "0" cellspacing="1" >
-			<tr>
-				<td colspan="<%=MeetingRoomTimeSlots.slots.length + 1%>" align="center">
-					<c:set var="tomorrow" value="<%=new Date(new Date().getTime() + 60*60*24*1000)%>"/>
-					<p style="font-size:14px;font-weight:bold;padding:0px;margin:0px"  ><fmt:formatDate pattern = "MMMM dd, yyyy (EEEE)" value = "${tomorrow}"/></p> 
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-			<c:forEach items = "${MeetingRoomTimeSlots.slots}" var = "timeslot" varStatus="loop">
-				<td> ${timeslot} </td>
-			</c:forEach>
-			</tr>
-				<c:forEach items = "${meetingroomlist}" var="meetingroom" varStatus="room">
-					<c:set var="roomNum" value="${room.index}"/>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	
+	<%@include file="header.jsp" %>
+	<div class="container after-header"></div>
+	
+	<div class="container after-header">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4>Meeting Room Reservation</h4>
+				<div class="card p-5">
+					<table style="font-family:arial;font-size:10px;" cellpadding = "0" cellspacing="1" >
 					<tr>
-						<td> ${meetingroom.name} &nbsp;&nbsp;
+						<td colspan="<%=MeetingRoomTimeSlots.slots.length + 1%>" align="center">
+							<c:set var="tomorrow" value="<%=new Date(new Date().getTime() + 60*60*24*1000)%>"/>
+							<p style="font-size:14px;font-weight:bold;padding:0px;margin:0px"  ><fmt:formatDate pattern = "MMMM dd, yyyy (EEEE)" value = "${tomorrow}"/></p> 
 						</td>
-						<c:forEach items = "${MeetingRoomTimeSlots.slots}" var = "timeslot" varStatus="loop">
-							<td>
-								<div style="width:60px;height:25px;float:left;background-color:#7ABCDE">
-                                    <c:set var="index" value = "${loop.index}"/>
-                                    
-                                    <c:set var="userList" value = "${meetingroom.userIsHolding}"/>
-                                    <c:set var="userListTime" value = "${userList[index]}"/>
-									<!-- 
-									<c:out value="${indexA}"/> and <c:out value="${indexB}"/>
-									${userListTimeA.name.firstName}
-									 -->
-									<c:choose> 
-                                        <c:when test="${userListTime == null}">
-											<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
-										</c:when>
-										<c:otherwise>
-											<c:choose>
-												<c:when test="${userListTime.availability == Status.STATUS_AVAILABLE}">
+					</tr>
+					<tr>
+						<td></td>
+					<c:forEach items = "${MeetingRoomTimeSlots.slots}" var = "timeslot" varStatus="loop">
+						<td> ${timeslot} </td>
+					</c:forEach>
+					</tr>
+						<c:forEach items = "${meetingroomlist}" var="meetingroom" varStatus="room">
+							<c:set var="roomNum" value="${room.index}"/>
+							<tr>
+								<td> ${meetingroom.name} &nbsp;&nbsp;
+								</td>
+								<c:forEach items = "${MeetingRoomTimeSlots.slots}" var = "timeslot" varStatus="loop">
+									<td>
+										<div style="width:60px;height:25px;float:left;background-color:#7ABCDE">
+		                                    <c:set var="index" value = "${loop.index}"/>
+		                                    
+		                                    <c:set var="userList" value = "${meetingroom.userIsHolding}"/>
+		                                    <c:set var="userListTime" value = "${userList[index]}"/>
+											<c:choose> 
+		                                        <c:when test="${userListTime == null}">
 													<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
 												</c:when>
-												<c:when test="${userListTime.availability == Status.STATUS_RESERVED}">
+												<c:otherwise>
 													<c:choose>
-														<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
-															<a class = "toggleReservationInHold" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
+														<c:when test="${userListTime.availability == Status.STATUS_AVAILABLE}">
+															<a class = "toggleReservationUp" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
+														</c:when>
+														<c:when test="${userListTime.availability == Status.STATUS_RESERVED}">
+															<c:choose>
+																<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
+																	<a class = "toggleReservationInHold" style="border-width: 0px 1px 0px 0px; margin-right:4px;"></a>
+																</c:when>
+															</c:choose>
 														</c:when>
 													</c:choose>
-												</c:when>
+												</c:otherwise>
 											</c:choose>
-										</c:otherwise>
-									</c:choose>
-								</div>
-							</td>
+										</div>
+									</td>
+								</c:forEach>
+							</tr>
 						</c:forEach>
-					</tr>
-				</c:forEach>
-		</table>
-		        
-        <div class = "reservation_Information">
-        </div>
-		
+				</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="card p-2">
+					<div class = "reservation_Information"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
-
-
 </html>
