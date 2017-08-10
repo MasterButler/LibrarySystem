@@ -8,7 +8,8 @@ public class TextHandler {
 	public static String sanitize(String untrustedHTML){
 		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		String safeHTML = policy.sanitize(untrustedHTML);
-		System.out.println("FROM " + untrustedHTML + " TO " + safeHTML);
+//		System.out.println("Input to Sanitize: " + untrustedHTML);
+//		System.out.println("Sanitized Output : " + safeHTML); 
 		return safeHTML;
 	}
 }

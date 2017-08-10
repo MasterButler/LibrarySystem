@@ -19,6 +19,7 @@ import com.beans.list.LiteratureList;
 import com.beans.list.NameList;
 import com.beans.user.User;
 import com.beans.user.UserTypes;
+import com.handler.ErrorHandler;
 import com.manager.LiteratureManager;
 import com.util.AttributeDictionary;
 
@@ -110,35 +111,42 @@ public class LiteratureController {
 		
 		ModelAndView mv;
 		
-		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
-		if(user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue() || user.getUserType() == UserTypes.LIBRARY_STAFF.getValue()){
-			if(LiteratureManager.getInstance().delete(Long.valueOf(id))){
-				mv = new ModelAndView("literatures");
-				mv.addObject(AttributeDictionary.LITERATURE_LIST, LiteratureManager.getInstance().getAllLiterature());
-				return mv;
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue() || user.getUserType() == UserTypes.LIBRARY_STAFF.getValue()){
+				if(LiteratureManager.getInstance().delete(Long.valueOf(id))){
+					mv = new ModelAndView("literatures");
+					mv.addObject(AttributeDictionary.LITERATURE_LIST, LiteratureManager.getInstance().getAllLiterature());
+					return mv;
+				}
 			}
 		}
-		mv = new ModelAndView("literatures");
-		mv.addObject(AttributeDictionary.LITERATURE_LIST, LiteratureManager.getInstance().getAllLiterature());
-		return mv;
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	//TODO add lits
 	@RequestMapping(value="/literature_add", method = RequestMethod.GET)
-	public ModelAndView showAddLiterature(){
-		ModelAndView mv; 
-		Literature toCreate = new Literature();
+	public ModelAndView showAddLiterature(HttpServletRequest request){
+		ModelAndView mv;
 		
-		NameList nameList = new NameList();
-		nameList.add(new Name());
-		
-		toCreate.setAuthors(nameList);
-		
-		System.out.println("IN HERE HEHE");
-//		mv = new ModelAndView("literature_add", AttributeDictionary.LITERATURE, toCreate);
-		long id = createBlankBook(toCreate);
-		mv = new ModelAndView("redirect:/literature_edit?id=" + id);
-		return mv;
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
+			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
+				Literature toCreate = new Literature();
+				
+				NameList nameList = new NameList();
+				nameList.add(new Name());
+				
+				toCreate.setAuthors(nameList);
+				
+				System.out.println("IN HERE HEHE");
+//				mv = new ModelAndView("literature_add", AttributeDictionary.LITERATURE, toCreate);
+				long id = createBlankBook(toCreate);
+				mv = new ModelAndView("redirect:/literature_edit?id=" + id);
+				return mv;
+			}
+		}
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	@RequestMapping(value="/literature_add", method = RequestMethod.POST)
@@ -147,22 +155,26 @@ public class LiteratureController {
 			BindingResult result, 
 			ModelMap model){
 		
-		String action = request.getParameter("action");
-		System.out.println("ACTION IS " + action);
-		if(action.contains("Add Author")){
-			System.out.println("DONE ADDING");
-			return addAuthors(request, model, literature);
-		}else if(action.contains("Delete Author")){
-			System.out.println("DONE DELETING");
-			String index = action.split(" ")[action.split(" ").length-1];
-			int indexToRemove = Integer.valueOf(index);
-			return deleteAuthors(request, model, literature, indexToRemove);
-		}else if(action.contains("Create Literature")){
-			System.out.println("WILL CREATE LITERATURE");
-			return createBook(request, model, literature);
-		}else{
-			return "/index";
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
+				String action = request.getParameter("action");
+				System.out.println("ACTION IS " + action);
+				if(action.contains("Add Author")){
+					System.out.println("DONE ADDING");
+					return addAuthors(request, model, literature);
+				}else if(action.contains("Delete Author")){
+					System.out.println("DONE DELETING");
+					String index = action.split(" ")[action.split(" ").length-1];
+					int indexToRemove = Integer.valueOf(index);
+					return deleteAuthors(request, model, literature, indexToRemove);
+				}else if(action.contains("Create Literature")){
+					System.out.println("WILL CREATE LITERATURE");
+					return createBook(request, model, literature);
+				}			
+			}
 		}
+		return ErrorHandler.goToHomePageString();
 	}
 	
 	public String addAuthors(HttpServletRequest request, ModelMap model, Literature literature){

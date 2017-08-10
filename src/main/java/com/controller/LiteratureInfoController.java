@@ -50,9 +50,9 @@ public class LiteratureInfoController {
 			@RequestParam(value = "id", required = true) String id){
 		
 		ModelAndView mv;
-		User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
 		System.out.println("IN HERE");
-		if(user != null){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
 			System.out.println("NOT NULL");
 			System.out.println(user.getUserType());
 			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
@@ -79,20 +79,25 @@ public class LiteratureInfoController {
 			BindingResult result,
 			ModelMap model){
 		
-		String action = request.getParameter("action");
-		System.out.println("THE ID OF REQUESTER IS: " + request.getParameter("id"));
-		
-		if(action.contains("Add Author")){
-			System.out.println("DONE ADDING");
-			return addAuthors(request, model, literature);
-		}else if(action.contains("Delete Author")){
-			System.out.println("DONE DELETING");
-			String index = action.split(" ")[action.split(" ").length-1];
-			int indexToRemove = Integer.valueOf(index)-1;
-			return deleteAuthors(request, model, literature, indexToRemove);
-		}else if(action.contains("Save")){
-			System.out.println("WHAT I GOT FROM DATE: " + DateUtil.displayDate(literature.getDatePublished()));
-			return saveEdit(request, model, literature);
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER); 
+			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue() || user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
+				String action = request.getParameter("action");
+				System.out.println("THE ID OF REQUESTER IS: " + request.getParameter("id"));
+				
+				if(action.contains("Add Author")){
+					System.out.println("DONE ADDING");
+					return addAuthors(request, model, literature);
+				}else if(action.contains("Delete Author")){
+					System.out.println("DONE DELETING");
+					String index = action.split(" ")[action.split(" ").length-1];
+					int indexToRemove = Integer.valueOf(index)-1;
+					return deleteAuthors(request, model, literature, indexToRemove);
+				}else if(action.contains("Save")){
+					System.out.println("WHAT I GOT FROM DATE: " + DateUtil.displayDate(literature.getDatePublished()));
+					return saveEdit(request, model, literature);
+				}				
+			}
 		}
 		return ErrorHandler.goToHomePageString();
 		

@@ -104,7 +104,7 @@
 	</style>
 </head>
 <body>
-	<form:form method="POST" action="register" modelAttribute="user">
+	<form:form id = "form_register" method="POST" action="register" modelAttribute="user">
 		<table style="max-width:800px;">
         <tr>
             <td><form:label path="name.firstName">First Name</form:label></td>
@@ -123,7 +123,7 @@
         
         <tr>
         	<td><form:label path="birthday">Birthday</form:label></td>
-            <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="dd/MM/yyyy"/>
+            <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="yyyy-MM-dd"/>
 			<td><form:input type="date" path="birthday" name="user.birthday" value="${fmtDate}" required="required"/></td>
             	
         </tr>
@@ -218,16 +218,16 @@
 		});
 		
 		function validatePassword(){
-			$("password_match_result")
 			var result = document.getElementById("password_match_result"); 
 			if($("#password").val() == $("#confirm_password").val()){
 				$("#password_match_result").html("Matching!").css('color', 'green')
+				$("#form_submit").prop("disabled", false);
 			}else{
 				$("#password_match_result").html("Passwords do not match!").css('color', 'red')
+				$("#form_submit").prop("disabled", true);
 			}
 		}
 		
-		$('#form_submit').click('function')
 	</script>
 </body>
 </html>

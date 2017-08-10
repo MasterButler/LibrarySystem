@@ -27,14 +27,6 @@ public class LoginController {
 	public ModelAndView showLogin(
 			HttpServletRequest request){
 
-		User userBad = UserManager.getInstance().getAllUsers().get(1);
-		System.out.println("FN: " + userBad.getName().getFirstName());
-		System.out.println("MN: " + userBad.getName().getMiddleName());
-		System.out.println("LN: " + userBad.getName().getLastName());
-		System.out.println("EM: " + userBad.getEmail());
-		System.out.println("UN: " + userBad.getCredentials().getUsername());
-		System.out.println("PW: " + userBad.getCredentials().getPassword());
-		
 		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
 		
 		if(user == null){
@@ -49,12 +41,16 @@ public class LoginController {
 			@ModelAttribute("SpringWeb")LoginCredentials credentials,
 			BindingResult result,
 			ModelMap model){
+		System.out.println("ENTERED IS " + credentials.getPassword());
+		
+		credentials.setPassword(LoginManager.getInstance().encrypt(credentials.getPassword()));
 		
 		if(LoginManager.getInstance().authenticate(credentials)){
+			
 			System.out.println("A");
 			request.getSession().setAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
 			request.getSession().setMaxInactiveInterval(SessionHandler.MAX_INACTIVE_INTERVAL);
-			model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
+			//model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
 			System.out.println("RETURNING THAT");
 			return ErrorHandler.goToHomePageString();
 		}else{
@@ -68,7 +64,8 @@ public class LoginController {
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request){
-		request.getSession().setAttribute(AttributeDictionary.USER, null);
+		//request.getSession().setAttribute(AttributeDictionary.USER, null);
+		request.getSession().invalidate();
 		return ErrorHandler.goToHomePageString();
 	}
 }

@@ -66,7 +66,7 @@
 			      <label for="addlit-date" class="col-sm-5 col-form-label">Date of Publication</label>
 			      <div class="col-sm-10">
 			      	<fmt:formatDate var="fmtDate" value="${literature.datePublished}" pattern="${DateUtil.NUMBER_FORMAT}"/>
-			        <form:input type="text" class="form-control form-control-sm" id="addlit-date" placeholder="mm/dd/yyy" path="datePublished"/>
+			        <form:input type="date" class="form-control form-control-sm" id="addlit-date" placeholder="mm/dd/yyy" path="datePublished"/>
 			      </div>
 			    </div>
 			    <div class="form-group row">

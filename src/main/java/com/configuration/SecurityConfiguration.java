@@ -48,8 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 //		.and().requiresChannel()
 //		.antMatchers("/user/**").requiresSecure()
-        .antMatchers("/").permitAll()
-        .antMatchers("/literatures").permitAll()
+        //.antMatchers("/").permitAll()
+        //.antMatchers("/literatures").permitAll()
 		.and().formLogin()
 		.loginPage("/login")
 //		.failureUrl("/login?error=true")

@@ -9,6 +9,7 @@ import com.beans.list.LiteratureList;
 import com.beans.list.NameList;
 import com.beans.user.User;
 import com.db.DBConnection;
+import com.handler.TextHandler;
 import com.util.DateUtil;
 
 public class LiteratureManager {
@@ -55,6 +56,7 @@ public class LiteratureManager {
 			literatureList.add(createLiterature("4", "112", "The book of staves", LibraryObjectTypes.BOOK.getValue(), "Wanda and Co.", "2013-08-12 0:0:0", authorsB, statusE));
 			literatureList.add(createLiterature("5", "112", "The book of claws", LibraryObjectTypes.MAGAZINE.getValue(), "Beasts and Co.", "2015-10-12 0:0:0", authorsA, statusF));
 			literatureList.add(createLiterature("6", "112", "The book of computers", LibraryObjectTypes.THESIS.getValue(), "Computers and Co.", "2017-05-12 0:0:0", authorsB, statusG));
+			literatureList.add(createLiterature("7", "111", "<script></script>", LibraryObjectTypes.BOOK.getValue(), "Felicia and Co.", "2011-01-12 0:0:0", authorsA, statusA));
 			
 		}
 		return instance;
@@ -265,6 +267,9 @@ public class LiteratureManager {
 			if(getBook(i).getId() == id){
 				sanitizeLiterature(literature);
 				
+				System.out.println("AFTER SANITIZATION: ");
+				System.out.println(literature.getTitle());
+				
 				literatureList.set(i, literature);
 				return true;
 			}
@@ -273,6 +278,22 @@ public class LiteratureManager {
 	}
 	
 	public void sanitizeLiterature(Literature literature){
+		String dds = TextHandler.sanitize(literature.getDds());
+		String title = TextHandler.sanitize(literature.getTitle());
+		String publisher = TextHandler.sanitize(literature.getPublisher());
+		NameList authors = new NameList();
+		for(int i = 0; i < literature.getAuthors().size(); i++){
+			authors.add(new Name(
+				TextHandler.sanitize(literature.getAuthors().get(i).getFirstName()),					
+				TextHandler.sanitize(literature.getAuthors().get(i).getMiddleName()),					
+				TextHandler.sanitize(literature.getAuthors().get(i).getLastName())					
+				));	
+		}
+		
+		literature.setDds(dds);
+		literature.setTitle(title);
+		literature.setPublisher(publisher);
+		literature.setAuthors(authors);
 		
 	}
 	

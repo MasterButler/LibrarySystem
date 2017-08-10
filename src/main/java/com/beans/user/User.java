@@ -25,6 +25,9 @@ public class User {
 	private String email;
 	private Name name;
 	
+	private int securityQuestion;
+	private String securityAnswer;
+	
 	@DateTimeFormat(pattern=DateUtil.NUMBER_FORMAT)
 	private Date birthday;
 	private int userType;
@@ -51,7 +54,31 @@ public class User {
 			this.reservationList.add(new ArrayList<Status>());
 		}
 	}	
-	
+		
+	public int getSecurityQuestion() {
+		return securityQuestion;
+	}
+
+	public void setSecurityQuestion(int securityQuestion) {
+		this.securityQuestion = securityQuestion;
+	}
+
+	public String getSecurityAnswer() {
+		return securityAnswer;
+	}
+
+	public void setSecurityAnswer(String securityAnswer) {
+		this.securityAnswer = securityAnswer;
+	}
+
+	public int getTimes() {
+		return times;
+	}
+
+	public void setTimes(int times) {
+		this.times = times;
+	}
+
 	public boolean getHasTempPassword() {
 		return hasTempPassword;
 	}

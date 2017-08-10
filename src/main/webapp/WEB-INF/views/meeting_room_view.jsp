@@ -192,9 +192,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" id="booking_window">
 			<div class="col-xs-12">
-				<div class="card p-2">
+				<div class="p-2">
 					<div class = "reservation_Information"></div>
 				</div>
 			</div>
