@@ -25,10 +25,10 @@ public class LiteratureManager {
 		if(instance == null){
 			instance = new LiteratureManager();
 			
-			//literatureList = new DBConnection().getAllLiterature();
+			literatureList = new DBConnection().getAllLiterature();
 			
 			
-			literatureList = new LiteratureList();
+			/*literatureList = new LiteratureList();
 			Name authorA = new Name("Mahou", "Papua", "Eksdi");
 			Name authorB = new Name("Will", "Thea", "Powers");
 			Name authorC = new Name("Fee", "Fokin", "Shing");
@@ -57,7 +57,7 @@ public class LiteratureManager {
 			literatureList.add(createLiterature("5", "112", "The book of claws", LibraryObjectTypes.MAGAZINE.getValue(), "Beasts and Co.", "2015-10-12 0:0:0", authorsA, statusF));
 			literatureList.add(createLiterature("6", "112", "The book of computers", LibraryObjectTypes.THESIS.getValue(), "Computers and Co.", "2017-05-12 0:0:0", authorsB, statusG));
 			literatureList.add(createLiterature("7", "111", "<script></script>", LibraryObjectTypes.BOOK.getValue(), "Felicia and Co.", "2011-01-12 0:0:0", authorsA, statusA));
-			
+			*/
 		}
 		return instance;
 	}

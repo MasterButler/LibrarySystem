@@ -12,22 +12,25 @@ import javax.sql.DataSource;
 
 public class DBConnection{
 
-    private DataSource dataSource;
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/library_system";
+    static final String USER = "root";
+    static final String PASS = "root";
 
     public DBConnection(){
 
     }
 
     public Connection connect() {
-        Connection con ;
+        Connection con;
+
         try {
-            con = dataSource.getConnection();
+            Class.forName(JDBC_DRIVER);
+            con = DriverManager.getConnection(DB_URL, USER, PASS);
             if (con == null) {
                 System.out.println("Connection cannot be established");
+                return null;
             }
             return con;
         } catch (Exception e) {
