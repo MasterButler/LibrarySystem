@@ -70,6 +70,7 @@
 							<li class="nav-item"><a class="nav-link disabled" href="#">Hello, ${sessionScope.user.name.firstName}</a></li>
 					        <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 						</c:when>	
+						
 					</c:choose>
 				</c:when>
 			</c:choose>	

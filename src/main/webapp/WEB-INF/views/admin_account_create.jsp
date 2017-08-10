@@ -86,15 +86,15 @@
 			    <div class="form-group row">
 			    	<c:choose>
 						<c:when test="${not empty loginErrorMessage}">
-							<div class="alert alert-danger" role="alert">
-							  <strong>Oh snap!</strong> ${loginErrorMessage}
+							<div class="alert alert-danger alert-sm" role="alert">
+							  <strong>Oh snap!</strong> ${loginErrorMessage}.
 							</div>
 						</c:when>
 					</c:choose>
 			    </div>
 			    <div class="form-group row col-sm-10">
 			    	<input type="submit" class="btn btn-info" class="btn btn-success" value="Register as Staff" name="action"/>
-			    	<input type="submit" class="btn btn-info" class="btn btn-success" value="Register as Manager" name="action"/>
+			    	<input type="submit" class="btn btn-info" class="btn btn-primary" value="Register as Manager" name="action"/>
 			    </div>
 			</form:form>    
 		</div>
