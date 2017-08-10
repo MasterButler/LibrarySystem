@@ -25,7 +25,7 @@ public class User {
 	private String email;
 	private Name name;
 	
-	private int securityQuestion;
+	private String securityQuestion;
 	private String securityAnswer;
 	
 	@DateTimeFormat(pattern=DateUtil.NUMBER_FORMAT)
@@ -55,11 +55,11 @@ public class User {
 		}
 	}	
 		
-	public int getSecurityQuestion() {
+	public String getSecurityQuestion() {
 		return securityQuestion;
 	}
 
-	public void setSecurityQuestion(int securityQuestion) {
+	public void setSecurityQuestion(String securityQuestion) {
 		this.securityQuestion = securityQuestion;
 	}
 
