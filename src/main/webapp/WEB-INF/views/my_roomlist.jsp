@@ -25,7 +25,6 @@
 		
 		<c:forEach items="${user.reservationList}" var="reservation" varStatus="loop">
 			<c:set var="index" value="${loop.index}"/>
-
 			<c:choose>
 				<c:when test="${fn:length(reservation) != 0}">
 					<tr>

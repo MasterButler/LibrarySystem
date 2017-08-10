@@ -58,11 +58,13 @@ public class MeetingRoomReservationController {
 	@RequestMapping("/my_roomlist")
 	public ModelAndView showReservedRoomList(
 			HttpServletRequest request){
-		
+		System.out.println("IN MY ROOMLIST");
 		ModelAndView mv;
 		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
 			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			System.out.println("USER IS " + user.getId());
 			MeetingRoomManager.getInstance().validateUserReservations(user); //TODO delete once db implementation is implemented
+			request.getSession().setAttribute(AttributeDictionary.USER, user);
 			for(int i = 0; i < user.getReservationList().size(); i++){
 				System.out.println(MeetingRoomManager.getRoomNames()[i]);
 				for(int j = 0; j < user.getReservationList().get(i).size(); j++){

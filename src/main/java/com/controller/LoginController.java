@@ -54,13 +54,15 @@ public class LoginController {
 			System.out.println("A");
 			request.getSession().setAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
 			request.getSession().setMaxInactiveInterval(SessionHandler.MAX_INACTIVE_INTERVAL);
-			model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername ()));
-			return "index";
+			model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
+			System.out.println("RETURNING THAT");
+			return ErrorHandler.goToHomePageString();
 		}else{
 			System.out.println("B");
 			model.addAttribute(AttributeDictionary.LOGIN, credentials);
 			model.addAttribute("loginErrorMessage", "The entered username/password is incorrect");
 		}
+		System.out.println("RETURNING THIS");
 		return "login";
 	}
 	

@@ -59,15 +59,16 @@ public class MeetingRoomManager {
 			meetingRoomList.add(roomD);
 			meetingRoomList.add(roomE);
 			
-			User userA = new User();
-			userA.setName(new Name("Winfred", "D", "VILL"));
-			userA.setId("1234");
-			
-            ReservationManager.reserve(roomA, 1, userA);
-            ReservationManager.reserve(roomA, 3, userA);
-            ReservationManager.reserve(roomA, 5, userA);
-            ReservationManager.reserve(roomA, 7, userA);
-            ReservationManager.reserve(roomA, 8, userA);
+//            ReservationManager.reserveToday(roomA, 1, UserManager.getInstance().getUser(0));
+//            ReservationManager.reserveToday(roomA, 3, UserManager.getInstance().getUser(0));
+//            ReservationManager.reserveToday(roomA, 4, UserManager.getInstance().getUser(0));
+//            ReservationManager.reserveToday(roomA, 5, UserManager.getInstance().getUser(0));
+//            ReservationManager.reserveToday(roomA, 8, UserManager.getInstance().getUser(0));
+			reserveStatic(0, 1, UserManager.getInstance().getUser(0));
+			reserveStatic(0, 3, UserManager.getInstance().getUser(0));
+			reserveStatic(0, 4, UserManager.getInstance().getUser(0));
+			reserveStatic(0, 5, UserManager.getInstance().getUser(0));
+			reserveStatic(0, 8, UserManager.getInstance().getUser(0));
 			
             for(int i = 0; i < roomA.getUserIsHolding().length; i++){
                 if(roomA.getUserIsHolding()[i] == null){
@@ -80,6 +81,14 @@ public class MeetingRoomManager {
 		return instance;
 	}
 
+	public static boolean reserveStatic(int meetingRoomIndex, int timeSlotIndex, User user){
+		if(ReservationManager.reserve(getInstance().getMeetingRoomByIndex(meetingRoomIndex), timeSlotIndex, user)){
+			user.getReservationList().get(meetingRoomIndex).add(getInstance().getMeetingRoomByIndex(meetingRoomIndex).getUserIsHolding()[timeSlotIndex]);
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean reserve(int meetingRoomIndex, int timeSlotIndex, User user){
 		if(ReservationManager.reserve(getMeetingRoomByIndex(meetingRoomIndex), timeSlotIndex, user)){
 			user.getReservationList().get(meetingRoomIndex).add(getMeetingRoomByIndex(meetingRoomIndex).getUserIsHolding()[timeSlotIndex]);

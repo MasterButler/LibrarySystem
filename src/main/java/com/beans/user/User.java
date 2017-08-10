@@ -37,6 +37,7 @@ public class User {
 	private MeetingRoomReservedList reservationList;
 	
 	private boolean hasTempPassword;
+	private int times;
 	
 	public User(){
 		this.credentials = new LoginCredentials();

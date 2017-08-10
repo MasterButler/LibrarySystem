@@ -32,7 +32,7 @@ public class UserManager {
 			User userGood = new User();
 			userGood.setCredentials(new LoginCredentials("23456", "23456"));
 			userGood.setEmail("bcdef@a.a");
-            userGood.setName(new Name("<body onload=alert('test1')>", "A", "AAAAA"));
+            userGood.setName(new Name("<body onload=alert('test1')>test", "A", "AAAAA"));
             userGood.setId("BBBBB");
             userGood.setUserType(UserTypes.STUDENT.getValue());
             
@@ -189,7 +189,7 @@ public class UserManager {
 		return null;
 	}
 	
-	private User getUser(int index){
+	public User getUser(int index){
 		User user = userList.get(index);
 		sanitizeUser(user);
 		return user;

@@ -97,11 +97,13 @@ String message = "Welcome to Spring MVC!";
 	public ModelAndView showBorrowedLiteratureList(
 			HttpServletRequest request){
 		
+		System.out.println("IN LIT LIST CONTROLLER");
 		ModelAndView mv;
-		User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
-		if(user != null){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
 			LiteratureManager.getInstance().validateUserList(user); //TODO delete once db implementation is implemented
 			mv = new ModelAndView("my_literaturelist");
+			return mv;
 		}
 		return ErrorHandler.goToLogin();
 	}
