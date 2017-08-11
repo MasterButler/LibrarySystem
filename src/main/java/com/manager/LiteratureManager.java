@@ -269,6 +269,7 @@ public class LiteratureManager {
 	}
 	
 	public boolean updateLiteratureWithId(long id, Literature literature){
+	    System.out.println(id);
 		for(int i = 0; i < literatureList.size(); i++){
 			System.out.println("CHECKING BOOT AT INDEX " + i + " WITH ID " + getBook(i).getId());
 			if(getBook(i).getId() == id){
@@ -276,12 +277,17 @@ public class LiteratureManager {
 				System.out.println("AFTER SANITIZATION: ");
 				System.out.println(literature.getTitle());
                 DBConnection con = new DBConnection();
+                int dds;
+                if(literature.getDds().isEmpty())
+                    dds = 0;
+                else
+                    dds = Integer.parseInt(literature.getDds());
                 con.updateLiterature((int) id,
                         literature.getLibraryObjectType(),
                         literature.getTitle(),
                         literature.getDatePublished().toString(),
                         literature.getPublisher(),
-                        Integer.parseInt(literature.getDds()));
+                        dds);
                 for(int j = 0; j < literatureList.get(i).getAuthors().size(); j++){
                     con.deleteAuthorTag(literatureList.get(i).getAuthors().get(j).getId());
                     con.addAuthor(literature.getAuthors().get(j).getLastName(),
