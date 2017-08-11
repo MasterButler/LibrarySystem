@@ -29,6 +29,7 @@
 	  	<div class="col-xs-12">
 	  		<h1>Add a Literature</h1>
 			<form:form method="POST" modelAttribute="literature" action="literature_edit">
+				<td><form:input type="hidden" path="id" value= "${literature.id}" readonly="true"/></td>
 				<div class="form-group row">
 			      <label for="addlit-title" class="col-sm-5 col-form-label">Title</label>
 			      <div class="col-sm-10">
