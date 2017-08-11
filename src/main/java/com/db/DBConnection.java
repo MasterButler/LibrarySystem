@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import com.beans.Literature;
 import com.beans.Name;
 import com.beans.list.LiteratureList;
+import com.beans.list.UserList;
 import com.beans.user.LoginCredentials;
 import com.beans.user.User;
+import com.manager.LoginManager;
 
 import javax.sql.DataSource;
 
@@ -16,7 +18,7 @@ public class DBConnection{
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/library_system";
     static final String USER = "root";
-    static final String PASS = "password";
+    static final String PASS = "root";
 
     public DBConnection(){
 
@@ -43,6 +45,39 @@ public class DBConnection{
     //S
     //E
     //R
+    public UserList getAllUsers(){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL get_all_users()}");
+            rs = stmt.getResultSet();
+            if(rs == null) {
+                con.close();
+                return null;
+            }
+            else{
+                UserList list = new UserList();
+                while(rs.next()){
+                    User user = new User();
+                    user.setId(Integer.toString(rs.getInt(1)));
+                    user.setEmail(rs.getString(8));
+                    user.setCredentials(new LoginCredentials(rs.getString(6), LoginManager.getInstance().encrypt(rs.getString(7))));
+                    user.setName(new Name(rs.getString(3), rs.getString(5), rs.getString(4)));
+                    user.setBirthday(rs.getDate(9));
+                    con.close();
+                    list.add(user);
+
+                    System.out.println(user.getId() + user.getCredentials().getPassword());
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public User getCurrentUser(String username, String pass){
         ResultSet rs;
         Connection con = connect();
@@ -372,7 +407,7 @@ public class DBConnection{
         else{
             while(rs.next()){
                 Literature lit = new Literature();
-                lit.setId(rs.getInt(1));
+                lit.setId(rs.getInt(0));
                 lit.setTitle(rs.getString(3));
                 lit.setDatePublished(rs.getDate(4));
                 lit.setPublisher(rs.getString(5));
@@ -400,6 +435,24 @@ public class DBConnection{
     //H
     //O
     //R
+    public int getAuthorIDWithLandF(String last, String first){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL get_author_id(?,?)}");
+            stmt.setString(1, last);
+            stmt.setString(2, first);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            con.close();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public void addAuthor(String last, String first, String middle){
         Connection con = connect();
         CallableStatement stmt;
@@ -465,6 +518,23 @@ public class DBConnection{
     //G
     //S
 
+    public int getTagIDbyAuthor(int auth_id){
+        ResultSet rs;
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL get_tag_id_by_author_id(?)}");
+            stmt.setInt(1, auth_id);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            con.close();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public void addTag(int lit_id, int auth_id){
         Connection con = connect();
         CallableStatement stmt;
@@ -499,6 +569,19 @@ public class DBConnection{
         CallableStatement stmt;
         try {
             stmt = con.prepareCall("{CALL delete_tag(?)}");
+            stmt.setInt(1,id);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAuthorTag(int id){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL delete_tag_by_reservable_id(?)}");
             stmt.setInt(1,id);
             stmt.executeUpdate();
             con.close();
