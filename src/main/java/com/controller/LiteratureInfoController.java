@@ -88,15 +88,11 @@ public class LiteratureInfoController {
 				System.out.println("THE ID OF REQUESTER IS: " + request.getParameter("id"));
 				
 				if(action.contains("Add Author")){
-					MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " ADDED "
-							+ "an AUTHOR under Literature ID " + literature.getId());
-					return addAuthors(request, model, literature);
+					return addAuthors(user, request, model, literature);
 				}else if(action.contains("Delete Author")){
-					MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " DELETED "
-							+ "an AUTHOR under Literature ID " + literature.getId());
 					String index = action.split(" ")[action.split(" ").length-1];
 					int indexToRemove = Integer.valueOf(index)-1;
-					return deleteAuthors(request, model, literature, indexToRemove);
+					return deleteAuthors(user, request, model, literature, indexToRemove);
 				}else if(action.contains("Save")){
 					MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " EDITED "
 							+ "Literature under ID " + literature.getId());
@@ -109,21 +105,28 @@ public class LiteratureInfoController {
 		
 	}
 	
-	public String addAuthors(HttpServletRequest request, ModelMap model, Literature literature){
+	public String addAuthors(User user, HttpServletRequest request, ModelMap model, Literature literature){
 		literature.addAuthor(new Name("", "", ""));
 		LiteratureManager.getInstance().updateLiteratureWithId(literature.getId(), literature);
 		request.setAttribute(AttributeDictionary.LITERATURE, literature);
 		model.addAttribute(AttributeDictionary.LITERATURE, literature);
 		
+		MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " ADDED "
+				+ "an AUTHOR under Literature ID " + literature.getId());
+		
 		return "/literature_edit";
 	}
 	
-	public String deleteAuthors(HttpServletRequest request, ModelMap model, Literature literature, int indexToRemove){
+	public String deleteAuthors(User user, HttpServletRequest request, ModelMap model, Literature literature, int indexToRemove){
 		if(literature.getAuthors().size() > 1){
 			literature.getAuthors().remove(indexToRemove);
 			LiteratureManager.getInstance().updateLiteratureWithId(literature.getId(), literature);
+			MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " DELETED "
+					+ "an AUTHOR under Literature ID " + literature.getId());
+			
 		}else{
 			model.addAttribute("author_warning", "There must be at least one (1) author.");
+			MyLogger.log(Level.INFO, "CANNOT DELETE any more authors in literature with ID " + user.getId() + ". There must be at least one (1) author to continue deletion.");
 		}
 		request.setAttribute(AttributeDictionary.LITERATURE, literature);
 		model.addAttribute(AttributeDictionary.LITERATURE, literature);

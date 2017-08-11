@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.logging.Level;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Scope;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.beans.list.UserList;
 import com.beans.user.User;
 import com.beans.user.UserTypes;
+import com.handler.ErrorHandler;
+import com.logger.MyLogger;
 import com.manager.UserManager;
 import com.util.AttributeDictionary;
 
@@ -22,18 +26,35 @@ import com.util.AttributeDictionary;
 public class AdminController {
 	
 	@RequestMapping("/staff_list")
-	public ModelAndView showStaffList(){
-		UserList staffList = getUserList(UserTypes.LIBRARY_STAFF.getValue());
-		
-		ModelAndView mv = new ModelAndView("staff_list");
-		mv.addObject(AttributeDictionary.STAFFLIST, staffList);
-		return mv;
+	public ModelAndView showStaffList(HttpServletRequest request){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
+				UserList staffList = getUserList(UserTypes.LIBRARY_STAFF.getValue());
+				
+				ModelAndView mv = new ModelAndView("staff_list");
+				mv.addObject(AttributeDictionary.STAFFLIST, staffList);
+				return mv;
+			}else{
+				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the staff listing");
+			}
+		}
+		MyLogger.log(Level.WARNING, "An Anonymous User tried to access the staff listing.");
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	@RequestMapping(value = "/admin_account_create", method = RequestMethod.GET)
-	public ModelAndView showAdminAccountCreation(){
-		ModelAndView mv = new ModelAndView("admin_account_create", AttributeDictionary.USER, new User());
-		return mv;
+	public ModelAndView showAdminAccountCreation(HttpServletRequest request){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
+				ModelAndView mv = new ModelAndView("admin_account_create", AttributeDictionary.USER, new User());
+				return mv;
+			}
+			MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the admin account creation");
+		}
+		MyLogger.log(Level.WARNING, "An Anonymous User tried to access the admin account creation.");
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	@RequestMapping(value = "/admin_account_create", method = RequestMethod.POST)
@@ -42,45 +63,55 @@ public class AdminController {
 			BindingResult result, 
 			ModelMap model){
 		
-		
-		String action = request.getParameter("action");
-		if(action.equals("Register as Staff")){
-			user.setUserType(UserTypes.LIBRARY_STAFF.getValue());
-		}else if(action.equals("Register as Manager")){
-			user.setUserType(UserTypes.LIBRARY_MANAGER.getValue());
-		}
-		user.setHasTempPassword(true);
-		
-		boolean success = UserManager.getInstance().addUser(user);
-		if(success){
-			if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue()){
-				model.addAttribute(AttributeDictionary.STAFFLIST, getUserList(UserTypes.LIBRARY_STAFF.getValue()));
-				return "staff_list";
-			}else if(user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
-				model.addAttribute(AttributeDictionary.MANAGERLIST, getUserList(UserTypes.LIBRARY_MANAGER.getValue()));
-				return "manager_list";
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User curr = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(curr.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
+				String action = request.getParameter("action");
+				if(action.equals("Register as Staff")){
+					user.setUserType(UserTypes.LIBRARY_STAFF.getValue());
+				}else if(action.equals("Register as Manager")){
+					user.setUserType(UserTypes.LIBRARY_MANAGER.getValue());
+				}
+				user.setHasTempPassword(true);
+				
+				boolean success = UserManager.getInstance().addUser(user);
+				if(success){
+					if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue()){
+						model.addAttribute(AttributeDictionary.STAFFLIST, getUserList(UserTypes.LIBRARY_STAFF.getValue()));
+						return "staff_list";
+					}else if(user.getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
+						model.addAttribute(AttributeDictionary.MANAGERLIST, getUserList(UserTypes.LIBRARY_MANAGER.getValue()));
+						return "manager_list";
+					}
+				}
+				
+				model.addAttribute(AttributeDictionary.USER, user);
+				model.addAttribute("registerErrorMessage", "Username, ID Number, or Email has already been taken.");
+				return "admin_account_create";
 			}
+			MyLogger.log(Level.WARNING, UserTypes.values()[curr.getUserType()].getName() + " with ID " + user.getId() + " tried to access the admin account creation");
 		}
-		
-		model.addAttribute(AttributeDictionary.USER, user);
-		model.addAttribute("registerErrorMessage", "Username, ID Number, or Email has already been taken.");
-		return "admin_account_create";
+		MyLogger.log(Level.WARNING, "An Anonymous User tried to access the admin account creation.");
+		return ErrorHandler.goToAccessDeniedString();
 	}
 	
 	@RequestMapping("/manager_list")
-	public ModelAndView showManagerList(){
-		UserList userList = UserManager.getInstance().getAllUsers();
-		UserList managerList = new UserList();
-		
-		for(int i = 0; i < userList.size(); i++){
-			if(userList.get(i).getUserType() == UserTypes.LIBRARY_MANAGER.getValue()){
-				managerList.add(userList.get(i));
+	public ModelAndView showManagerList(HttpServletRequest request){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
+				UserList managerList = getUserList(UserTypes.LIBRARY_MANAGER.getValue());
+				
+				ModelAndView mv = new ModelAndView("manager_list");
+				mv.addObject(AttributeDictionary.MANAGERLIST, managerList);
+				MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " opened the manager listing");
+				return mv;
+			}else{
+				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the manager listing");
 			}
 		}
-		
-		ModelAndView mv = new ModelAndView("manager_list");
-		mv.addObject(AttributeDictionary.MANAGERLIST, managerList);
-		return mv;
+		MyLogger.log(Level.WARNING, "An Anonymous User tried to access the manger listing.");
+		return ErrorHandler.goToAccessDenied();
 	}
 	
 	public UserList getUserList(int userType){
