@@ -407,7 +407,8 @@ public class DBConnection{
         else{
             while(rs.next()){
                 Literature lit = new Literature();
-                lit.setId(rs.getInt(0));
+                lit.setId(rs.getInt(1));
+                System.out.println(lit.getId());
                 lit.setTitle(rs.getString(3));
                 lit.setDatePublished(rs.getDate(4));
                 lit.setPublisher(rs.getString(5));
@@ -426,6 +427,7 @@ public class DBConnection{
                 list.add(lit);
             }
         }
+        System.out.println(list);
         return list;
     }
 
