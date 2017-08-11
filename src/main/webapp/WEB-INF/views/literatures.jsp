@@ -104,7 +104,7 @@
 									<c:forEach items="${literature.authors}" var="author" varStatus="loop">
 										${author.firstName} ${author.middleName} ${author.lastName}<c:if test="${!loop.last}">, </c:if>
 	    							</c:forEach>	
-								</h5>
+								</h6>
 				
 								<h6 class="card-subtitle mb-2 text-muted">
 									<c:choose>
@@ -143,5 +143,6 @@
 					</c:forEach>
 				</div>
 			</div>
+		</div>
 </body>
 </html>

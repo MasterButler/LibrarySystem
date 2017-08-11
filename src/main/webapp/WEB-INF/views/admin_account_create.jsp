@@ -12,9 +12,55 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-		
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Insert title here</title>
+	
+	<style>
+		@import url(https://fonts.googleapis.com/css?family=Signika:400,700|Courgette);
+
+		meter {
+		    /* Reset the default appearance.
+		       -webkit-appearance: none is removed
+		       because of a known bug in Chrome since 
+		       since version 52 */
+		       -moz-appearance: none;
+		            appearance: none;
+		            
+		    margin: 0 auto 1em;
+		    width: 100%;
+		    height: .5em;
+		    
+		    /* Applicable only to Firefox */
+		    background: none;
+		    background-color: rgba(0,0,0,0.1);
+		}
+		
+		meter::-webkit-meter-bar {
+		    background: none;
+		    background-color: rgba(0,0,0,0.1);
+		}
+		
+		meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+		meter[value="2"]::-webkit-meter-optimum-value { background: orange; }
+		meter[value="3"]::-webkit-meter-optimum-value { background: yellow; }
+		meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+		
+		meter[value="1"]::-moz-meter-bar { background: red; }
+		meter[value="2"]::-moz-meter-bar { background: orange; }
+		meter[value="3"]::-moz-meter-bar { background: yellow; }
+		meter[value="4"]::-moz-meter-bar { background: green; }
+		
+		.feedback {
+		    color: #9ab;
+		    font-size: 90%;
+		    padding: 0 .25em;
+		    font-family: Courgette, cursive;
+		    margin-top: 1em;
+		}
+		
+		p.password-strength-text{
+			word-wrap: normal;
+		}
+	</style>
 </head>
 <body>
 	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
@@ -77,11 +123,22 @@
 			      </div>
 			    </div>
 			    <div class="form-group row">
-			      <label for="create-password" class="col-sm-5 col-form-label">Password</label>
-			      <div class="col-sm-10">
-			        <form:input type="password" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password"/>
-			      </div>
-			    </div>
+				      <label for="create-password" class="col-sm-5 col-form-label">Password</label>
+				      <div class="col-sm-10">
+				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password"/>
+				      </div>
+				       <div class="col-sm-10">
+				       	 <meter max="4" id="password-strength-meter"></meter>
+		       			 <p id="password-strength-text"></p>
+				       </div>
+				    </div>
+				    <div class="form-group row">
+				      <label for="create-confirmpw" class="col-sm-5 col-form-label">Confirm Password</label>
+				      <div class="col-sm-10">
+				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-confirmpw" placeholder="" path="credentials.password"/>
+				      	<p id="password_match_result">
+				      </div>
+				    </div>
 			    <hr />
 			    <div class="form-group row">
 			    	<c:choose>
@@ -100,5 +157,53 @@
 		</div>
 	</div>
 	</div>
+	
+	<script type="text/javascript">
+		var strength = {
+		        0: "Worst",
+		        1: "Bad",
+		        2: "Weak",
+		        3: "Good",
+		        4: "Strong"
+		}
+	
+		var password = document.getElementById('create-password');
+		var confirmpassword = document.getElementById('create-confirmpw');
+		
+		var meter = document.getElementById('password-strength-meter');
+		var text = document.getElementById('password-strength-text');
+	
+		password.addEventListener('input', function()
+		{
+		    var val = password.value;
+		    var result = zxcvbn(val);
+		    
+		    // Update the password strength meter
+		    meter.value = result.score;
+		   
+		    // Update the text indicator
+		    if(val !== "") {
+		        text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span"; 
+		    }
+		    else {
+		        text.innerHTML = "";
+		    }
+		});
+		
+		$('#create-password, #create-confirmpw').on('keyup', function(){
+			validatePassword();
+		});
+		
+		function validatePassword(){
+			var result = document.getElementById("password_match_result"); 
+			if($("#create-password").val() == $("#create-confirmpw").val()){
+				$("#password_match_result").html("Matching!").css('color', 'green')
+				$("#form_submit").prop("disabled", false);
+			}else{
+				$("#password_match_result").html("Passwords do not match!").css('color', 'red')
+				$("#form_submit").prop("disabled", true);
+			}
+		}
+	</script>
 </body>
 </html>

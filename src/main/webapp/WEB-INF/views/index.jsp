@@ -132,9 +132,9 @@
 								    <h3 class="card-title">High-level Accounts</h3>
 								    <p>Have an overview of all the existing high-level accounts in the system.</p>
 								    <a href="staff_list" class="btn btn-success">
-								    	View All Staffs</a>
+								    	Staffs</a>
 								    <a href="manager_list" class="btn btn-success">
-								    	View All Managers</a>
+								    	Managers</a>
 								  </div>
 								</div>
 							</div>
