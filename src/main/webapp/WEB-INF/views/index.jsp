@@ -38,11 +38,11 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-2"></div>
 				<c:choose>
 					<c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value ||
 									sessionScope.user.userType == UserTypes.STUDENT.value ||
 									sessionScope.user == null}">
+						<div class="col-xs-2"></div>
 						<div class="col-xs-4">
 							<div class="card" style="width: 30rem;">
 							  <div class="card-block">
@@ -82,6 +82,16 @@
 						<div class="col-xs-4">
 							<div class="card" style="width: 30rem;">
 							  <div class="card-block">
+							    <h3 class="card-title">Add a book</h3>
+							    <p class="card-text">Update the database by providing the information of the new book.</p>
+							    <a href="literature_add" class="btn btn-success">
+							    	Add a Book</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="card" style="width: 30rem;">
+							  <div class="card-block">
 							    <h3 class="card-title">Meeting Rooms</h3>
 							    <p class="card-text">Hold a group study, meeting or project-making session in one of our library's rooms. </p>
 							    <a href="meeting_room_view" class="btn btn-success">
@@ -89,7 +99,6 @@
 							  </div>
 							</div>
 						</div>
-						<div class="col-xs-2"></div>
 					</c:when>
 						
 					<c:when test="${sessionScope.user.userType == UserTypes.ADMINISTRATOR.value}">
@@ -115,7 +124,7 @@
 							</div>
 						</div>
 						<div class="col-xs-2"></div>
-						
+						<hr />
 						<div class="row">
 							<div class="col-xs-4">
 								<div class="card" style="width: 20rem;">
@@ -123,7 +132,9 @@
 								    <h3 class="card-title">High-level Accounts</h3>
 								    <p>Have an overview of all the existing high-level accounts in the system.</p>
 								    <a href="staff_list" class="btn btn-success">
-								    	View All High-level Accounts</a>
+								    	View All Staffs</a>
+								    <a href="manager_list" class="btn btn-success">
+								    	View All Managers</a>
 								  </div>
 								</div>
 							</div>
@@ -133,7 +144,6 @@
 								    <h3 class="card-title">Add New Library Account</h3>
 								    <p>Give someone an authority to access the library.</p>
 								    <a href="admin_account_create" class="btn btn-success">
-								    	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								    	Create an Account</a>
 								  </div>
 								</div>
@@ -149,7 +159,7 @@
 								  </div>
 								</div>
 							</div>
-							<div class="col-xs-2"></div>	
+						</div>
 					</c:when>
 				</c:choose>
 		</div>

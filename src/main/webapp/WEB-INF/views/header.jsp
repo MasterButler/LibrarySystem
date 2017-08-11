@@ -69,6 +69,7 @@
 						<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value ||
 										sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value}">
 							<li class="nav-item"><a class="nav-link disabled" href="#">Hello, ${sessionScope.user.name.firstName}</a></li>
+					        <li class="nav-item"><a class="nav-link" href="literature_add">Add a Book</a></li>
 					        <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 						</c:when>	
 						

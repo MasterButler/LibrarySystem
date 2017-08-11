@@ -138,13 +138,6 @@
 										Edit Book Information</a>
 									</c:when>
 								</c:choose>
-								<c:choose>
-									<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_STAFF.value ||
-													sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
-										<a href="literature_edit?id=<c:out value="${id}"/>" class="card-link" role="button">
-										Add Book</a>
-									</c:when>
-								</c:choose>
 							</div>
 						</div>	
 					</c:forEach>
