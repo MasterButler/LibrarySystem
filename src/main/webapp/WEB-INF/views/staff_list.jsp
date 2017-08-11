@@ -30,7 +30,7 @@
 				<div class="col-xs-12">
 				<h1>Staff List</h1>
 				
-				<table class="table table-striped table-bordered">
+				<table class="table table-striped table-bordered table-sm">
 				  <thead class="thead-inverse">
 				    <tr>
 				      <th>ID Number</th>
@@ -54,10 +54,10 @@
 					      <td>
 					      	<c:choose>
 					      		<c:when test="${staff.hasTempPassword} == true">
-					      			Verified
+					      			Permanent
 					      		</c:when>
 					      		<c:otherwise>
-					      			Not verified
+					      			Temporary
 					      		</c:otherwise>
 					      	</c:choose>
 					      </td>

@@ -28,20 +28,47 @@
 	<div class="container">
 		<div class="row">
 				<div class="col-xs-12">
-					<h1>Manager List</h1>
-					<c:forEach items="${managerlist}" var="manager"> 
-						<div class="card lit-width">
-						  <div class="card-block">
-						    <h4 class="card-title">${manager.credentials.username}</h4>
-						    <h6 class="card-subtitle mb-2 text-muted">ID Number : ${manager.id}</h6>
-						    <p class="card-text">${manager.name.firstName} ${manager.name.middleName} ${manager.name.lastName}</p>
-						    <p class="card-text">${manager.email}</p>
-						  </div>
-						</div>
-
-					</c:forEach>	
-				</div>
+				<h1>Staff List</h1>
+				
+				<table class="table table-striped table-bordered table-sm">
+				  <thead class="thead-inverse">
+				    <tr>
+				      <th>ID Number</th>
+				      <th>First Name</th>
+				      <th>Middle Name</th>
+				      <th>Last Name</th>
+				      <th>Username</th>
+				      <th>Email</th>
+				      <th>Status</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<c:forEach items="${managerList}" var="manager">
+					    <tr>
+					      <th scope="row">${manager.id}</th>
+					      <td>${manager.name.firstName}</td>
+					      <td>${manager.name.middleName}</td>
+					      <td>${manager.name.lastName}</td>
+					      <td>${manager.credentials.username}</td>
+					      <td>${manager.email}</td>
+					      <td>
+					      	<c:choose>
+					      		<c:when test="${manager.hasTempPassword} == true">
+					      			Permanent
+					      		</c:when>
+					      		<c:otherwise>
+					      			Temporary
+					      		</c:otherwise>
+					      	</c:choose>
+					      </td>
+					    </tr>
+				    </c:forEach>
+				  </tbody>
+				</table>
+				
+			</div>
 		</div>
-	</div>	
+	</div>
+
 </body>
 </html>
