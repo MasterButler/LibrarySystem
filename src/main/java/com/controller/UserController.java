@@ -2,6 +2,7 @@ package com.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.beans.user.LoginCredentials;
 import com.beans.user.User;
+import com.beans.user.UserTypes;
 import com.handler.ErrorHandler;
+import com.logger.MyLogger;
 import com.manager.LoginManager;
 import com.manager.UserManager;
 import com.util.AttributeDictionary;
@@ -46,6 +49,7 @@ public class UserController {
 			ModelAndView mv = new ModelAndView("register", AttributeDictionary.USER, new User());
 			return mv;
 		}else{
+			MyLogger.log(Level.FINEST, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " attempted to create a new account while logged in.");
 			return ErrorHandler.goToHomePage();
 		}
 	}
@@ -63,17 +67,16 @@ public class UserController {
 			boolean success = UserManager.getInstance().addUser(user);
 			if(success){
 				//model.addAttribute("user_bool", success);
-				System.out.println("A");
+				MyLogger.log(Level.INFO, "New account created under the ID Number " + user.getId());
 				request.getSession().setAttribute(AttributeDictionary.USER, user);
 				model.addAttribute(AttributeDictionary.USER, user);
-				System.out.println("B");
-				System.out.println("C");
 				return "register_finish";		
 			}
 			model.addAttribute(AttributeDictionary.USER, user);
 			model.addAttribute("registerErrorMessage", "Username, ID Number, or Email has already been taken.");
 			return "register";
 		}else{
+			MyLogger.log(Level.FINEST, UserTypes.values()[user.getUserType()].getName() + " with ID " + curr.getId() + " attempted to create a new account while logged in.");
 			return ErrorHandler.goToHomePageString();
 		}
 	}

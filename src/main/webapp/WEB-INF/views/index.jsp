@@ -30,7 +30,7 @@
 						<hr class="my-4">
 				      	<h6>Don't have an account yet?</h6>
 				  		<p class="lead"><a class="btn btn-primary btn-lg" href="register" role="button">
-				  		Register here!</span></a></p>
+				  		Register here!</a></p>
 					</c:when>	  
 				 </c:choose>
 				</div>
@@ -156,4 +156,4 @@
 	</div>
 
 </body>
-</html>
+</html> 

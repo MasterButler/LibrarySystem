@@ -3,6 +3,7 @@ package com.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +25,7 @@ import com.beans.Name;
 import com.beans.user.User;
 import com.beans.user.UserTypes;
 import com.handler.ErrorHandler;
+import com.logger.MyLogger;
 import com.manager.LiteratureManager;
 import com.manager.UserManager;
 import com.util.AttributeDictionary;
@@ -86,18 +88,22 @@ public class LiteratureInfoController {
 				System.out.println("THE ID OF REQUESTER IS: " + request.getParameter("id"));
 				
 				if(action.contains("Add Author")){
-					System.out.println("DONE ADDING");
+					MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " ADDED "
+							+ "an AUTHOR under Literature ID " + literature.getId());
 					return addAuthors(request, model, literature);
 				}else if(action.contains("Delete Author")){
-					System.out.println("DONE DELETING");
+					MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " DELETED "
+							+ "an AUTHOR under Literature ID " + literature.getId());
 					String index = action.split(" ")[action.split(" ").length-1];
 					int indexToRemove = Integer.valueOf(index)-1;
 					return deleteAuthors(request, model, literature, indexToRemove);
 				}else if(action.contains("Save")){
-					System.out.println("WHAT I GOT FROM DATE: " + DateUtil.displayDate(literature.getDatePublished()));
+					MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " EDITED "
+							+ "Literature under ID " + literature.getId());
 					return saveEdit(request, model, literature);
 				}				
 			}
+			MyLogger.log(Level.FINEST, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to edit a literature.");
 		}
 		return ErrorHandler.goToHomePageString();
 		

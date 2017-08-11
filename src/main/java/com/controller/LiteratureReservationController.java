@@ -90,6 +90,8 @@ String message = "Welcome to Spring MVC!";
 				return mv;
 			}
 		}
+		
+		
 		return ErrorHandler.goToAccessDenied();
 	}
 	

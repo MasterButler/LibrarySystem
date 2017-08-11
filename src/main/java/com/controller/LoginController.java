@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.logging.Level;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Scope;
@@ -16,6 +18,7 @@ import com.beans.user.User;
 import com.handler.ErrorHandler;
 import com.handler.SessionHandler;
 import com.handler.TextHandler;
+import com.logger.MyLogger;
 import com.manager.LoginManager;
 import com.manager.UserManager;
 import com.util.AttributeDictionary;
@@ -47,9 +50,13 @@ public class LoginController {
 		
 		int login_result = LoginManager.getInstance().authenticate(credentials);
 		if(login_result == LoginManager.LOGIN_SUCCESSFUL){
+			User user = UserManager.getInstance().searchUserByUsername(credentials.getUsername());
+			
+			MyLogger.log(Level.INFO, "User No. " + user.getId() + " logged in.");
 			System.out.println("A");
+			
 			request.getSession().setAttribute("max_attempts", false);
-			request.getSession().setAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
+			request.getSession().setAttribute(AttributeDictionary.USER, user);
 			request.getSession().setMaxInactiveInterval(SessionHandler.MAX_INACTIVE_INTERVAL);
 			//model.addAttribute(AttributeDictionary.USER, UserManager.getInstance().searchUserByUsername(credentials.getUsername()));
 			return ErrorHandler.goToHomePageString();

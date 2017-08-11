@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.logging.Level;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Scope;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.handler.ErrorHandler;
+import com.logger.MyLogger;
 import com.beans.MeetingRoom;
 import com.beans.user.LoginCredentials;
 import com.beans.user.User;
@@ -41,6 +44,15 @@ public class MeetingRoomReservationController {
 			
 			boolean successful = MeetingRoomManager.getInstance().reserve(roomIndex, timeIndex, user);
 			MeetingRoom room = MeetingRoomManager.getInstance().getMeetingRoomByIndex(roomIndex);
+			
+			String toWrite = "";
+			if(successful){
+				toWrite = room.getName() + " successfully reserved under id number " + user.getId();
+			}else{
+				
+			}
+			MyLogger.log(Level.INFO, "");
+			
 			
 			ModelAndView mv; 
 			mv = new ModelAndView("meeting_room_reservation_result");
