@@ -95,7 +95,7 @@ public class LiteratureManager {
 	}
 	
 	public static Literature createLiterature(String dds, String title, int type, String publisher, String datePublished, NameList authors, Status status){
-		Literature lit = new Literature();;
+		Literature lit = new Literature();
 		
 		lit.setDds(dds);
 		lit.setTitle(title);
@@ -273,10 +273,25 @@ public class LiteratureManager {
 			System.out.println("CHECKING BOOT AT INDEX " + i + " WITH ID " + getBook(i).getId());
 			if(getBook(i).getId() == id){
 				sanitizeLiterature(literature);
-				
 				System.out.println("AFTER SANITIZATION: ");
 				System.out.println(literature.getTitle());
-				
+                DBConnection con = new DBConnection();
+                con.updateLiterature((int) id,
+                        literature.getLibraryObjectType(),
+                        literature.getTitle(),
+                        literature.getDatePublished().toString(),
+                        literature.getPublisher(),
+                        Integer.parseInt(literature.getDds()));
+                for(int j = 0; j < literatureList.get(i).getAuthors().size(); j++){
+                    con.deleteAuthorTag(literatureList.get(i).getAuthors().get(j).getId());
+                    con.addAuthor(literature.getAuthors().get(j).getLastName(),
+                                    literature.getAuthors().get(j).getFirstName(),
+                                    literature.getAuthors().get(j).getMiddleName());
+                    con.addTag((int) literature.getId(), con.getTagIDbyAuthor
+                                                                (con.getAuthorIDWithLandF
+                                                                        (literature.getAuthors().get(j).getLastName(),
+                                                                        literature.getAuthors().get(j).getFirstName())));
+                }
 				literatureList.set(i, literature);
 				return true;
 			}
@@ -314,6 +329,20 @@ public class LiteratureManager {
 		Literature lit = literatureList.remove(index);
 		sanitizeLiterature(lit);
 		return lit;
+	}
+
+	public Literature removeBookWithID(int id){
+		for(int i = 0; i < literatureList.size(); i++){
+			if(literatureList.get(i).getId() == id){
+				Literature lit = literatureList.remove(i);
+				DBConnection con = new DBConnection();
+				con.deleteLiterature(id);
+				con.deleteAuthorTag(id);
+				sanitizeLiterature(lit);
+				return lit;
+			}
+		}
+		return null;
 	}
 
 }
