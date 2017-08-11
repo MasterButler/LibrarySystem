@@ -269,6 +269,14 @@ END$$
 
 /*********/
 /*AUTHORS*/
+CREATE PROCEDURE `get_author_id` (IN author_last VARCHAR(45), IN author_first VARCHAR(45))
+BEGIN
+	SELECT *
+	FROM `library_system`.`reservable_authors` author
+	WHERE author.`author_lastname` LIKE author_last AND
+		  author.`author_firstname` LIKE author_first;
+END$$
+
 CREATE PROCEDURE `get_all_authors` ()
 BEGIN 
 	SELECT *
@@ -337,6 +345,19 @@ CREATE PROCEDURE `delete_tag` (IN tag INT)
 BEGIN
 	DELETE FROM `library_system`.`reservable_authors_tags`
 	WHERE reservable_authors_tag = tag;
+END$$
+
+CREATE PROCEDURE `delete_tag_by_reservable_id` (IN id INT)
+BEGIN
+	DELETE FROM `library_system`.`reservable_authors_tags`
+	WHERE reservable_information_id = id;
+END$$
+
+CREATE PROCEDURE `get_tag_id_by_author_id`(IN id INT)
+BEGIN
+	SELECT * 
+	FROM `library_system`.`reservable_authors_tags`
+	WHERE reservable_authors_id = id;
 END$$
 
 CREATE PROCEDURE `add_tag` (IN lit_id INT, IN auth_id INT)
@@ -458,6 +479,11 @@ BEGIN
 								  users.`user_password` = pass);
 END$$
 
+CREATE PROCEDURE `get_all_users` ()
+BEGIN
+	SELECT *
+	FROM `library_system`.`users`;
+END$$
 
 /**************/
 /*RESERVATIONS*/
@@ -510,31 +536,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-
-/*DELIMITER $$
-DROP TRIGGER IF EXISTS library_system.encrypt_data$$
-USE `library_system`$$
-CREATE TRIGGER `encrypt_data` 
-BEFORE INSERT ON `users` FOR EACH ROW
-	BEGIN
-		DECLARE x INT; 
-		DECLARE temp INT;
-		DECLARE cryptopass VARCHAR(45);
-		DECLARE pass VARCHAR(45);
-		DECLARE y CHAR;
-		SET x = 1;
-		SET cryptopass = '';
-		SET pass = NEW.user_password;
-		WHILE x <= CHAR_LENGTH(pass) DO
-			SET y = SUBSTRING(pass FROM x FOR 1);
-			SET temp = ASCII(y) + 10;
-			SET y = CHAR(temp);
-			SET cryptopass = CONCAT(cryptopass, y);
-			SET x = x + 1;
-		END WHILE;
-		SET NEW.user_password = cryptopass;
-	END
-$$ DELIMITER ;*/
 
 /*test data*/
 INSERT INTO `library_system`.`user_types` (`user_type_id`, `user_type`, `user_borrowing_time`)
