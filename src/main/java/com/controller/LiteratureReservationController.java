@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.logging.Level;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Scope;
@@ -14,6 +16,7 @@ import com.beans.user.LoginCredentials;
 import com.beans.user.User;
 import com.beans.user.UserTypes;
 import com.handler.ErrorHandler;
+import com.logger.MyLogger;
 import com.manager.LiteratureManager;
 import com.manager.ReservationManager;
 import com.manager.UserManager;
@@ -46,6 +49,31 @@ String message = "Welcome to Spring MVC!";
 		return mv;
 	}
 	
+	@RequestMapping("confirmation")
+	public ModelAndView showLiteratureReservationConfirmation(HttpServletRequest request){
+		ModelAndView mv;
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			String litId  = request.getParameter("id");
+			Literature lit = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(litId));
+			User user = UserManager.getInstance().searchUserById(((User)request.getSession().getAttribute(AttributeDictionary.USER)).getId());
+			boolean successful = LiteratureManager.getInstance().reserve(lit, user);
+
+			if(successful){
+				MyLogger.log(Level.FINE, "Literature having ID No. " + lit);
+			}else{
+				
+			}
+			
+			mv = new ModelAndView("literature_reservation_result");
+			mv.addObject("literature", lit);
+			mv.addObject("literature_reservation_bool", successful);
+			request.getSession().setAttribute(AttributeDictionary.USER, user);
+
+			return mv;
+		}
+		return ErrorHandler.goToLogin();
+	}
+	/*
 	@RequestMapping("/reservation/confirmation")
 	public ModelAndView showReservationConfirmation(
 			HttpServletRequest request,
@@ -58,19 +86,25 @@ String message = "Welcome to Spring MVC!";
 			Literature lit = LiteratureManager.getInstance().searchLiteratureById(Long.valueOf(id));
 			User user = UserManager.getInstance().searchUserById(((User)request.getSession().getAttribute(AttributeDictionary.USER)).getId());
 			boolean successful = LiteratureManager.getInstance().reserve(lit, user);
+
+			if(successful){
+				MyLogger.log(Level.FINE, "Literature having ID No. " + lit);
+			}else{
+				
+			}
 			
 			mv = new ModelAndView("literature_reservation_result");
 			mv.addObject("literature", lit);
 			mv.addObject("literature_reservation_bool", successful);
 			request.getSession().setAttribute(AttributeDictionary.USER, user);
-			
+
 			return mv;
 		}
 		return ErrorHandler.goToLogin();
 	}
-	
-	@RequestMapping("/reservation_override/confirmation")
-	public ModelAndView showReservationOverrideConfirmation(
+	*/
+	@RequestMapping("reservation_override_confirmation")
+	public ModelAndView showLiteratureReservationOverrideConfirmation(
 			HttpServletRequest request,
 			@RequestParam(value = "id", required = true) String id) {
 		

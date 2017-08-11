@@ -51,7 +51,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<a class="btn btn-primary btn-sm" href="literatures" role="button">
+				<a class="btn btn-primary btn-sm" href="/securde/literatures" role="button">
 				Back to Literature List</a>
 			</div>
 		</div>

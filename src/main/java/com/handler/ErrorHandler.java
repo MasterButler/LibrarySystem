@@ -45,4 +45,9 @@ public class ErrorHandler {
     	ModelAndView mv = new ModelAndView("redirect:/login_security_questions");
     	return mv;
     }
+    
+    public static ModelAndView goToLiteratureList(){
+    	ModelAndView mv = new ModelAndView("redirect:/literatures");
+    	return mv;
+    }
 }

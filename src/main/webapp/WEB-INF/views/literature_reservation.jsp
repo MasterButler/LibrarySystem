@@ -47,8 +47,13 @@
 	  </div>
 	  <div class="row">
 	  	<div class="col-xs-12">
-			<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>"
-			   class="btn btn-primary" role="button">Confirm Reservation</a>
+	  		<form action="confirmation" method="POST">
+	  			<input type="hidden" name="id" value="${literature.id}"/> 
+	  			<input type="submit" class="btn btn-primary" value="Confirm Reservation"></input>
+	  		</form>
+			<!-- 
+				<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>" class="btn btn-primary" role="button">Confirm Reservation</a>
+			  -->
 		</div>
 	  </div>
 	</div>

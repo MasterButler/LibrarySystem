@@ -106,10 +106,24 @@
   														
  							<c:choose>
 								<c:when test="${sessionScope.user.userType == UserTypes.LIBRARY_MANAGER.value}">
-									<h6>However, you can override this. </h6>
-									<button type="button" class="btn btn-primary" 
-									href = "reservation_override/confirmation?id=<c:out value="${literature.id}"/>">
-									Click here!</button>
+									<!--
+										<h6>However, you can override this. </h6>
+										<button type="button" class="btn btn-primary" 
+										href = "reservation_override/confirmation?id=<c:out value="${literature.id}"/>">
+										Click here!</button>
+										 
+									 -->
+									<div class="row">
+								  	<div class="col-xs-12">
+								  		<form action="confirmation" method="POST">
+								  			<input type="hidden" name="id" value="${literature.id}"/> 
+								  			<input type="submit" class="btn btn-primary" value="Confirm Reservation"></input>
+								  		</form>
+										<!-- 
+											<a href="reservation/confirmation?id=<c:out value="${literature.id}"/>" class="btn btn-primary" role="button">Confirm Reservation</a>
+										  -->
+									</div>
+								  </div>
 								</c:when>
 							</c:choose>							
 						</c:when>

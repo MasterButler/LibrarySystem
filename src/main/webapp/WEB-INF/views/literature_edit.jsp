@@ -39,14 +39,14 @@
 			    <h6>Authors</h6>
 			    <c:forEach items="${literature.authors}" var="author" varStatus="loop">
 				  	<div class="form-group row">
-				      <label for="addlit-firstname" class="col-sm-5 col-form-label">Authors</label>
+				      <label for="addlit-firstname" class="col-sm-5 col-form-label">Author ${loop.index+1}</label>
 				      <div class="col-sm-10">
-				        <form:input type="text" class="form-control form-control-sm" id="addlit-firstname" placeholder="First Name" path="authors[${loop.index}]"/>
-				      	<form:input type="text" class="form-control form-control-sm" id="addlit-middlename" placeholder="Middle Name" path="authors[${loop.index}]"/>
-				      	<form:input type="text" class="form-control form-control-sm" id="addlit-lastname" placeholder="Last Name" path="authors[${loop.index}]"/>
+				        <form:input type="text" class="form-control form-control-sm" id="addlit-firstname" placeholder="First Name" path="authors[${loop.index}].firstName"/>
+				      	<form:input type="text" class="form-control form-control-sm" id="addlit-middlename" placeholder="Middle Name" path="authors[${loop.index}].middleName"/>
+				      	<form:input type="text" class="form-control form-control-sm" id="addlit-lastname" placeholder="Last Name" path="authors[${loop.index}].lastName"/>
 				      	<c:set var="authorNumber" value="${loop.index+1}"/>
 				      </div>
-				      <input type="submit" value="Delete Author ${loop.index}" name="action"/>
+				      <input type="submit" value="Delete Author ${loop.index+1}" name="action"/>
 				    </div>
 				    <c:choose>
 				    	<c:when test="${loop.last}">

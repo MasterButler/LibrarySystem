@@ -41,6 +41,7 @@
 			        <form:input type="password" class="form-control" id="login-password" placeholder="Password" path="password"/>
 			      </div>
 			    </div>
+			    <a href="login_forgot_password">Forgot password</a>
 			    <div class="form-group row">
 			    	<c:choose>
 						<c:when test="${not empty loginErrorMessage}">

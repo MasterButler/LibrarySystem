@@ -73,6 +73,33 @@ public class LoginController {
 		return ErrorHandler.goToLoginString();
 	}
 	
+	@RequestMapping(value="/login_forgot_password", method=RequestMethod.GET)
+	public ModelAndView showForgotPassword(){
+		ModelAndView mv = new ModelAndView("login_forgot_password");
+		return mv;
+	}
+	
+	@RequestMapping(value="/login_forgot_password", method=RequestMethod.POST)
+	public ModelAndView doForgotPassword(HttpServletRequest request){
+		System.out.println("STEP 1 B");
+		
+		String email = request.getParameter("login-email");
+		System.out.println("EMAIL is " + email);
+		User user = UserManager.getInstance().searchUserByEmail(email);
+		if(email != null){
+			if(user != null){
+				ModelAndView mv = new ModelAndView("login_security_questions");
+				mv.addObject("max_attempt_user", user);
+				return mv;
+			}else{
+				System.out.println("NO USER FOUND");
+				ModelAndView mv = new ModelAndView("login_forgot_password");
+				return mv;				
+			}
+		}
+		return ErrorHandler.goToLogin();
+	}
+	
 	@RequestMapping(value = "/login_max_attempts", method=RequestMethod.GET)
 	public ModelAndView showLoginMaxAttemptsScreen(HttpServletRequest request){
 		System.out.println("STEP 1 A");
@@ -97,8 +124,8 @@ public class LoginController {
 				mv.addObject("max_attempt_user", user);
 				return mv;
 			}else{
-				System.out.println("NO USER FOUND");
-				return ErrorHandler.goToLogInMaxAttempts();				
+//				System.out.println("NO USER FOUND");
+//				return ErrorHandler.goToLogInMaxAttempts();				
 			}
 		}
 		return ErrorHandler.goToLogin();
