@@ -3,6 +3,7 @@ package com.beans;
 public class Review {
 	private String title;
 	private String description;
+	private int id;
 	
 	public String getTitle() {
 		return title;
@@ -16,6 +17,13 @@ public class Review {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }

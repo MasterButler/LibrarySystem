@@ -386,7 +386,7 @@ public class DBConnection{
                     lit.addAuthor(new Name("N/A", "N/A", "N/A"));
                 else{
                     while(rs2.next())
-                        lit.addAuthor(new Name(rs2.getString(2), rs2.getString(4), rs2.getString(3)));
+                        lit.addAuthor(new Name(rs2.getString(2), rs2.getString(4), rs2.getString(3), rs2.getInt(1)));
                 }
                 list.add(lit);
             }

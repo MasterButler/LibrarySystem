@@ -75,6 +75,13 @@ public class LiteratureManager {
 		long id = literatureList.size();
 		literature.setId(id);
 		if(literatureList.add(literature)){
+			DBConnection con = new DBConnection();
+			con.createLiteratureWithId((int) id,
+										literature.getLibraryObjectType(),
+										literature.getTitle(),
+										literature.getDatePublished().toString(),
+										literature.getPublisher(),
+										Integer.parseInt(literature.getDds()));
 			return id;
 		}
 		return -1;
