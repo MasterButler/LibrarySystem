@@ -28,19 +28,45 @@
 	<div class="container">
 		<div class="row">
 				<div class="col-xs-12">
-					<h1>Staff List</h1>
-					<c:forEach items="${stafflist}" var="staff">  
-						<div class="card lit-width">
-						  <div class="card-block">
-						    <h4 class="card-title">${staff.credentials.username}</h4>
-						    <h6 class="card-subtitle mb-2 text-muted">ID Number : ${staff.id}</h6>
-						    <p class="card-text">${staff.name.firstName} ${staff.name.middleName} ${staff.name.lastName}</p>
-						    <p class="card-text">${staff.email}</p>
-						  </div>
-						</div>
-
-					</c:forEach>	
-				</div>
+				<h1>Staff List</h1>
+				
+				<table class="table table-striped table-bordered">
+				  <thead class="thead-inverse">
+				    <tr>
+				      <th>ID Number</th>
+				      <th>First Name</th>
+				      <th>Middle Name</th>
+				      <th>Last Name</th>
+				      <th>Username</th>
+				      <th>Email</th>
+				      <th>Status</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<c:forEach items="${stafflist}" var="staff">
+					    <tr>
+					      <th scope="row">${staff.id}</th>
+					      <td>${staff.name.firstName}</td>
+					      <td>${staff.name.middleName}</td>
+					      <td>${staff.name.lastName}</td>
+					      <td>${staff.credentials.username}</td>
+					      <td>${staff.email}</td>
+					      <td>
+					      	<c:choose>
+					      		<c:when test="${staff.hasTempPassword} == true">
+					      			Verified
+					      		</c:when>
+					      		<c:otherwise>
+					      			Not verified
+					      		</c:otherwise>
+					      	</c:choose>
+					      </td>
+					    </tr>
+				    </c:forEach>
+				  </tbody>
+				</table>
+				
+			</div>
 		</div>
 	</div>
 </body>
