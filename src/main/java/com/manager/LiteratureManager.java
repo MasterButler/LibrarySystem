@@ -79,9 +79,9 @@ public class LiteratureManager {
 			con.createLiteratureWithId((int) id,
 										literature.getLibraryObjectType(),
 										literature.getTitle(),
-										literature.getDatePublished().toString(),
+										DateUtil.getCurrentDate().toString(),
 										literature.getPublisher(),
-										Integer.parseInt(literature.getDds()));
+										0);
 			return id;
 		}
 		return -1;
