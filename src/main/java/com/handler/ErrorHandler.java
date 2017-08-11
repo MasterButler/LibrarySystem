@@ -17,6 +17,11 @@ public class ErrorHandler {
         return mv;
     }
     
+    public static String goToAccessDeniedString(){
+    	System.out.println("RETURNING ACCESS DENIED");
+        return "access_denied";
+    }
+    
     public static ModelAndView goToNotFound(){
     	ModelAndView mv = new ModelAndView("not_found");
         return mv;
