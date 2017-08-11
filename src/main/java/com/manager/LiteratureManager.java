@@ -351,4 +351,14 @@ public class LiteratureManager {
 		return null;
 	}
 
+    public long getLastKey(){
+        long high = 0;
+        for(int i = 0; i < literatureList.size(); i++){
+            if(high < literatureList.get(i).getId()){
+                high = literatureList.get(i).getId();
+            }
+        }
+        return high + 1;
+    }
+
 }
