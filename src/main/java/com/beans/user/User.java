@@ -39,6 +39,7 @@ public class User {
 	private LiteratureList literatureList;
 	private MeetingRoomReservedList reservationList;
 	
+	private Date validUntil;
 	private boolean hasTempPassword;
 	private int attempts;
 	

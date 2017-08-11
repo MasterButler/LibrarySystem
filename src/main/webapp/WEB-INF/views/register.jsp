@@ -81,7 +81,7 @@
 				    <div class="form-group row">
 				      <label for="create-middlename" class="col-sm-5 col-form-label">Middle Name</label>
 				      <div class="col-sm-10">
-				        <form:input type="text" class="form-control form-control-sm" id="create-middlename" placeholder="S." path="name.middleName"/>
+				        <form:input type="text" class="form-control form-control-sm" id="create-middlename" placeholder="S." path="name.middleName"  required="required"/>
 				      </div>
 				    </div>
 				    <div class="form-group row">

@@ -34,6 +34,8 @@ public class AdminController {
 				
 				ModelAndView mv = new ModelAndView("staff_list");
 				mv.addObject(AttributeDictionary.STAFFLIST, staffList);
+				
+				MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " accessed staff listing");
 				return mv;
 			}else{
 				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the staff listing");
@@ -49,6 +51,7 @@ public class AdminController {
 			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
 			if(user.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
 				ModelAndView mv = new ModelAndView("admin_account_create", AttributeDictionary.USER, new User());
+				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " accessed admin account creation");
 				return mv;
 			}
 			MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the admin account creation");
@@ -76,6 +79,8 @@ public class AdminController {
 				
 				boolean success = UserManager.getInstance().addUser(user);
 				if(success){
+					MyLogger.log(Level.INFO, UserTypes.values()[curr.getUserType()].getName() + " with ID " + curr.getId() + " has created a"
+							+ UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId()); 
 					if(user.getUserType() == UserTypes.LIBRARY_STAFF.getValue()){
 						model.addAttribute(AttributeDictionary.STAFFLIST, getUserList(UserTypes.LIBRARY_STAFF.getValue()));
 						return "staff_list";
@@ -87,6 +92,7 @@ public class AdminController {
 				
 				model.addAttribute(AttributeDictionary.USER, user);
 				model.addAttribute("registerErrorMessage", "Username, ID Number, or Email has already been taken.");
+				
 				return "admin_account_create";
 			}
 			MyLogger.log(Level.WARNING, UserTypes.values()[curr.getUserType()].getName() + " with ID " + user.getId() + " tried to access the admin account creation");

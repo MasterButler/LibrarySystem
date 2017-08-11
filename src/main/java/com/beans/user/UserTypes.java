@@ -3,12 +3,12 @@ package com.beans.user;
 import java.util.Calendar;
 
 public enum UserTypes {
-	STUDENT(1, "Student", 7, Calendar.DATE),
-	FACULTY(2, "Faculty", 1, Calendar.MONTH),
-	LIBRARY_MANAGER(3, "Library Manager", 1, Calendar.MONTH),
-	LIBRARY_STAFF(4, "Library Staff", 1, Calendar.MONTH),
-	ADMINISTRATOR(5, "Administrator", 1, Calendar.MONTH),
-	DEFAULT(1, "Student", 7, Calendar.DATE);
+	STUDENT(0, "Student", 7, Calendar.DATE),
+	FACULTY(1, "Faculty", 1, Calendar.MONTH),
+	LIBRARY_MANAGER(2, "Library Manager", 1, Calendar.MONTH),
+	LIBRARY_STAFF(3, "Library Staff", 1, Calendar.MONTH),
+	ADMINISTRATOR(4, "Administrator", 1, Calendar.MONTH),
+	DEFAULT(0, "Student", 7, Calendar.DATE);
 	
 	private int value;
 	private String name;

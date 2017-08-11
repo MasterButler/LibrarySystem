@@ -79,19 +79,19 @@
 				<div class="form-group row">
 			      <label for="create-firstname" class="col-sm-5 col-form-label">First Name</label>
 			      <div class="col-sm-10">
-			        <form:input type="text" class="form-control form-control-sm" id="create-firstname" placeholder="Marnel" path="name.firstName"/>
+			        <form:input type="text" class="form-control form-control-sm" id="create-firstname" placeholder="Marnel" path="name.firstName" required=""/>
 			      </div>
 			    </div>
 			    <div class="form-group row">
 			      <label for="create-middlename" class="col-sm-5 col-form-label">Middle Name</label>
 			      <div class="col-sm-10">
-			        <form:input type="text" class="form-control form-control-sm" id="create-middlename" placeholder="S." path="name.middleName"/>
+			        <form:input type="text" class="form-control form-control-sm" id="create-middlename" placeholder="S." path="name.middleName" required="required"/>
 			      </div>
 			    </div>
 			    <div class="form-group row">
 			      <label for="create-lastname" class="col-sm-5 col-form-label">Last Name</label>
 			      <div class="col-sm-10">
-			        <form:input type="text" class="form-control form-control-sm" id="create-lastname" placeholder="Peradilla" path="name.lastName"/>
+			        <form:input type="text" class="form-control form-control-sm" id="create-lastname" placeholder="Peradilla" path="name.lastName" required="required"/>
 			      </div>
 			    </div>
 				<hr />
@@ -99,13 +99,13 @@
 			      <label for="create-bday" class="col-sm-5 col-form-label">Birthday</label>
 			      <fmt:formatDate var="fmtDate" value="${user.birthday}" pattern="dd/MM/yyyy"/>
 			      <div class="col-sm-10">
-			        <form:input type="text" class="form-control form-control-sm" id="create-bday" placeholder="dd/mm/yyyy" path="birthday"/>
+			        <form:input type="text" class="form-control form-control-sm" id="create-bday" placeholder="dd/mm/yyyy" path="birthday" required="required"/>
 			      </div>
 			    </div>
 			    <div class="form-group row">
 			      <label for="create-idnum" class="col-sm-5 col-form-label">ID Number</label>
 			      <div class="col-sm-10">
-			        <form:input type="text" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id"/>
+			        <form:input type="text" class="form-control form-control-sm" id="create-idnum" placeholder="ID Number" path="id" required="required"/>
 			      </div>
 			    </div>
 			    <hr />
@@ -113,19 +113,19 @@
 			    <div class="form-group row">
 			      <label for="create-username" class="col-sm-5 col-form-label">Username</label>
 			      <div class="col-sm-10">
-			        <form:input type="text" class="form-control form-control-sm" id="create-username" placeholder="Username" path="credentials.username"/>
+			        <form:input type="text" class="form-control form-control-sm" id="create-username" placeholder="Username" path="credentials.username" required="required"/>
 			      </div>
 			    </div>
 			    <div class="form-group row">
 			      <label for="create-email" class="col-sm-5 col-form-label">Email</label>
 			      <div class="col-sm-10">
-			        <form:input type="email" class="form-control form-control-sm" id="create-email" placeholder="Email" path="email"/>
+			        <form:input type="email" class="form-control form-control-sm" id="create-email" placeholder="Email" path="email" required="required"/>
 			      </div>
 			    </div>
 			    <div class="form-group row">
 				      <label for="create-password" class="col-sm-5 col-form-label">Password</label>
 				      <div class="col-sm-10">
-				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password"/>
+				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password" required="required"/>
 				      </div>
 				       <div class="col-sm-10">
 				       	 <meter max="4" id="password-strength-meter"></meter>

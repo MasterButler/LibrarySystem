@@ -52,7 +52,7 @@ public class LoginController {
 		if(login_result == LoginManager.LOGIN_SUCCESSFUL){
 			User user = UserManager.getInstance().searchUserByUsername(credentials.getUsername());
 			
-			MyLogger.log(Level.INFO, "User No. " + user.getId() + " logged in.");
+			MyLogger.log(Level.INFO, "User with ID " + user.getId() + " logged in.");
 			System.out.println("A");
 			
 			request.getSession().setAttribute("max_attempts", false);

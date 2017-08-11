@@ -45,7 +45,7 @@ public class UserController {
 		
 		User user = ((User)request.getSession().getAttribute(AttributeDictionary.USER));
 		
-		if(user == null){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) == null){
 			ModelAndView mv = new ModelAndView("register", AttributeDictionary.USER, new User());
 			return mv;
 		}else{
@@ -79,5 +79,17 @@ public class UserController {
 			MyLogger.log(Level.FINEST, UserTypes.values()[user.getUserType()].getName() + " with ID " + curr.getId() + " attempted to create a new account while logged in.");
 			return ErrorHandler.goToHomePageString();
 		}
+	}
+	
+	@RequestMapping(value ="/changePassword")
+	public ModelAndView showChangePasswordScreen(HttpServletRequest request){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			
+			ModelAndView mv = new ModelAndView("change_password");
+			MyLogger.log(Level.INFO, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " accessed password change.");
+			return mv;
+		}
+		return ErrorHandler.goToLogin();
 	}
 }
