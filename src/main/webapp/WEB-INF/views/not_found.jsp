@@ -15,7 +15,7 @@
 </head>
 <body>
 	<center>
-		<img src="https://zadroweb.com/wp-content/uploads/2013/07/page-not-found.jpg">
+		<img src="https://2.bp.blogspot.com/-b8IbnrbDzG8/Vyh1rAxYcGI/AAAAAAAAMZk/2X9x4uRLIkYzFa-WuhozEBsTKy16k097QCLcB/s1600/error-498-fix.gif">
 		<h3>Oops. Looks like we got a little lost.</h3>
 		<a href="/securde">Back to Homepage</p>
 	</center>
