@@ -160,110 +160,113 @@
 	</div>
 	
 	<script type="text/javascript">
-	
-	var strength = {
-	        0: "Worst",
-	        1: "Bad",
-	        2: "Weak",
-	        3: "Good",
-	        4: "Strong"
-	}
-
-	var password = document.getElementById('create-password');
-	var confirmpassword = document.getElementById('create-confirmpw');
-	
-	var meter = document.getElementById('password-strength-meter');
-	var text = document.getElementById('password-strength-text');
-	var policy = document.getElementById('')
-	
-	password.addEventListener('input', function()
-	{
-		rulesAreFollowed = false;
-		console.log(password.value.length);
-		if(password.value.length >= 8){
-            var upperCase = new RegExp('[A-Z]');
-            var lowerCase = new RegExp('[a-z]');
-            var numbers = new RegExp('[0-9]');
-            var count = 0;
-            if (password.value.match(upperCase)) {
-                console.log("UC");
-                count++;
-            }
-            if (password.value.match(lowerCase)) {
-                console.log("LC");
-                count++;
-            }
-            if (password.value.match(numbers)) {
-                console.log("NUM");
-                count++;
-            }
-
-            //Check if contains special symbols..
-			if(password.value.match(/[\W]/)) {
-				console.log("SPECIAL CHARACTRERS")
-			    count++;
-			}
-            
-            if(count > 3){
-            	var username = document.getElementById('create-username').value;
-				var firstName = document.getElementById('create-firstname').value;
-				var lastName = document.getElementById('create-lastname').value;
-				var total = password.value.indexOf(username) + password.value.indexOf(firstName) + password.value.indexOf(lastName);
-				console.log(password.value.indexOf(username));
-				console.log("TOTAL IS " + total);
-				if(total == -3){
-	             	rulesAreFollowed = true;
-	             	$("#alert-password-policy").hide();
-				}else{
-					rulesAreFollowed = false;
-					$("#alert-password-policy").html("Password must not contain firstname, lastname, or username").css('color', 'red');	
-				}
-            }else{
-            	$("#alert-password-policy").html("Passwords must contain at least one uppercase, one lowercase, one number, and one special character").css('color', 'red');
-            }
-			
-		}else{				
-			rulesAreFollowed = false
-			$("#alert-password-policy").html("Password must have at least of size 8").css('color', 'red');
-		}
 		
-			var val = password.value;
-		    var result = zxcvbn(val);
-		    
-		    // Update the password strength meter
-		    meter.value = result.score;
-		   
-		    // Update the text indicator
-		    if(val !== "") {
-		    	text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span";
-		    }
-		    else {
-		        text.innerHTML = "";
-		    }
-	});
+		var strength = {
+		        0: "Worst",
+		        1: "Bad",
+		        2: "Weak",
+		        3: "Good",
+		        4: "Strong"
+		}
 	
-	$('#create-password, #create-confirmpw').on('keyup', function(){
-		validatePassword();
-	});
+		var password = document.getElementById('create-password');
+		var confirmpassword = document.getElementById('create-confirmpw');
+		
+		var meter = document.getElementById('password-strength-meter');
+		var text = document.getElementById('password-strength-text');
+		
+		password.addEventListener('input', function()
+		{
+			rulesAreFollowed = false;
+			console.log(password.value.length);
+			if(password.value.length >= 8){
+	            var upperCase = new RegExp('[A-Z]');
+	            var lowerCase = new RegExp('[a-z]');
+	            var numbers = new RegExp('[0-9]');
+	            var count = 0;
+	            if (password.value.match(upperCase)) {
+	                console.log("UC");
+	                count++;
+	            }
+	            if (password.value.match(lowerCase)) {
+	                console.log("LC");
+	                count++;
+	            }
+	            if (password.value.match(numbers)) {
+	                console.log("NUM");
+	                count++;
+	            }
 	
-	function validatePassword(){
-		var result = document.getElementById("password_match_result"); 
-		if($("#create-password").val() == $("#create-confirmpw").val()){
-			if(result.score > 2){
-				$("#password_match_result").html("Strong And Matching!").css('color', 'green')
-				$("#btn-register-staff").prop("disabled", false);
-				$("#btn-register-manager").prop("disabled", false);
+	            //Check if contains special symbols..
+				if(password.value.match(/[\W]/)) {
+					console.log("SPECIAL CHARACTRERS")
+				    count++;
+				}
+	            
+	            if(count > 3){
+	            	var username = document.getElementById('create-username').value;
+					var firstName = document.getElementById('create-firstname').value;
+					var lastName = document.getElementById('create-lastname').value;
+					var total = password.value.indexOf(username) + password.value.indexOf(firstName) + password.value.indexOf(lastName);
+					console.log(password.value.indexOf(username));
+					console.log("TOTAL IS " + total);
+					if(total == -3){
+		             	rulesAreFollowed = true;
+		             	$("#alert-password-policy").hide();
+					}else{
+						rulesAreFollowed = false;
+						$("#alert-password-policy").html("Password must not contain firstname, lastname, or username").css('color', 'red');	
+					}
+	            }else{
+	            	$("#alert-password-policy").html("Passwords must contain at least one uppercase, one lowercase, one number, and one special character").css('color', 'red');
+	            }
+				
+			}else{				
+				rulesAreFollowed = false
+				$("#alert-password-policy").html("Password must have at least of size 8").css('color', 'red');
+			}
+			
+				var val = password.value;
+			    var result = zxcvbn(val);
+			    
+			    // Update the password strength meter
+			    meter.value = result.score;
+			   
+			    // Update the text indicator
+			    if(val !== "") {
+			    	text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span";
+			    }
+			    else {
+			        text.innerHTML = "";
+			    }
+		});
+		
+		$('#create-password, #create-confirmpw').on('keyup', function(){
+			validatePassword();
+		});
+		
+		function validatePassword(){
+			console.log("SCORE: " + result.score);
+			if($("#create-password").val() == $("#create-confirmpw").val()){
+				if(result.score > 2){
+					$("#password_match_result").html("Strong And Matching!").css('color', 'green')
+					$("#btn-register-staff").prop("disabled", false);
+					$("#btn-register-manager").prop("disabled", false);
+				}else{
+					$("#password_match_result").html("Matching but weak!").css('color', 'orange')
+					$("#btn-register-staff").prop("disabled", true);
+					$("#btn-register-manager").prop("disabled", true);
+				}
 			}else{
-				$("#password_match_result").html("Matching but weak!").css('color', 'orange')
+				$("#password_match_result").html("Passwords do not match!").css('color', 'red')
 				$("#btn-register-staff").prop("disabled", true);
 				$("#btn-register-manager").prop("disabled", true);
 			}
-		}else{
-			$("#password_match_result").html("Passwords do not match!").css('color', 'red')
-			$("#btn-register-staff").prop("disabled", true);
-			$("#btn-register-manager").prop("disabled", true);
 		}
-	}
 	</script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		
 </body>
 </html>

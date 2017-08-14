@@ -171,6 +171,27 @@
 			</div>
 		</div>	
 	</div>
+	
+		
+	 <c:forEach items="${literature.reviews}" var="review" varStatus="loopReview">
+	  <h5>A user said...</h5>
+	  <p>${review.description}</p>
+	 </c:forEach>
+	
+	 <br>
+	 <br>
+
+	 <c:choose>
+		  <c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
+			   sessionScope.user.userType == UserTypes.STUDENT.value }">
+			   <textarea rows="6" cols="100" name="comment" form="reviewForm" placeholder="Enter your review here..."></textarea>
+				   <form id="reviewForm" action="submit_review" method="post">
+				    <input type="hidden" name="user-id" value="${sessionScope.user.id}"/>
+				    <input type="hidden" name="literature-id" value="${literature.id}"/>
+				    <input type="submit">    
+				   </form>
+		  </c:when>
+	 </c:choose>
 </body>
 </html>
 

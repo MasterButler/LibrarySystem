@@ -195,7 +195,6 @@
 		
 		var meter = document.getElementById('password-strength-meter');
 		var text = document.getElementById('password-strength-text');
-		var policy = document.getElementById('')
 		
 		password.addEventListener('input', function()
 		{
@@ -268,7 +267,7 @@
 		});
 		
 		function validatePassword(){
-			var result = document.getElementById("password_match_result"); 
+			console.log("score is " + result.score)
 			if($("#create-password").val() == $("#create-confirmpw").val()){
 				if(result.score > 2){
 					$("#password_match_result").html("Strong And Matching!").css('color', 'green')

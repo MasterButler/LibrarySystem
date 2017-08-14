@@ -36,6 +36,7 @@ public class Literature extends LibraryObject{
 		super();
         status = new Status();
 		authors = new NameList();
+		reviews = new ReviewList();
 	}
 	
     public boolean isBorrowable(){
@@ -146,4 +147,20 @@ public class Literature extends LibraryObject{
 		return libraryObjectType;
 	}
 	
+	public boolean addReview(Review review){
+		if(reviews.add(review)){
+			return true;
+		}
+		return false;
+	}
+
+	public ReviewList getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(ReviewList reviews) {
+		this.reviews = reviews;
+	}
+
+
 }
