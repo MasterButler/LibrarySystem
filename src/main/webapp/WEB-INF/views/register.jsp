@@ -132,12 +132,14 @@
 				    </div>
 				    <div class="form-group row">
 				      <label for="create-password" class="col-sm-5 col-form-label">Password</label>
+				      <br>
 				      <div class="col-sm-10">
-				        <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password"/>
+				      	  <form:input type="password" required="required"  minlength="6" class="form-control form-control-sm" id="create-password" placeholder="" path="credentials.password"/>
 				      </div>
 				       <div class="col-sm-10">
 				       	 <meter max="4" id="password-strength-meter"></meter>
 		       			 <p id="password-strength-text"></p>
+					      <p id="alert-password-policy"></p>
 				       </div>
 				    </div>
 				    <div class="form-group row">
@@ -179,6 +181,7 @@
 	</div>
 
     <script type="text/javascript">
+    	
 		var strength = {
 		        0: "Worst",
 		        1: "Bad",
@@ -192,22 +195,72 @@
 		
 		var meter = document.getElementById('password-strength-meter');
 		var text = document.getElementById('password-strength-text');
-	
+		var policy = document.getElementById('')
+		
 		password.addEventListener('input', function()
 		{
-		    var val = password.value;
-		    var result = zxcvbn(val);
-		    
-		    // Update the password strength meter
-		    meter.value = result.score;
-		   
-		    // Update the text indicator
-		    if(val !== "") {
-		        text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span"; 
-		    }
-		    else {
-		        text.innerHTML = "";
-		    }
+			rulesAreFollowed = false;
+			console.log(password.value.length);
+			if(password.value.length >= 8){
+                var upperCase = new RegExp('[A-Z]');
+                var lowerCase = new RegExp('[a-z]');
+                var numbers = new RegExp('[0-9]');
+                var count = 0;
+                if (password.value.match(upperCase)) {
+                    console.log("UC");
+                    count++;
+                }
+                if (password.value.match(lowerCase)) {
+                    console.log("LC");
+                    count++;
+                }
+                if (password.value.match(numbers)) {
+                    console.log("NUM");
+                    count++;
+                }
+
+                //Check if contains special symbols..
+				if(password.value.match(/[\W]/)) {
+					console.log("SPECIAL CHARACTRERS")
+				    count++;
+				}
+                
+                if(count > 3){
+                	var username = document.getElementById('create-username').value;
+    				var firstName = document.getElementById('create-firstname').value;
+    				var lastName = document.getElementById('create-lastname').value;
+    				var total = password.value.indexOf(username) + password.value.indexOf(firstName) + password.value.indexOf(lastName);
+    				console.log(password.value.indexOf(username));
+    				console.log("TOTAL IS " + total);
+    				if(total == -3){
+    	             	rulesAreFollowed = true;
+    	             	$("#alert-password-policy").hide();
+    				}else{
+    					rulesAreFollowed = false;
+    					$("#alert-password-policy").html("Password must not contain firstname, lastname, or username").css('color', 'red');	
+    				}
+                }else{
+                	$("#alert-password-policy").html("Passwords must contain at least one uppercase, one lowercase, one number, and one special character").css('color', 'red');
+                }
+				
+			}else{				
+				rulesAreFollowed = false
+				$("#alert-password-policy").html("Password must have at least of size 8").css('color', 'red');
+			}
+			
+				var val = password.value;
+			    var result = zxcvbn(val);
+			    
+			    // Update the password strength meter
+			    meter.value = result.score;
+			   
+			    // Update the text indicator
+			    if(val !== "") {
+			    	text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span";
+			    }
+			    else {
+			        text.innerHTML = "";
+			    }
 		});
 		
 		$('#create-password, #create-confirmpw').on('keyup', function(){
@@ -217,8 +270,13 @@
 		function validatePassword(){
 			var result = document.getElementById("password_match_result"); 
 			if($("#create-password").val() == $("#create-confirmpw").val()){
-				$("#password_match_result").html("Matching!").css('color', 'green')
-				$("#form_submit").prop("disabled", false);
+				if(result.score > 2){
+					$("#password_match_result").html("Strong And Matching!").css('color', 'green')
+					$("#form_submit").prop("disabled", false);
+				}else{
+					$("#password_match_result").html("Matching but weak!").css('color', 'orange')
+					$("#form_submit").prop("disabled", true);
+				}
 			}else{
 				$("#password_match_result").html("Passwords do not match!").css('color', 'red')
 				$("#form_submit").prop("disabled", true);
