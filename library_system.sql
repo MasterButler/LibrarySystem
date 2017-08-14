@@ -486,21 +486,21 @@ END$$
 
 CREATE PROCEDURE `reserve_literature` (IN user_id INT, IN lit_id INT, IN borrowed DATETIME, IN due DATETIME, IN status1 INT)
 BEGIN
-	INSERT INTO `library_system`.`reserved_literature`
+	INSERT INTO `library_system`.`reserved_information`
 	(`reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`, `reserved_status`)
 	VALUES(user_id, lit_id, borrowed, due, status1);
 END$$
 
 CREATE PROCEDURE `reserve_literature_with_id` (IN id INT, IN user_id INT, IN lit_id INT, IN borrowed DATE, IN due DATE, IN status1 INT)
 BEGIN
-	INSERT INTO `library_system`.`reserved_literature`
+	INSERT INTO `library_system`.`reserved_information`
 	(`reserved_information_id`, `reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`, `reserved_status`)
 	VALUES(id, user_id, lit_id, borrowed, due, status1);
 END$$
 
 CREATE PROCEDURE `delete_reservation` (IN user_id INT, IN lit_id INT)
 BEGIN
-	DELETE FROM `library_system`.`reserved_literature`
+	DELETE FROM `library_system`.`reserved_discussion_rooms`
 	WHERE reserved_user_id = user_id AND
 		  reserved_reservable_id = lit_id;
 END$$
