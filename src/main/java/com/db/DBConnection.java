@@ -620,15 +620,16 @@ public class DBConnection{
     //N
     //S
 
-    public void reserveLiterature(int userid, int litid, String borrowed, String due){
+    public void reserveLiterature(int userid, int litid, String borrowed, String due, int status){
         Connection con = connect();
         CallableStatement stmt;
         try {
-            stmt = con.prepareCall("{CALL reserve_literature(?,?,?,?)}");
+            stmt = con.prepareCall("{CALL reserve_literature(?,?,?,?,?)}");
             stmt.setInt(1,userid);
             stmt.setInt(2,litid);
             stmt.setString(3,borrowed);
             stmt.setString(4,due);
+            stmt.setInt(5,status);
             stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
@@ -636,16 +637,17 @@ public class DBConnection{
         }
     }
 
-    public void reserveLiteratureWithID(int id, int userid, int litid, String borrowed, String due){
+    public void reserveLiteratureWithID(int id, int userid, int litid, String borrowed, String due, int status){
         Connection con = connect();
         CallableStatement stmt;
         try {
-            stmt = con.prepareCall("{CALL reserve_literature_with_id(?,?,?,?,?)}");
+            stmt = con.prepareCall("{CALL reserve_literature_with_id(?,?,?,?,?,?)}");
             stmt.setInt(1,id);
             stmt.setInt(2,userid);
             stmt.setInt(3,litid);
             stmt.setString(4,borrowed);
             stmt.setString(5,due);
+            stmt.setInt(6,status);
             stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
@@ -660,6 +662,22 @@ public class DBConnection{
             stmt = con.prepareCall("{CALL delete_reservation(?,?)}");
             stmt.setInt(1,userid);
             stmt.setInt(2,litid);
+            stmt.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reserveMeeting(int userid, int roomid, String start, String end){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL reserve_meeting_room(?,?,?,?)}");
+            stmt.setInt(1,userid);
+            stmt.setInt(2,roomid);
+            stmt.setString(3,start);
+            stmt.setString(4,end);
             stmt.executeUpdate();
             con.close();
         } catch (SQLException e) {
