@@ -82,8 +82,9 @@ CREATE TABLE `library_system`.`reserved_information` (
   `reserved_information_id` INT NOT NULL AUTO_INCREMENT,
   `reserved_user_id` INT NOT NULL,
   `reserved_reservable_id` INT NOT NULL,
-  `reserved_borrowed_date` DATE NOT NULL,
-  `reserved_due_date` DATE NOT NULL,
+  `reserved_borrowed_date` DATETIME NOT NULL,
+  `reserved_due_date` DATETIME NOT NULL,
+  `reserved_status` INT NOT NULL,
   PRIMARY KEY (`reserved_information_id`),
   INDEX `reserved_reservable_id_idx` (`reserved_reservable_id` ASC),
   INDEX `reserved_user_id_idx` (`reserved_user_id` ASC),
@@ -125,9 +126,8 @@ CREATE TABLE `library_system`.`reserved_discussion_rooms` (
   `reserved_rooms_id` INT NOT NULL AUTO_INCREMENT,
   `room_user_id` INT NOT NULL,
   `discussion_room_id` INT NOT NULL,
-  `reserved_room_date` DATE NOT NULL,
-  `reserved_room_time_start` TIME NOT NULL,
-  `reserved_room_time_end` TIME NOT NULL,
+  `reserved_room_time_start` DATETIME NOT NULL,
+  `reserved_room_time_end` DATETIME NOT NULL,
   PRIMARY KEY (`reserved_rooms_id`),
   INDEX `discussion_room_id_idx` (`discussion_room_id` ASC),
   INDEX `room_user_id_idx` (`room_user_id` ASC),
@@ -160,28 +160,6 @@ CREATE TABLE `library_system`.`user_reviews` (
     REFERENCES `library_system`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
-CREATE TABLE `library_system`.`admin_types` (
-  `admin_types_id` INT NOT NULL AUTO_INCREMENT,
-  `admin_type` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`admin_types_id`));
-
-CREATE TABLE `library_system`.`admins` (
-  `admin_id` INT NOT NULL AUTO_INCREMENT,
-  `admin_type` INT NOT NULL,
-  `admin_firstname` VARCHAR(45) NOT NULL,
-  `admin_lastname` VARCHAR(45) NOT NULL,
-  `admin_middlename` VARCHAR(45) NOT NULL DEFAULT 'N/A',
-  `admin_email` VARCHAR(45) NOT NULL,
-  `admin_password` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`admin_id`),
-  INDEX `admin_type_idx` (`admin_type` ASC),
-  CONSTRAINT `admin_type`
-    FOREIGN KEY (`admin_type`)
-    REFERENCES `library_system`.`admin_types` (`admin_types_id`)
-    ON DELETE NO ACTION
-	ON UPDATE NO ACTION);
 
 DELIMITER $$
 USE `library_system`$$ 
@@ -506,26 +484,27 @@ BEGIN
 										   users.`user_password` = pass);
 END$$
 
-CREATE PROCEDURE `reserve_literature` (IN user_id INT, IN lit_id INT, IN borrowed DATE, IN due DATE)
+CREATE PROCEDURE `reserve_literature` (IN user_id INT, IN lit_id INT, IN borrowed DATETIME, IN due DATETIME, IN status1 INT)
 BEGIN
-	INSERT INTO `library_system`.`reserved_literature`
-	(`reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`)
-	VALUES(user_id, lit_id, borrowed, due);
+	INSERT INTO `library_system`.`reserved_information`
+	(`reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`, `reserved_status`)
+	VALUES(user_id, lit_id, borrowed, due, status1);
 END$$
 
-CREATE PROCEDURE `reserve_literature_with_id` (IN id INT, IN user_id INT, IN lit_id INT, IN borrowed DATE, IN due DATE)
+CREATE PROCEDURE `reserve_literature_with_id` (IN id INT, IN user_id INT, IN lit_id INT, IN borrowed DATE, IN due DATE, IN status1 INT)
 BEGIN
-	INSERT INTO `library_system`.`reserved_literature`
-	(`reserved_information_id`, `reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`)
-	VALUES(id, user_id, lit_id, borrowed, due);
+	INSERT INTO `library_system`.`reserved_information`
+	(`reserved_information_id`, `reserved_user_id`,`reserved_reservable_id`, `reserved_borrowed_date`, `reserved_due_date`, `reserved_status`)
+	VALUES(id, user_id, lit_id, borrowed, due, status1);
 END$$
 
 CREATE PROCEDURE `delete_reservation` (IN user_id INT, IN lit_id INT)
 BEGIN
-	DELETE FROM `library_system`.`reserved_literature`
+	DELETE FROM `library_system`.`reserved_discussion_rooms`
 	WHERE reserved_user_id = user_id AND
 		  reserved_reservable_id = lit_id;
 END$$
+
 
 /******************/
 /*DISCUSSION ROOMS*/
@@ -535,12 +514,22 @@ BEGIN
 	FROM `library_system`.`discussion_rooms`;
 END$$
 
+CREATE PROCEDURE `reserve_meeting_room` (IN user_id INT, IN room_id INT, IN start_time DATETIME, IN end_time DATETIME)
+BEGIN
+	INSERT INTO `library_system`.`reserved_discussion_rooms`
+	(`room_user_id`,`discussion_room_id`, `reserved_room_time_start`, `reserved_room_time_end`)
+	VALUES(user_id, room_id, start_time, end_time);
+END$$
+
 DELIMITER ;
 
 /*test data*/
 INSERT INTO `library_system`.`user_types` (`user_type_id`, `user_type`, `user_borrowing_time`)
 VALUES 	(1,'Student', 7),
-		(2,'Faculty', 14);
+		(2,'Faculty', 30),
+		(3,'Library Manager', 30),
+		(4,'Library Staff', 30),
+		(5,'Administrator', 30);
 
 INSERT INTO `library_system`.`reservable_types` (`reservation_type_id`, `reservation_type`)
 VALUES 	(1, 'Book'),
