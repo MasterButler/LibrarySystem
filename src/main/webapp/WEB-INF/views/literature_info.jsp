@@ -46,15 +46,15 @@
 				  <h3 class="card-header">${literature.title}
 				  	<c:choose>
 						<c:when test="${literature.status.availability == Status.STATUS_OUT}">
-							<span class="badge badge-default">Unavailable</span>
+							<span class="badge badge-default badge-sm">Unavailable</span>
 						</c:when>
 						
 						<c:when test="${literature.status.availability == Status.STATUS_RESERVED}">
-							<span class="badge badge-danger">Reserved</span>
+							<span class="badge badge-danger badge-sm">Reserved</span>
 						</c:when>
 					
 						<c:when test="${literature.status.availability == Status.STATUS_AVAILABLE}">
-							<span class="badge badge-success">Available</span>
+							<span class="badge badge-success badge-sm">Available</span>
 						</c:when>
 					</c:choose></h3>
 				  <div class="card-block">
@@ -140,6 +140,34 @@
 					</p>
 				  </div>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-12">
+					<h3>Reviews</h3>
+					<!-- LOOP FOR REVIEWS HERE -->
+						<div class="card">
+					  		<h6 class="card-header">Review A</h6>
+					  		<p class="card-subtitle">by Win Friend</p>
+					  		<p class="card-text">Sample review here.</p>
+					  	</div>	
+					  	<div class="card">
+					  		<h6 class="card-header">Review B</h6>
+					  		<p class="card-subtitle">by Row Fee</p>
+					  		<p class="card-text">Git gud.</p>
+					  	</div>	
+					  	<div class="card">
+					  		<h6 class="card-header">Review C</h6>
+					  		<p class="card-subtitle">by Door Lean</p>
+					  		<p class="card-text">Not bad.</p>
+					  	</div>	
+				</div>
+		</div>  		
+		<div class="row">
+			<div class="col-xs-12">
+				<textarea class="form-control" id="textarea-review" rows="3"></textarea>
+				<a class="btn btn-primary btn-sm" href="#" role="button">
+				Submit</a>
 			</div>
 		</div>	
 	</div>
