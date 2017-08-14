@@ -5,6 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.google.common.hash.Hashing;
 
 public class LoginCredentials {
@@ -35,17 +37,5 @@ public class LoginCredentials {
 		System.out.println("USER: " + username);
 		System.out.println("STORING: " + this.password);
 		System.out.println();
-	}
-	
-	public boolean matches(LoginCredentials c){
-
-		System.out.println("CHECK PWORD");
-		System.out.println("SENT  : " + c.getPassword() + " \nSTORED: " + getPassword());
-		if(this.username.equalsIgnoreCase(c.getUsername())){
-			if(this.password.equalsIgnoreCase(c.getPassword())){
-				return true;
-			}
-		}
-		return false;
 	}
 }

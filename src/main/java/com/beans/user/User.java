@@ -49,6 +49,7 @@ public class User {
 		this.name = new Name();
 		this.birthday = new Date();
 		this.literatureList = new LiteratureList();
+		this.validUntil = null;
 		this.hasTempPassword = false;
 		this.reservationList = new MeetingRoomReservedList();
 		

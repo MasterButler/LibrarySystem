@@ -1,10 +1,8 @@
 package com.manager;
-
-import java.nio.charset.StandardCharsets;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.beans.user.LoginCredentials;
 import com.beans.user.User;
-import com.google.common.hash.Hashing;
 
 public class LoginManager {
 	public static final int LOGIN_SUCCESSFUL = 1;
@@ -34,7 +32,9 @@ public class LoginManager {
 			System.out.println(retrievedUser.getCredentials().getUsername());
 			retrievedUser.addAttempt();
 			System.out.println("CURRENT ATTEMPT NO: " + retrievedUser.getAttempts());
-			boolean success = retrievedUser.getCredentials().matches(credentials);
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			boolean success = passwordEncoder.matches(credentials.getPassword(), retrievedUser.getCredentials().getPassword());
+			System.out.println("SUCCESS IS " + success);
 			if(retrievedUser.getAttempts() >= 3){
 				return LOGIN_MAX_ATTEMPTS;				
 			}else{
@@ -48,7 +48,7 @@ public class LoginManager {
 	}
 	
 	public String encrypt(String oldPassword){
-		return Hashing.sha256().hashString(oldPassword, StandardCharsets.UTF_8).toString();
-		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(oldPassword);
 	}
 }

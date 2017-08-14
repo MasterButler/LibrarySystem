@@ -46,7 +46,7 @@ public class LoginController {
 			ModelMap model){
 		System.out.println("ENTERED IS " + credentials.getPassword());
 		
-		credentials.setPassword(LoginManager.getInstance().encrypt(credentials.getPassword()));
+		credentials.setPassword(credentials.getPassword());
 		
 		int login_result = LoginManager.getInstance().authenticate(credentials);
 		if(login_result == LoginManager.LOGIN_SUCCESSFUL){
