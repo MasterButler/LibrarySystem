@@ -145,34 +145,32 @@
 		<div class="row">
 				<div class="col-xs-12">
 					<h3>Reviews</h3>
-					<!-- LOOP FOR REVIEWS HERE -->
+					<c:forEach items="${literature.reviews}" var="review" varStatus="loopReview">
 						<div class="card">
-					  		<h6 class="card-header">Review A</h6>
-					  		<p class="card-subtitle">by Win Friend</p>
-					  		<p class="card-text">Sample review here.</p>
+					  		<h6 class="card-header">A user said...</h6>
+					  		<p class="card-text">${review.description}</p>
 					  	</div>	
-					  	<div class="card">
-					  		<h6 class="card-header">Review B</h6>
-					  		<p class="card-subtitle">by Row Fee</p>
-					  		<p class="card-text">Git gud.</p>
-					  	</div>	
-					  	<div class="card">
-					  		<h6 class="card-header">Review C</h6>
-					  		<p class="card-subtitle">by Door Lean</p>
-					  		<p class="card-text">Not bad.</p>
-					  	</div>	
+					</c:forEach>
 				</div>
 		</div>  		
 		<div class="row">
 			<div class="col-xs-12">
-				<textarea class="form-control" id="textarea-review" rows="3"></textarea>
-				<a class="btn btn-primary btn-sm" href="#" role="button">
-				Submit</a>
+				<c:choose>
+					  <c:when test="${sessionScope.user.userType == UserTypes.FACULTY.value || 
+						   sessionScope.user.userType == UserTypes.STUDENT.value }">
+						   <textarea class="form-control" rows="6" cols="100" name="comment" form="reviewForm" placeholder="Enter your review here..."></textarea>
+							   <form id="reviewForm" action="submit_review" method="post">
+								    <input type="hidden" name="user-id" value="${sessionScope.user.id}"/>
+								    <input type="hidden" name="literature-id" value="${literature.id}"/>
+								    <input type="submit" class="btn btn-primary btn-sm" value="add review">    
+							   </form>
+					  </c:when>
+				 </c:choose>
 			</div>
 		</div>	
 	</div>
 	
-		
+	<!--	
 	 <c:forEach items="${literature.reviews}" var="review" varStatus="loopReview">
 	  <h5>A user said...</h5>
 	  <p>${review.description}</p>
@@ -192,6 +190,8 @@
 				   </form>
 		  </c:when>
 	 </c:choose>
+	 -->
+	 
 </body>
 </html>
 
