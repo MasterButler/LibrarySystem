@@ -34,8 +34,5 @@ public class LoginCredentials {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-		System.out.println("USER: " + username);
-		System.out.println("STORING: " + this.password);
-		System.out.println();
 	}
 }

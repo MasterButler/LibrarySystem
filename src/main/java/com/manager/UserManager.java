@@ -23,7 +23,7 @@ public class UserManager {
 			userList = new UserList();
 			
 			User userBad = new User();
-			userBad.setCredentials(new LoginCredentials("12345", LoginManager.getInstance().encrypt("12345")));
+			userBad.setCredentials(new LoginCredentials("12345", "12345"));
 			userBad.setEmail("abcde@a.a");
             userBad.setName(new Name("<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me", "<b onload=alert('test1')>save</b>me"));
             userBad.setId("AAAAAAA");
@@ -32,7 +32,7 @@ public class UserManager {
             userBad.setUserType(UserTypes.STUDENT.getValue());
 			
 			User userGood = new User();
-			userGood.setCredentials(new LoginCredentials("23456", LoginManager.getInstance().encrypt("23456")));
+			userGood.setCredentials(new LoginCredentials("23456", "23456"));
 			userGood.setEmail("bcdef@a.a");
             userGood.setName(new Name("<body onload=alert('test1')>test", "A", "AAAAA"));
             userGood.setId("BBBBB");
@@ -41,7 +41,7 @@ public class UserManager {
             userGood.setUserType(UserTypes.STUDENT.getValue());
             
             User userRandom = new User();
-            userRandom.setCredentials(new LoginCredentials("aaaaa", LoginManager.getInstance().encrypt("aaaaa")));
+            userRandom.setCredentials(new LoginCredentials("aaaaa", "aaaaa"));
             userRandom.setEmail("aaa@a.a");
             userRandom.setName(new Name("AAA", "A", "AAAAA"));
             userRandom.setId("CCCCC");
@@ -50,49 +50,49 @@ public class UserManager {
             userRandom.setUserType(UserTypes.STUDENT.getValue());
             
 			User userA = new User();
-			userA.setCredentials(new LoginCredentials("WinVillaluna", LoginManager.getInstance().encrypt("1234")));
+			userA.setCredentials(new LoginCredentials("WinVillaluna", "1234"));
 			userA.setEmail("winfredvillaluna@google.com");
 			userA.setName(new Name("Winfred", "D", "Villaluna"));
 			userA.setId("11427574");
 			userA.setUserType(UserTypes.STUDENT.getValue());
 			
 			User userB = new User();
-			userB.setCredentials(new LoginCredentials("DarMarpa",LoginManager.getInstance().encrypt("2345")));
+			userB.setCredentials(new LoginCredentials("DarMarpa","2345"));
 			userB.setEmail("darlenemarpa@google.com");
 			userB.setName(new Name("Darlene", "G", "Marpa"));
 			userB.setId("11427019");
 			userB.setUserType(UserTypes.STUDENT.getValue());
 		
 			User userC = new User();
-			userC.setCredentials(new LoginCredentials("RofSantos", LoginManager.getInstance().encrypt("3456")));
+			userC.setCredentials(new LoginCredentials("RofSantos", "3456"));
 			userC.setEmail("rofisantos@google.com");
 			userC.setName(new Name("Rofi", "M", "Santos"));
 			userC.setId("11428260");
 			userC.setUserType(UserTypes.STUDENT.getValue());
 			
 			User facultyA = new User();
-			facultyA.setCredentials(new LoginCredentials("PROfessor", LoginManager.getInstance().encrypt("1122")));
+			facultyA.setCredentials(new LoginCredentials("PROfessor", "1122"));
 			facultyA.setEmail("teecher@google.com");
 			facultyA.setName(new Name("Tee", "Ain", "Cher"));
 			facultyA.setId("1041762");
 			facultyA.setUserType(UserTypes.FACULTY.getValue());
 			
 			User managerA = new User();
-			managerA.setCredentials(new LoginCredentials("managerA", LoginManager.getInstance().encrypt("121212")));
+			managerA.setCredentials(new LoginCredentials("managerA", "121212"));
 			managerA.setEmail("manager@google.com");
 			managerA.setName(new Name("Mana", "The", "Jeer"));
 			managerA.setId("123456");
 			managerA.setUserType(UserTypes.LIBRARY_MANAGER.getValue());
 			
 			User staffA = new User();
-			staffA.setCredentials(new LoginCredentials("staffA", LoginManager.getInstance().encrypt("121212")));
+			staffA.setCredentials(new LoginCredentials("staffA", "121212"));
 			staffA.setEmail("staff@google.com");
 			staffA.setName(new Name("Sta", "The", "Uff"));
 			staffA.setId("145678");
 			staffA.setUserType(UserTypes.LIBRARY_STAFF.getValue());
 					
 			User adminA = new User();
-			adminA.setCredentials(new LoginCredentials("adminA", LoginManager.getInstance().encrypt("121212")));
+			adminA.setCredentials(new LoginCredentials("adminA", "121212"));
 			adminA.setEmail("admin@google.com");
 			adminA.setName(new Name("Add", "Dee", "Min"));
 			adminA.setId("1");
@@ -164,6 +164,8 @@ public class UserManager {
 			System.out.println("BEFORE SECOND");
 			if(searchUserByUsername(user.getCredentials().getUsername()) == null){
 				System.out.println("PASS FIRST");
+				user.getCredentials().setPassword(LoginManager.getInstance().encrypt(user.getCredentials().getPassword()));
+				user.setSecurityAnswer(LoginManager.getInstance().encrypt(user.getSecurityAnswer()));
 				if(userList.add(user)){
 					return true;
 				}
