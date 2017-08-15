@@ -50,15 +50,16 @@ public class DBConnection{
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
+        UserList list = new UserList();
         try {
             stmt = con.prepareCall("{CALL get_all_users()}");
+            stmt.execute();
             rs = stmt.getResultSet();
             if(rs == null) {
                 con.close();
                 return null;
             }
             else{
-                UserList list = new UserList();
                 while(rs.next()){
                     User user = new User();
                     user.setId(Integer.toString(rs.getInt(1)));
@@ -67,13 +68,12 @@ public class DBConnection{
                     user.setName(new Name(rs.getString(3), rs.getString(5), rs.getString(4)));
                     user.setBirthday(rs.getDate(9));
                     user.setUserType(rs.getInt(11));
-                    con.close();
                     UserManager.sanitizeUser(user);
                     list.add(user);
 
                     System.out.println(user.getId() + user.getCredentials().getPassword());
                 }
-
+                con.close();
                 return list;
             }
         } catch (SQLException e) {
