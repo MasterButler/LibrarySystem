@@ -29,44 +29,48 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<h1>Literatures</h1>
+				
+				<h3> Search by category</h3>
 				<div class="form-group row">
-					<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-						<div class="btn-group" role="group" aria-label="First group">
-						    <button type="submit" class="btn btn-secondary btn-info" name="action">All</button>
-						    <button type="submit" class="btn btn-secondary btn-info" name="action">Books</button>
-						    <button type="submit" class="btn btn-secondary btn-info" name="action">Thesis</button>
-						    <button type="submit" class="btn btn-secondary btn-info" name="action">Magazine</button>
-						</div>
-					</div>	 
 					<form method="POST" action="literatures">
-					    <div class="input-group mb-2 mr-sm-2 mb-sm-0"">
-						    <input type="text" class="form-control" placeholder="Search for...">
-						    <span class="input-group-btn">
-						    	<input class="btn btn-default" type="submit" value="Search"/>
-						    </span>
-						</div>
+						<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+							<div class="btn-group" role="group" aria-label="First group">
+							    <button id="all" type="submit" class="btn btn-secondary btn-info" name="category" value="${Literature.CATEGORY_ALL}">All</button>
+							    <button id="books" type="submit" class="btn btn-secondary btn-info" name="category" value="${Literature.CATEGORY_BOOKS}">Books</button>
+							    <button id="thesis" type="submit" class="btn btn-secondary btn-info" name="category" value="${Literature.CATEGORY_THESIS}">Thesis</button>
+							    <button id="magazines" type="submit" class="btn btn-secondary btn-info" name="category" value="${Literature.CATEGORY_MAGAZINES}">Magazine</button>
+							</div>
+						</div>	 					    
 					</form>
 				</div>
+				
 				<div class="form-group">
+				<h3>Search by fields</h3>
 					<form method="POST" action="literatures">
+						<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+							<input type="text" name="searchString" class="form-control" placeholder="Search for...">
+							<span class="input-group-btn">
+								<input class="btn btn-default" type="submit" value="Search" name=""/>
+							</span>
+						</div>
 						<div class="form-check form-check-inline">
 						  <label class="form-check-label">
-						    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+						    <input class="form-check-input" type="radio" name="field"  checked="checked" 
 						    id="radio-all" value="${Literature.FIELD_ALL}">
 						    All Fields               
 						  </label>
 						  <label class="form-check-label">
-						    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+						    <input class="form-check-input" type="radio" name="field"
 						    id="radio-title" value="${Literature.FIELD_TITLE}"> 
 						    Title                 
 						  </label>
 						  <label class="form-check-label">
-						    <input class="form-check-input" type="radio" name="inlineRadioOptions" 
+						    <input class="form-check-input" type="radio" name="field" 
 						    id="radio-author" value="${Literature.FIELD_AUTHOR}"> 
 						    Author               
 						  </label>
 						  <label class="form-check-label">
-						    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+						    <input class="form-check-input" type="radio" name="field"
 						    id="radio-publisher" value="${Literature.FIELD_PUBLISHER}"> 
 						    Publisher             
 						  </label>

@@ -18,9 +18,9 @@ public class Literature extends LibraryObject{
 	public static final int FIELD_PUBLISHER= 3;
 	
 	public static final int CATEGORY_ALL = 0;
-	public static final int CATEGORY_BOOKS = 0;
-	public static final int CATEGORY_THESIS = 0;
-	public static final int CATEGORY_MAGAZINES = 0;
+	public static final int CATEGORY_BOOKS = 1;
+	public static final int CATEGORY_THESIS = 2;
+	public static final int CATEGORY_MAGAZINES = 3;
 	
 	private String dds;
 	

@@ -55,7 +55,7 @@ public class LiteratureReviewController {
 				System.out.println("NEW LINK IS " + "literatures");
 				
 				LiteratureList literatures = LiteratureManager.getInstance().getAllLiterature();
-				return "literatures";
+				return "review_finish";
 			}
 		}
 		return ErrorHandler.goToHomePageString();

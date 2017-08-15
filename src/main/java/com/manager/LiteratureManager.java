@@ -132,7 +132,8 @@ public class LiteratureManager {
 	public LiteratureList getAllInCategory(int category){
 		LiteratureList searched = new LiteratureList();
 		for(int i = 0; i < literatureList.size(); i++){
-			if(getBook(i).getLibraryObjectType() == category){
+			System.out.println("TITLE: " + getBook(i).getTitle() + ": type: " + getBook(i).getLibraryObjectType());
+			if(getBook(i).getLibraryObjectType() == category || category == 0){
 				Literature literature = getBook(i);
 				searched.add(literature);
 			}
