@@ -9,6 +9,7 @@ import com.beans.list.UserList;
 import com.beans.user.LoginCredentials;
 import com.beans.user.User;
 import com.manager.LoginManager;
+import com.manager.UserManager;
 
 import javax.sql.DataSource;
 
@@ -62,14 +63,17 @@ public class DBConnection{
                     User user = new User();
                     user.setId(Integer.toString(rs.getInt(1)));
                     user.setEmail(rs.getString(8));
-                    user.setCredentials(new LoginCredentials(rs.getString(6), LoginManager.getInstance().encrypt(rs.getString(7))));
+                    user.setCredentials(new LoginCredentials(rs.getString(6), rs.getString(7)));
                     user.setName(new Name(rs.getString(3), rs.getString(5), rs.getString(4)));
                     user.setBirthday(rs.getDate(9));
+                    user.setUserType(rs.getInt(11));
                     con.close();
+                    UserManager.sanitizeUser(user);
                     list.add(user);
 
                     System.out.println(user.getId() + user.getCredentials().getPassword());
                 }
+
                 return list;
             }
         } catch (SQLException e) {
@@ -124,14 +128,13 @@ public class DBConnection{
         }
     }
 
-    public ArrayList<String> userSecretAnswers(String user, String pass){
+    public ArrayList<String> userSecretAnswers(int id){
         ResultSet rs;
         Connection con = connect();
         CallableStatement stmt;
         try {
-            stmt = con.prepareCall("{CALL get_user_secret_answers(?,?)}");
-            stmt.setString(1, user);
-            stmt.setString(2, pass);
+            stmt = con.prepareCall("{CALL get_user_question(?)}");
+            stmt.setInt(1, id);
             rs = stmt.getResultSet();
             if(rs == null) {
                 con.close();
@@ -139,8 +142,8 @@ public class DBConnection{
             }
             else{
                 ArrayList<String> arr = new ArrayList<String>();
-                arr.add(rs.getString(1));
-                arr.add(rs.getString(2));
+                arr.add(rs.getString(3));
+                arr.add(rs.getString(4));
                 return arr;
             }
         } catch (SQLException e) {
@@ -408,7 +411,7 @@ public class DBConnection{
             while(rs.next()){
                 Literature lit = new Literature();
                 lit.setId(rs.getInt(1));
-                System.out.println(lit.getId());
+                lit.setLibraryObjectType(rs.getInt(2));
                 lit.setTitle(rs.getString(3));
                 lit.setDatePublished(rs.getDate(4));
                 lit.setPublisher(rs.getString(5));
@@ -654,6 +657,19 @@ public class DBConnection{
             e.printStackTrace();
         }
     }
+
+    /*public LiteratureList getUserReservations(int id, int index){
+        Connection con = connect();
+        CallableStatement stmt;
+        try {
+            stmt = con.prepareCall("{CALL get_user_literature_reservations(?)}");
+            stmt.setInt(1,id);
+            stmt.execute();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }*/
 
     public void deleteReservation(int userid, int litid){
         Connection con = connect();

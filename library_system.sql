@@ -7,11 +7,6 @@ CREATE TABLE `library_system`.`user_types` (
   `user_borrowing_time` INT NOT NULL,
   PRIMARY KEY (`user_type_id`));
 
-CREATE TABLE `library_system`.`user_secret_questions` (
-  `secret_questions_id` INT NOT NULL,
-  `secret_question` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`secret_questions_id`));
-
 CREATE TABLE `library_system`.`users` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `user_type_id` INT NOT NULL,
@@ -19,7 +14,7 @@ CREATE TABLE `library_system`.`users` (
   `user_lastname` VARCHAR(45) NOT NULL,
   `user_middlename` VARCHAR(45) NOT NULL DEFAULT 'N/A',
   `user_username` VARCHAR(20) NOT NULL,
-  `user_password` VARCHAR(45) NOT NULL,
+  `user_password` VARCHAR(100) NOT NULL,
   `user_email` VARCHAR(45) NOT NULL,
   `user_birthday` DATE NOT NULL,
   `user_date_created` DATE NOT NULL,
@@ -34,17 +29,11 @@ CREATE TABLE `library_system`.`users` (
 
 CREATE TABLE `library_system`.`user_secret_answers` (
   `user_secret_answer_id` INT NOT NULL AUTO_INCREMENT,
-  `user_secret_question_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `user_secret_answer` VARCHAR(45) NOT NULL,
+  `secret_question` VARCHAR(200) NOT NULL,
+  `secret_answer` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`user_secret_answer_id`),
-  INDEX `user_secret_question_id_idx` (`user_secret_question_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
-  CONSTRAINT `user_secret_question_id`
-    FOREIGN KEY (`user_secret_question_id`)
-    REFERENCES `library_system`.`user_secret_questions` (`secret_questions_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `library_system`.`users` (`user_id`)
@@ -366,23 +355,6 @@ BEGIN
 	FROM `library_system`.`user_types`;
 END$$
 
-CREATE PROCEDURE `get_all_user_secret_questions` ()
-BEGIN
-	SELECT *
-	FROM `library_system`.`user_secret_questions`;
-END$$
-
-CREATE PROCEDURE `get_user_secret_answers` (IN user VARCHAR(45), IN pass VARCHAR(45))
-BEGIN
-	SELECT ans.`user_secret_answer`, quest.`user_secret_question`
-	FROM `library_system`.`user_secret_answers` ans, `library_system`.`user_secret_questions` quest
-	WHERE ans.`user_id` IN (SELECT *
-							FROM `library_system`.`users` users
-							WHERE users.`user_username` = user AND
-								  users.`user_password` = pass) AND
-		  ans.`user_secret_questions_id` = quest.`secret_questions_id`;
-END$$
-
 CREATE PROCEDURE `get_user_information` (IN user VARCHAR(45), IN pass VARCHAR(45))
 BEGIN
 	SELECT *
@@ -402,6 +374,13 @@ BEGIN
 	ELSE
 		SET exist = FALSE;
 	END IF;
+END$$
+
+CREATE PROCEDURE `get_user_question`(IN id INT)
+BEGIN
+	SELECT *
+	FROM `library_system`.`user_secret_answers` ans
+	WHERE ans.`user_id` = id;
 END$$
 
 CREATE PROCEDURE `add_user` (IN utype INT, IN fname VARCHAR(45), IN lname VARCHAR(45), IN mname VARCHAR(45), 
@@ -472,16 +451,13 @@ BEGIN
 	WHERE res.`reserved_reservable_id` = lib.`reservable_id`;
 END$$
 
-CREATE PROCEDURE `get_user_literature_reservations` (IN user VARCHAR(20), IN pass VARCHAR(20))
+CREATE PROCEDURE `get_user_literature_reservations` (IN id INT)
 BEGIN
 	SELECT `reservable_id`, `reservable_type_id`, `reservable_title`, `reservable_date`, `reservable_publisher`, `reservable_dds`,
 		   `reserved_borrowed_date`, `reserved_due_date`
 	FROM `library_system`.`reserved_information` res, `library_system`.`reservable_information` lib
 	WHERE res.`reserved_reservable_id` = lib.`reservable_id` AND
-		  res.`reserved_user_id` IN (SELECT users.`user_id`
-									 FROM `library_system`.`users` users
-									 WHERE users.`user_username` = user AND
-										   users.`user_password` = pass);
+		  res.`reserved_user_id` = id;
 END$$
 
 CREATE PROCEDURE `reserve_literature` (IN user_id INT, IN lit_id INT, IN borrowed DATETIME, IN due DATETIME, IN status1 INT)
@@ -540,9 +516,12 @@ INSERT INTO `library_system`.`users`
 	(`user_id`, `user_type_id`, `user_firstname`, `user_lastname`, 
 	`user_middlename`, `user_username`, `user_password`, `user_email`,
 	`user_birthday`, `user_date_created`, `user_activated`)
-VALUES	(1,1,'Rofi', 'Santos', 'Lectura', 'testing', 'testingencryption', 'rofi_santos@dlsu.edu.ph', '1997-04-19', '2017-05-05', TRUE),
-		(2,1,'Winfred', 'Villaluna', 'Dela Cruz', 'testing2', 'testingencryption', 'winfred_villaluna@dlsu.edu.ph', '1998-12-12', '2017-05-05', TRUE),
-		(3,2,'Darlene', 'Marpa', 'Something', 'testing3', 'testingencryption', 'darlene_marpa@dlsu.edu.ph', '1997-12-12', '2017-05-05', TRUE);
+VALUES	(1,1,'Rofi', 'Santos', 'Lectura', 'testing', '$2a$10$6YMpkzP3A9yqEIdmTiECA.Uv9e5yZVdZADegTOCqDEVI0qg7z3uGq', 'rofi_santos@dlsu.edu.ph', '1997-04-19', '2017-05-05', TRUE),
+		(2,1,'Winfred', 'Villaluna', 'Dela Cruz', 'testing2', '$2a$10$6YMpkzP3A9yqEIdmTiECA.Uv9e5yZVdZADegTOCqDEVI0qg7z3uGq', 'winfred_villaluna@dlsu.edu.ph', '1998-12-12', '2017-05-05', TRUE),
+		(3,2,'Darlene', 'Marpa', 'Something', 'testing3', '$2a$10$6YMpkzP3A9yqEIdmTiECA.Uv9e5yZVdZADegTOCqDEVI0qg7z3uGq', 'darlene_marpa@dlsu.edu.ph', '1997-12-12', '2017-05-05', TRUE),
+		(4,3,'Manager', 'A', 'Manager', 'managerA', '$2a$10$4X0iPo7U8beTQPHt8Yi57.hbA7oeoI4.5SmvQqXG.L2jrpSKrKCZ2', 'manager@manage.com', '1990-05-24', '2017-05-05', TRUE),
+		(5,4,'Staff', 'A', 'Staff', 'staffA', '$2a$10$2oQl/9s8zju6sXLho8j9auW8JcblhxQKSqV8dsw.K2c/uAjF1Cieu', 'staff@manage.com', '1990-05-24', '2017-05-05', TRUE),
+		(6,5,'Admin', 'A', 'Administrator', 'adminA', '$2a$10$3n6og8uwlZGxtqkXipLEg.JTlTxMpopwQS//9Fvy/6bJ7VxipkSNy', 'admin@manage.com', '1990-05-24', '2017-05-05', TRUE);
 
 INSERT INTO `library_system`.`reservable_information`
 	(`reservable_id`, `reservable_type_id`, `reservable_title`,
