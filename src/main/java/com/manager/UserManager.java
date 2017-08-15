@@ -125,6 +125,17 @@ public class UserManager {
 		return instance;
 	}
 	
+	public UserList getAllLockedAccounts(){
+		UserList list = getInstance().getAllUsers();
+		UserList locked = new UserList();
+		for(int i = 0; i < list.size(); i++){
+			if(list.get(i).getAttempts() >= 3){
+				locked.add(list.get(i));
+			}
+		}
+		return locked;
+	}
+	
 	public static void sanitizeUser(User user){
 		String username = TextHandler.sanitize(user.getCredentials().getUsername());
 		String firstName = TextHandler.sanitize(user.getName().getFirstName());

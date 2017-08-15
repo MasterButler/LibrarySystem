@@ -153,7 +153,7 @@
 								  <div class="card-block">
 								    <h3 class="card-title">Unlock Account</h3>
 								    <p>Be able to unlock accounts to enable their respective users to access them.</p>
-								    <a href="#" class="btn btn-success disabled">
+								    <a href="unlock_account" class="btn btn-success">
 								    	<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 								    	Unlock</a>
 								  </div>

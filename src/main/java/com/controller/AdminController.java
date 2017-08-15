@@ -120,6 +120,41 @@ public class AdminController {
 		return ErrorHandler.goToAccessDenied();
 	}
 	
+	@RequestMapping(value="/unlock_account", method=RequestMethod.GET)
+	public ModelAndView unlockAccounts(HttpServletRequest request){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
+				ModelAndView mv = new ModelAndView("unlock_account");
+				UserList list = UserManager.getInstance().getAllLockedAccounts();
+				mv.addObject("userlist_locked", list);
+				return mv;
+			}else{
+				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the user unlocking page");
+			}
+		}
+		MyLogger.log(Level.WARNING, "An Anonymous User tried to access the user unlocking page.");
+		return ErrorHandler.goToAccessDenied();
+	}
+	
+	@RequestMapping(value="/unlock_specific_account", method=RequestMethod.POST)
+	public ModelAndView unlockTheLockedAccounts(HttpServletRequest request){
+		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
+			User user = (User)request.getSession().getAttribute(AttributeDictionary.USER);
+			if(user.getUserType() == UserTypes.ADMINISTRATOR.getValue()){
+				ModelAndView mv = new ModelAndView("unlock_specific_account");
+				String userId = request.getParameter("user-id");
+				User userToUnlock = UserManager.getInstance().searchUserById(userId);
+				userToUnlock.setAttempts(0);
+				return mv;
+			}else{
+				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " tried to access the user unlocking capability");
+			}
+		}
+		MyLogger.log(Level.WARNING, "An Anonymous User tried to access the user unlocking capability.");
+		return ErrorHandler.goToAccessDenied(); 	
+	}
+	
 	public UserList getUserList(int userType){
 		UserList userList = UserManager.getInstance().getAllUsers();
 		UserList specialList = new UserList();
