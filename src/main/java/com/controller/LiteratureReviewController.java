@@ -24,7 +24,7 @@ import com.util.AttributeDictionary;
 public class LiteratureReviewController {
 	
 	@RequestMapping(value = "/submit_review", method = RequestMethod.POST)
-	public String showStaffList(HttpServletRequest request){
+	public ModelAndView showStaffList(HttpServletRequest request){
 		if(request.getSession().getAttribute(AttributeDictionary.USER) != null){
 			User user = (User) request.getSession().getAttribute(AttributeDictionary.USER);
 			if(user.getUserType() == UserTypes.STUDENT.getValue() || user.getUserType() == UserTypes.FACULTY.getValue()){
@@ -55,10 +55,10 @@ public class LiteratureReviewController {
 				System.out.println("NEW LINK IS " + "literatures");
 				
 				LiteratureList literatures = LiteratureManager.getInstance().getAllLiterature();
-				return "review_finish";
+				return new ModelAndView("review_finish");
 			}
 		}
-		return ErrorHandler.goToHomePageString();
+		return ErrorHandler.goToHomePage();
 	}
 				
 
