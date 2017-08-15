@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.logging.Level;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Scope;
@@ -15,6 +17,7 @@ import com.beans.list.UserList;
 import com.beans.user.User;
 import com.beans.user.UserTypes;
 import com.handler.ErrorHandler;
+import com.logger.MyLogger;
 import com.manager.LiteratureManager;
 import com.manager.UserManager;
 import com.util.AttributeDictionary;
@@ -48,12 +51,13 @@ public class LiteratureReviewController {
 				
 				for(int i = 0; i < lit.getReviews().size(); i++){
 					System.out.println(lit.getReviews().get(i).getDescription() + "\n");
-				}
+				}	
 				
 				String referrer = request.getHeader("Referer");
 				System.out.println("REFERRER IS " + referrer);
 				System.out.println("NEW LINK IS " + "literatures");
 				
+				MyLogger.log(Level.WARNING, UserTypes.values()[user.getUserType()].getName() + " with ID " + user.getId() + " submitted a review under literature with " + lit.getId());
 				LiteratureList literatures = LiteratureManager.getInstance().getAllLiterature();
 				return new ModelAndView("review_finish");
 			}
