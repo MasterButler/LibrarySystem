@@ -25,7 +25,7 @@
 		<div class="row">
 				<div class="col-xs-12">
 				<h3>Borrowed Books</h3>
-					<c:forEach items="${literaturelist}" var="literature">  
+			        <c:forEach items="${user.literatureList}" var="literature">
 		
 						<div class="card lit-width">
 							<div class="card-block">
