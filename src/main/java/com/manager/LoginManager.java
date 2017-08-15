@@ -23,18 +23,13 @@ public class LoginManager {
 	}
 	
 	public int authenticate(LoginCredentials credentials){
-		System.out.println("WILL FIND: " + credentials.getUsername());
-		System.out.println();
 		User retrievedUser = UserManager.getInstance().searchUserByUsername(credentials.getUsername());
-		System.out.println("FOUND USER: " + (retrievedUser != null));
 		
 		if(retrievedUser != null){
 			System.out.println(retrievedUser.getCredentials().getUsername());
 			retrievedUser.addAttempt();
-			System.out.println("CURRENT ATTEMPT NO: " + retrievedUser.getAttempts());
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			boolean success = passwordEncoder.matches(credentials.getPassword(), retrievedUser.getCredentials().getPassword());
-			System.out.println("SUCCESS IS " + success);
 			if(retrievedUser.getAttempts() >= 3){
 				return LOGIN_MAX_ATTEMPTS;				
 			}else{
