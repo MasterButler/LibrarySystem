@@ -147,8 +147,10 @@
 					<h3>Reviews</h3>
 					<c:forEach items="${literature.reviews}" var="review" varStatus="loopReview">
 						<div class="card">
-					  		<h6 class="card-header">A user said...</h6>
-					  		<p class="card-text">${review.description}</p>
+							<div class="card-block">
+						  		<h6 class="card-header">A user said...</h6>
+						  		<p class="card-text">${review.description}</p>
+					  		</div>
 					  	</div>	
 					</c:forEach>
 				</div>
