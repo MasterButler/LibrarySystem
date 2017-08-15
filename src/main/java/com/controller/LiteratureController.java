@@ -48,11 +48,29 @@ public class LiteratureController {
 	
 	@RequestMapping(value = "/literatures", method = RequestMethod.POST)
 	public ModelAndView search(HttpServletRequest request){
-		String searchString = request.getParameter("searchString");
-
-		int fieldType = Integer.valueOf(request.getParameter("field"));
-		LiteratureList literatures = null;
-		literatures = LiteratureManager.getInstance().search(searchString, fieldType);
+		String category = request.getParameter("category");
+		System.out.println("MY REQUEST IS " + category);
+		LiteratureList literatures;
+		if(category != null){
+			literatures = LiteratureManager.getInstance().getAllInCategory(Integer.parseInt(category));
+		}else{
+			String searchString = request.getParameter("searchString");
+			String field = request.getParameter("field");
+			int fieldNum = Literature.FIELD_ALL;
+			if(field != null){
+				if(!field.isEmpty()){
+					try{
+						fieldNum = Integer.parseInt(field);
+					}catch(Exception e){
+						fieldNum = Literature.FIELD_ALL;
+					}
+				}
+			}
+			System.out.println("SEARCH STRING IS " + searchString);
+			System.out.println("FIELD IS " + field);
+			System.out.println("FIELD NUM IS " + fieldNum);
+			literatures = LiteratureManager.getInstance().search(searchString, fieldNum);			
+		}
 		
 //		int categoryType = Integer.valueOf(request.getParameter("category"));
 //		literatures = LiteratureManager.getInstance().search(searchString, fieldType, categoryType);
